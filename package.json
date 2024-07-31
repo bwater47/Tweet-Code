@@ -1,12 +1,19 @@
 {
   "name": "tweet-code",
   "version": "1.0.0",
-  "description": "![React Badge](<https://img.shields.io/badge/React-(20%25)-blue>) ![CSS Badge](<https://img.shields.io/badge/CSS-(20%25)-darkblue>) ![HTML Badge](<https://img.shields.io/badge/HTML-(20%25)-red>) ![JavaScript Badge](<https://img.shields.io/badge/JavaScript-(20%25)-yellow>) ![Node Badge](<https://img.shields.io/badge/Node.js-(5%25)-green>) ![Mongoose Badge](<https://img.shields.io/badge/Mongoose-(5%25)-Blue>) ![Express Badge](<https://img.shields.io/badge/Express-(5%25)-black>) ![GraphQL Badge](<https://img.shields.io/badge/GraphQL-(5%25)-purple>)",
-  "main": "index.js",
+  "description": "",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run dev\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  }
 }
