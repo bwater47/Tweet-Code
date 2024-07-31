@@ -1,4 +1,4 @@
-import { LANGUAGE_VERSIONS } from "./UI/Constants";
+import { LANGUAGE_VERSIONS } from "./Constants";
 
 const Languages = Object.entries(LANGUAGE_VERSIONS)
 
@@ -17,3 +17,4 @@ export default function LanguageSelector() {
             </select>
         </div>
     );
+}
