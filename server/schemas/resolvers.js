@@ -1,7 +1,10 @@
-const { User, Product, Order } = require("../models/index");
-const { signToken, AuthenticationError } = require("../utils/auth");
-const stripe = require("stripe")("");
-const resolvers = {
+import { User, Product, Order } from "../models/index.js";
+import { signToken, AuthenticationError } from "../utils/auth.js";
+import stripe from "stripe";
+
+const stripeInstance = stripe("");
+
+export const resolvers = {
   Query: {
     products: async (parent, {}) => {
       return await Product.find();
@@ -34,12 +37,12 @@ const resolvers = {
       const line_items = [];
       const { products } = await order.populate("products");
       for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
+        const product = await stripeInstance.products.create({
           name: products[i].name,
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
-        const price = await stripe.prices.create({
+        const price = await stripeInstance.prices.create({
           product: product.id,
           unit_amount: products[i].price * 100,
           currency: "usd",
@@ -49,7 +52,7 @@ const resolvers = {
           quantity: 1,
         });
       }
-      const session = await stripe.checkout.sessions.create({
+      const session = await stripeInstance.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items,
         mode: "payment",
@@ -97,4 +100,3 @@ const resolvers = {
     },
   },
 };
-module.exports = resolvers;
