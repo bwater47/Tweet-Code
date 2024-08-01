@@ -1,9 +1,9 @@
-const { User, Product, Order } = require("../models");
+const { User, Product, Order } = require("../models/index");
 const { signToken, AuthenticationError } = require("../utils/auth");
 const stripe = require("stripe")("");
 const resolvers = {
   Query: {
-    products: async (parent, { }) => {
+    products: async (parent, {}) => {
       return await Product.find();
     },
     product: async (parent, { _id }) => {
