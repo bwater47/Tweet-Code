@@ -1,7 +1,7 @@
 // Imports for ESM.
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import Order from "./Order.js";
+import DonationTransaction from "./DonationTransaction.js";
 
 const { Schema } = mongoose;
 
@@ -26,7 +26,7 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
-  orders: [Order.schema],
+  DonationTransaction: [DonationTransaction.schema],
 });
 
 // Set up pre-save middleware to create password.

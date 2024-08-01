@@ -1,9 +1,6 @@
-// Import for ESM.
 import mongoose from "mongoose";
-
 const { Schema } = mongoose;
-
-const productSchema = new Schema({
+const donationSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -18,7 +15,5 @@ const productSchema = new Schema({
     min: 0.99,
   },
 });
-
-const Product = mongoose.model("Product", productSchema);
-
-export default Product;
+const Donation = mongoose.model("Donation", donationSchema);
+export { Donation };

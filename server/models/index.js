@@ -1,6 +1,6 @@
 // Imports for ESM.
 import User from "./User.js";
-import Product from "./Product.js";
-import Order from "./Order.js";
+import Donation from "./Donation.js";
+import DonationTransaction from "./DonationTransaction.js";
 
-export { User, Product, Order };
+export { User, Donation, DonationTransaction };
