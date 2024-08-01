@@ -1,16 +1,15 @@
 const typeDefs = `
   type User {
     _id: ID
-    firstname: String!
-    lastname: String!
+    firstName: String!
+    lastName: String!
     username: String!
     email: String!
     password: String!
     coins: Int
     solutions: [Solution]
     problems: [Problem]
-    donationsMade: [DonationTransaction]
-    donationsReceived: [DonationTransaction]
+    
   }
 
   type Problem {
@@ -56,26 +55,19 @@ const typeDefs = `
 
   type Donation {
     _id: ID
-    name: String!
+    name: String
     description: String
-    suggestedAmount: Float
-    minimumAmount: Float
-    image: String
-    donationType: String
-    recurring: Boolean
-    frequency: String
-    createdAt: String
-    updatedAt: String
+    price: Float
   }
 
   type DonationTransaction {
     _id: ID
-    donation: Donation!
-    amount: Float!
-    donor: User!
-    recipient: User
-    createdAt: String
-    status: String
+    purchaseDate: String
+    donations: [Donation]
+  }
+
+  type Checkout {
+    session: ID
   }
 
   type Auth {
@@ -85,7 +77,7 @@ const typeDefs = `
 
   type Query {
     me: User
-    users: [User]
+    user: [User]
     user(username: String!): User
     problems: [Problem]
     problem(_id: ID!): Problem
@@ -93,13 +85,14 @@ const typeDefs = `
     userCoinHistory(userId: ID!): [Coin]
     donations: [Donation]
     donation(_id: ID!): Donation
-    donationTransactions(userId: ID!): [DonationTransaction]
+    donationtransaction(_id: ID!): DonationTransaction
+    checkout(donations: [ID]!): Checkout
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, firstName: String!, lastName: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    updateUser(username: String, email: String, password: String): User
+    updateUser(username: String, firstName: String, lastName: String, email: String, password: String): User
     
     addProblem(title: String!, description: String!, code: String, language: String!, tags: [String], coinReward: Int): Problem
     updateProblem(_id: ID!, title: String, description: String, code: String, language: String, tags: [String], coinReward: Int): Problem
@@ -119,12 +112,8 @@ const typeDefs = `
     transferCoins(recipientId: ID!, amount: Int!): Coin
     redeemCoins(amount: Int!): User
     
-    createDonation(name: String!, description: String, suggestedAmount: Float, minimumAmount: Float, donationType: String!, recurring: Boolean, frequency: String): Donation
-    updateDonation(_id: ID!, name: String, description: String, suggestedAmount: Float, minimumAmount: Float, donationType: String, recurring: Boolean, frequency: String): Donation
-    deleteDonation(_id: ID!): Donation
-    
-    makeDonation(donationId: ID!, amount: Float!, donorId: ID!, recipientId: ID): DonationTransaction
+    addDonationTransaction(donations: [ID]!): DonationTransaction
   }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;

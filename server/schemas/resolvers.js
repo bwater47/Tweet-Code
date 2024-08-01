@@ -1,4 +1,5 @@
-import { User, Product, Order } from "../models/index.js";
+import DonationTransaction from "../models/DonationTransaction.js";
+import { User, Donation, Order } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "stripe";
 
@@ -6,16 +7,16 @@ const stripeInstance = stripe("");
 
 export const resolvers = {
   Query: {
-    products: async (parent, {}) => {
-      return await Product.find();
+    donations: async (parent, {}) => {
+      return await Donation.find();
     },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id);
+    donation: async (parent, { _id }) => {
+      return await Donation.findById(_id);
     },
     user: async (parent, args, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: "orders.products",
+          path: "donationtransactions.donations",
         });
         user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
         return user;
@@ -25,7 +26,7 @@ export const resolvers = {
     order: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: "orders.products",
+          path: "donationtransactions.donations",
         });
         return user.orders.id(_id);
       }
@@ -33,18 +34,20 @@ export const resolvers = {
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
+      const donationtransaction = new DonationTransaction({
+        donations: args.donations,
+      });
       const line_items = [];
-      const { products } = await order.populate("products");
-      for (let i = 0; i < products.length; i++) {
-        const product = await stripeInstance.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`],
+      const { donations } = await donationtransaction.populate("donations");
+      for (let i = 0; i < donations.length; i++) {
+        const donation = await stripeInstance.donations.create({
+          name: donations[i].name,
+          description: donations[i].description,
+          images: [`${url}/images/${donations[i].image}`],
         });
         const price = await stripeInstance.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
+          donation: donation.id,
+          unit_amount: donations[i].price * 100,
           currency: "usd",
         });
         line_items.push({
@@ -68,13 +71,13 @@ export const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addOrder: async (parent, { products }, context) => {
+    addDonationTransaction: async (parent, { donations }, context) => {
       if (context.user) {
-        const order = new Order({ products });
+        const donationtransaction = new DonationTransaction({ donations });
         await User.findByIdAndUpdate(context.user._id, {
-          $push: { orders: order },
+          $push: { donationtransactions: donationtransaction },
         });
-        return order;
+        return DonationTransaction;
       }
       throw AuthenticationError;
     },
