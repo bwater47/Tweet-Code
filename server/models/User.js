@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+// Imports for ESM.
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import Order from "./Order.js";
 
 const { Schema } = mongoose;
-const bcrypt = require("bcrypt");
-const Order = require("./Order");
 
 const userSchema = new Schema({
   firstName: {
@@ -45,4 +46,4 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+export default User;
