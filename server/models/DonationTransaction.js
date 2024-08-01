@@ -20,4 +20,4 @@ const DonationTransaction = mongoose.model(
   DonationTransactionSchema
 );
 
-export { DonationTransaction };
+export default DonationTransaction;

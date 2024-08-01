@@ -1,5 +1,5 @@
 import DonationTransaction from "../models/DonationTransaction.js";
-import { User, Donation, Order } from "../models/index.js";
+import { User, Donation, DonationTransaction } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "stripe";
 
@@ -18,17 +18,17 @@ export const resolvers = {
         const user = await User.findById(context.user._id).populate({
           path: "donationtransactions.donations",
         });
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.donations.sort((a, b) => b.purchaseDate - a.purchaseDate);
         return user;
       }
       throw AuthenticationError;
     },
-    order: async (parent, { _id }, context) => {
+    donation: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
           path: "donationtransactions.donations",
         });
-        return user.orders.id(_id);
+        return user.donations.id(_id);
       }
       throw AuthenticationError;
     },
@@ -103,3 +103,5 @@ export const resolvers = {
     },
   },
 };
+
+export default resolvers;
