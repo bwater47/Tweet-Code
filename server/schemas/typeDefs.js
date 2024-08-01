@@ -1,10 +1,11 @@
 const typeDefs = `
   type User {
     _id: ID
+    firstname: String!
+    lastname: String!
     username: String!
     email: String!
     password: String!
-    reputation: Int
     coins: Int
     solutions: [Solution]
     problems: [Problem]
