@@ -43,12 +43,16 @@ const startApolloServer = async () => {
     });
   }
 
-  db.once("open", () => {
+  try {
+    await db();
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
-  });
+  } catch (error) {
+    console.error("Failed to connect to MongoDB", error);
+    process.exit(1);
+  }
 };
 
 // Call the async function to start the server.

@@ -86,7 +86,9 @@ const typeDefs = `
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment
-    checkout(donations: [ID]!): Checkout
+    donations: [Donation]  # Add this line
+    donation(_id: ID!): Donation  # Add this line
+    checkout(donations: [ID]!): Checkout  # Add this line if you want to keep the checkout functionality
   }
 
   type Mutation {
