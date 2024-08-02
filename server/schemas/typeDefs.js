@@ -86,6 +86,7 @@ const typeDefs = `
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment
+    checkout(donations: [ID]!): Checkout
   }
 
   type Mutation {
@@ -119,13 +120,9 @@ const typeDefs = `
     transferCoins(recipientId: ID!, amount: Int!): Coin
     redeemCoins(amount: Int!): User
     
-    # Donation Management
-    # These mutations allow creation, updating, and deletion of donation options
-    createDonation(name: String!, description: String, suggestedAmount: Float, minimumAmount: Float, donationType: String!, recurring: Boolean, frequency: String): Donation
-    
     # Donation Transaction
     # This mutation handles making a donation
-    makeDonation(donationId: ID!, amount: Float!, donorId: ID!, recipientId: ID): DonationTransaction
+    makeDonation(donationId: ID!, amount: Float!): DonationTransaction
     
     # Comment Management for Replys
     # These mutations handle replying to existing comments

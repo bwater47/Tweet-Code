@@ -21,33 +21,33 @@ export const resolvers = {
         user.donations.sort((a, b) => b.purchaseDate - a.purchaseDate);
         return user;
       }
-      throw AuthenticationError;
+      throw new AuthenticationError("User not authenticated");
     },
     donation: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
           path: "donationtransactions.donations",
         });
-        return user.donations.id(_id);
+        return user.donations.find((d) => d._id.toString() === _id);
       }
-      throw AuthenticationError;
+      throw new AuthenticationError("User not authenticated");
     },
-    checkout: async (parent, args, context) => {
+    checkout: async (parent, { donations }, context) => {
       const url = new URL(context.headers.referer).origin;
-      const donationtransaction = new DonationTransaction({
-        donations: args.donations,
-      });
+      const donationTransaction = new DonationTransaction({ donations });
       const line_items = [];
-      const { donations } = await donationtransaction.populate("donations");
-      for (let i = 0; i < donations.length; i++) {
-        const donation = await stripeInstance.donations.create({
-          name: donations[i].name,
-          description: donations[i].description,
-          //images: [`${url}/images/${donations[i].image}`],
+
+      const { donations: donationList } = await donationTransaction.populate(
+        "donations"
+      );
+      for (let i = 0; i < donationList.length; i++) {
+        const donation = await stripe.products.create({
+          name: donationList[i].name,
+          description: donationList[i].description,
         });
-        const price = await stripeInstance.prices.create({
-          donation: donation.id,
-          unit_amount: donations[i].price * 100,
+        const price = await stripe.prices.create({
+          product: donation.id,
+          unit_amount: donationList[i].amount * 100, // Use amount instead of price
           currency: "usd",
         });
         line_items.push({
@@ -55,13 +55,14 @@ export const resolvers = {
           quantity: 1,
         });
       }
-      const session = await stripeInstance.checkout.sessions.create({
+      const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items,
         mode: "payment",
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
+
       return { session: session.id };
     },
   },
@@ -71,15 +72,18 @@ export const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addDonationTransaction: async (parent, { donations }, context) => {
+    makeDonation: async (parent, { donationId, amount }, context) => {
       if (context.user) {
-        const donationtransaction = new DonationTransaction({ donations });
-        await User.findByIdAndUpdate(context.user._id, {
-          $push: { donationtransactions: donationtransaction },
+        const donationTransaction = new DonationTransaction({
+          donations: [donationId],
         });
-        return DonationTransaction;
+        await donationTransaction.save();
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { donationTransactions: donationTransaction },
+        });
+        return donationTransaction;
       }
-      throw AuthenticationError;
+      throw new AuthenticationError("Not logged in");
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
