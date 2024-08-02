@@ -7,28 +7,14 @@ const typeDefs = `
     email: String!
     password: String!
     coins: Int
-    solutions: [Solution]
     problems: [Problem]
     donationsMade: [DonationTransaction]
-    donationsReceived: [DonationTransaction]
   }
 
     type Vote {
     _id: ID
     user: User!
     value: Int!
-  }
-
-  type Post {
-    _id: ID
-    title: String
-    content: String
-    author: User
-    createdAt: String
-    updatedAt: String
-    comments: [Comment]
-    votes: [Vote]
-    tags: [String]
   }
 
   type Problem {
@@ -51,16 +37,12 @@ const typeDefs = `
     explanation: String
     author: User!
     createdAt: String
-    votes: Int
-    comments: [Comment]
-    coinReward: Int
   }
 
   type Comment {
     _id: ID
     content: String!
     author: User!
-    post: Post
     createdAt: String
     updatedAt: String
     votes: [Vote]
@@ -72,7 +54,6 @@ const typeDefs = `
     amount: Int!
     recipient: User!
     sender: User
-    reason: String
     createdAt: String
   }
 
@@ -100,19 +81,12 @@ const typeDefs = `
 
   type Query {
     me: User
-    user: [User]
+    users: [User]
     user(username: String!): User
     problems: [Problem]
     problem(_id: ID!): Problem
-    solutions(problemId: ID!): [Solution]
-    userCoinHistory(userId: ID!): [Coin]
-    donations: [Donation]
-    donation(_id: ID!): Donation
-    donationTransactions(userId: ID!): [DonationTransaction]
-    posts(limit: Int, offset: Int): [Post]
-    post(_id: ID!): Post
-    comments(postId: ID!): [Comment]
     comment(_id: ID!): Comment
+    checkout(donations: [ID]!): Checkout
   }
 
   type Mutation {
@@ -134,10 +108,6 @@ const typeDefs = `
     updateSolution(_id: ID!, code: String, explanation: String): Solution
     deleteSolution(_id: ID!): Solution
     
-    # Solution Voting
-    # This mutation allows users to vote on solutions
-    voteSolution(solutionId: ID!, voteType: String!): Solution
-    
     # Comment Management for Solutions
     # These mutations handle adding, updating, and deleting comments on solutions
     addComment(solutionId: ID!, content: String!): Comment
@@ -150,30 +120,16 @@ const typeDefs = `
     transferCoins(recipientId: ID!, amount: Int!): Coin
     redeemCoins(amount: Int!): User
     
-    # Donation Management
-    # These mutations allow creation, updating, and deletion of donation options
-    createDonation(name: String!, description: String, suggestedAmount: Float, minimumAmount: Float, donationType: String!, recurring: Boolean, frequency: String): Donation
-    updateDonation(_id: ID!, name: String, description: String, suggestedAmount: Float, minimumAmount: Float, donationType: String, recurring: Boolean, frequency: String): Donation
-    deleteDonation(_id: ID!): Donation
-    
     # Donation Transaction
     # This mutation handles making a donation
-    makeDonation(donationId: ID!, amount: Float!, donorId: ID!, recipientId: ID): DonationTransaction
-
-    # Post Management
-    # These mutations allow creation, updating, and deletion of posts
-    createPost(title: String!, content: String!, tags: [String]): Post
-    updatePost(_id: ID!, title: String, content: String, tags: [String]): Post
-    deletePost(_id: ID!): Post
+    makeDonation(donationId: ID!, amount: Float!): DonationTransaction
     
-    # Comment Management for Posts
-    # These mutations handle adding comments to posts and replying to existing comments
-    addCommentToPost(postId: ID!, content: String!): Comment
+    # Comment Management for Replys
+    # These mutations handle replying to existing comments
     addReplyToComment(commentId: ID!, content: String!): Comment
     
-    # Voting System for Posts and Comments
-    # These mutations allow users to vote on posts and comments
-    votePost(postId: ID!, value: Int!): Post
+    # Voting System for Comments
+    # These mutations allow users to vote on comments
     voteComment(commentId: ID!, value: Int!): Comment
   }
 `;

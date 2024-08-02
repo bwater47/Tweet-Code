@@ -1,64 +1,54 @@
-import { Fragment } from "react";
-import { Listbox, Transition, Button } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import React from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Text,
+} from "@chakra-ui/react";
+import { CheckIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { LANGUAGE_VERSIONS } from "./Constants";
+
 const Languages = Object.entries(LANGUAGE_VERSIONS);
+
 export default function LanguageSelector({ language, onSelect }) {
   return (
-    <div className="w-72">
-      <Listbox value={language} onChange={onSelect}>
-        <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{language}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </span>
-          </Listbox.Button>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {Languages.map(([lang, version]) => (
-                <Listbox.Option
-                  key={lang}
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-amber-100 text-amber-900" : "text-gray-900"
-                    }`
-                  }
-                  value={lang}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? "font-medium" : "font-normal"
-                        }`}
-                      >
-                        {lang}
-                      </span>
-                      {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                        </span>
-                      ) : null}
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-400">
-                        {version}
-                      </span>
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
-        </div>
-      </Listbox>
-    </div>
+    <Box w="72">
+      <Menu>
+        <MenuButton
+          as={Button}
+          rightIcon={<ChevronDownIcon />}
+          w="full"
+          textAlign="left"
+          bg="white"
+          shadow="md"
+          _focus={{ outline: "none", borderColor: "indigo.500", boxShadow: "outline" }}
+        >
+          {language}
+        </MenuButton>
+        <MenuList maxH="60" overflowY="auto">
+          {Languages.map(([lang, version]) => (
+            <MenuItem
+              key={lang}
+              onClick={() => onSelect(lang)}
+              d="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Text>{lang}</Text>
+              <Flex alignItems="center">
+                {lang === language && <CheckIcon color="amber.600" />}
+                <Text ml="3" color="gray.400" fontSize="sm">
+                  {version}
+                </Text>
+              </Flex>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+    </Box>
   );
 }
