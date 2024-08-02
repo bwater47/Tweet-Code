@@ -7,6 +7,7 @@ import App from "./App.jsx";
 import "./styles/index.css";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
+import FAQ from "./pages/Faq.jsx";
 
 const client = new ApolloClient({
   uri: "/graphql",
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/faq",
+        element: <FAQ />,
       },
     ],
   },
