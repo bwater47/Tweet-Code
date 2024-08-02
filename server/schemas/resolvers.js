@@ -1,4 +1,4 @@
-import DonationTransaction from "../models/DonationTransaction.js";
+//import DonationTransaction from "../models/DonationTransaction.js";
 import { User, Donation, DonationTransaction } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "stripe";
@@ -43,7 +43,7 @@ export const resolvers = {
         const donation = await stripeInstance.donations.create({
           name: donations[i].name,
           description: donations[i].description,
-          images: [`${url}/images/${donations[i].image}`],
+          //images: [`${url}/images/${donations[i].image}`],
         });
         const price = await stripeInstance.prices.create({
           donation: donation.id,
