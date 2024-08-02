@@ -2,10 +2,16 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import App from "./App.jsx";
 import "./styles/index.css";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
+
+const client = new ApolloClient({
+  uri: "/graphql",
+  cache: new InMemoryCache(),
+});
 
 const router = createBrowserRouter([
   {
@@ -28,7 +34,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <ApolloProvider client={client}>
+        <RouterProvider router={router} />
+      </ApolloProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
