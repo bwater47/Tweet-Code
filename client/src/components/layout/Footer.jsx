@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
-import { QUERY_CHECKOUT } from "../../utils/queries";
+import { QUERY_CHECKOUT } from "../../graphQl/queries.js";
 import Auth from "../../utils/auth";
 
 const stripePromise = loadStripe("your_stripe_public_key");
