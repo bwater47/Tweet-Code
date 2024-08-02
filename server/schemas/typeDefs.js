@@ -13,6 +13,12 @@ const typeDefs = `
     donationsReceived: [DonationTransaction]
   }
 
+    type Vote {
+    _id: ID
+    user: User!
+    value: Int!
+  }
+
   type Post {
     _id: ID
     title: String
