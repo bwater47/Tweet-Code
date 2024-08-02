@@ -1,34 +1,34 @@
-import React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App.jsx';
-import './styles/index.css';
-import Home from './pages/Home.jsx';
-import Profile from './pages/Profile.jsx';
+import React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "./App.jsx";
+import "./styles/index.css";
+import Home from "./pages/Home.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <App />,
-      errorElement: <h1 className='display-2'>Wrong page!</h1>,
-      children: [
-        {
-          index: true,
-          element: <Home />
-        }, {
-          path: '/',
-          element: <Home/>
-        }, {
-            path: '/profile',
-            element: <Profile/>
-          }
-      ]
-    }
-])
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <h1 className="display-2">Wrong page!</h1>,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+    ],
+  },
+]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <ChakraProvider>
-    <RouterProvider router={router} />
-  </ChakraProvider>
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </React.StrictMode>
+);
