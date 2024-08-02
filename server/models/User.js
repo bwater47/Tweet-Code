@@ -6,6 +6,12 @@ import DonationTransaction from "./DonationTransaction.js";
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
   firstName: {
     type: String,
     required: true,
