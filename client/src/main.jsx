@@ -7,6 +7,29 @@ import "./styles/index.css";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 
+import { extendTheme } from "@chakra-ui/react"
+
+// 2. Call `extendTheme` and pass your custom values
+const theme = extendTheme({
+  colors: {
+    palette: {
+
+        white: '#FFFFFF',
+        orange: '#FEA43C',
+        red: '#F9213B',
+        cyan: '#00FFFF',
+        purple: '#7A52FF',
+        yellow: '#ECFF77',
+        green: '#36802A',
+        grey: '#8B8C89',
+        darkgrey: '#1f1f1f',
+
+
+      
+    },
+  },
+})
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,7 +50,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <RouterProvider router={router} />
     </ChakraProvider>
   </React.StrictMode>
