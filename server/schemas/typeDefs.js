@@ -61,7 +61,7 @@ const typeDefs = `
     _id: ID
     name: String
     description: String
-    price: Float
+    amount: Float
   }
 
   type DonationTransaction {
