@@ -2,6 +2,7 @@ import Nav from '../common/Nav';
 import { Box, Flex, Image, Link, Spacer, Stack } from '@chakra-ui/react';
 import logo from '../../assets/images/logo.svg'
 import brand from '../../assets/images/brand.svg'
+import NavHeader from '../common/NavHeader';
 
 const Header = () => {
 
