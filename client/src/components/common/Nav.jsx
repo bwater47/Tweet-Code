@@ -1,25 +1,55 @@
-import { Button, Flex,  Link,  } from "@chakra-ui/react";
+import { Box, Button, Flex,  Link, Menu, MenuButton, MenuList, MenuItem, Show, IconButton } from "@chakra-ui/react";
+import{HamburgerIcon} from '@chakra-ui/icons'
 
 const Nav = () => {
 
     return (
         <>
         <nav>
-            <Flex alignContent='center' wrap="wrap"> 
-                   
+            <Show above="md">
+            <Flex alignContent='bottom' height='100%' wrap="wrap"  pr={1}> 
 
-            <Link href="/" color="palette.white" p={4}>Home</Link>
             
-            <Link href="/profile" color="palette.white" p={4}>Profile</Link>
+            <Link href="/" color="palette.white" p={4} alignContent='center'>Home</Link>
             
-            <Link href="#" color="palette.white" p={4}>Dashboard</Link>
             
-            <Link href="#" color="palette.white" p={4}>Signup</Link>
+            <Link href="/profile" color="palette.white" p={4} alignContent='center'>Profile</Link>
             
-            <Link href="#" color="palette.white" p={4}>Login/logout</Link>
+            <Link href="#" color="palette.white" p={4} alignContent='center'>Dashboard</Link>
+            
+            <Link href="#" color="palette.white" p={4} alignContent='center'>Signup</Link>
+            
+            <Link href="#" color="palette.white" p={4} alignContent='center'>Login/logout</Link>
                    
-            <Button>this is a searchbar</Button>
+            <Button alignSelf='center'>this is a searchbar</Button>
+                 
             </Flex>
+            </Show>
+            <Show below="md">
+                <Flex alignContent='center' height='100%' wrap="wrap"  pr={4}>
+            <Menu p={4} alignContent='center'>
+                <MenuButton as={IconButton}
+                            aria-label='Options'
+                            icon={<HamburgerIcon color="palette.white"/>}
+                            variant='outline' 
+                            alignContent='center'/>
+                <MenuList>
+                    <MenuItem as='a' href='/'>
+                        Home
+                    </MenuItem>
+                    <MenuItem as='a' href='/profile'>
+                        Profile
+                    </MenuItem>
+                    <MenuItem as='a' href='#'>
+                        Dashboard
+                    </MenuItem>
+                    <MenuItem as='a' href='#'>
+                        Login/SignUp
+                    </MenuItem>
+                 </MenuList>
+            </Menu>
+                </Flex>
+            </Show>
 
             
         </nav>

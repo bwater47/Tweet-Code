@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <>
         <header> 
-            <Flex w="100%" p={4} bg ='palette.darkgrey'>
+            <Flex w="100%" p={0} bg ='palette.darkgrey'>
                 <Link href='/'>
                     <Box >
                         <Stack direction='row' spacing='5px'>
@@ -20,7 +20,7 @@ const Header = () => {
                     </Box>
                 </Link>
                 <Spacer/>
-                <Nav/>
+                <Nav />
             </Flex>   
         </header>
         </>
