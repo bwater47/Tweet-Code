@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Box, Button, Flex,  Link, Menu, MenuButton, MenuList, MenuItem, Show, IconButton , Input } from "@chakra-ui/react";
 import{HamburgerIcon} from '@chakra-ui/icons'
 
@@ -8,10 +8,21 @@ const NavHeader = ({ handlePageChange }) => {
   return (
   <>
     <nav>
+      <Flex alignContent='center' height='100%'>
+        <Show above="sm">
+          <Box height='100%' alignContent='center' mr={1}>
+            <Input placeholder="Search" w="200px" p={4} />
+          </Box>
+        </Show>
 
-        <Input placeholder="Search" w="200px" />
-        <Show above="md">
-        <Flex alignContent='bottom' height='100%' wrap="wrap"  pr={1}> 
+        <Show below="sm">
+          <Box height='100%' alignContent='center' mr={1}>
+            <Input placeholder="Search" w="100px" p={4} />
+          </Box>
+        </Show>
+
+        <Show above="lg">
+        <Flex alignContent='center' height='100%' wrap="wrap"  pr={1}> 
         
         <Link href="/" color="palette.white" p={4} alignContent='center'>Home</Link>
         
@@ -25,7 +36,8 @@ const NavHeader = ({ handlePageChange }) => {
              
         </Flex>
         </Show>
-        <Show below="md">
+   
+        <Show below="lg">
             <Flex alignContent='center' height='100%' wrap="wrap"  pr={4}>
         <Menu p={4} alignContent='center'>
             <MenuButton as={IconButton}
@@ -50,6 +62,7 @@ const NavHeader = ({ handlePageChange }) => {
         </Menu>
             </Flex>
         </Show>
+      </Flex>
 
         
     </nav>
