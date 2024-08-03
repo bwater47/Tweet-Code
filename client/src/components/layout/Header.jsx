@@ -1,4 +1,4 @@
-import Nav from '../common/Nav';
+import NavHeader from '../common/NavHeader';
 
 const Header = () => {
 
@@ -8,7 +8,7 @@ const Header = () => {
         <>
         <header>    
         <h1>Tweetcode</h1>
-        <Nav/>
+        <NavHeader/>
         </header>
         </>
     );

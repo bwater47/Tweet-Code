@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
-import { QUERY_CHECKOUT } from "../../graphQl/queries.js";
-import Auth from "../path/to/Auth"; // Replace "../path/to/Auth" with the actual path to the Auth module
+import { QUERY_CHECKOUT } from "../graphQL/queries.js";
+import Auth from "../hooks/useAuth.js";
 
-const stripePromise = loadStripe("your_stripe_public_key");
+const stripePromise = loadStripe("pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm");
 
-const DonationHook = () => {
+const useDonationButton = () => {
   const [getCheckout, { data: checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
   const donationAmount = 10;
 
@@ -24,14 +24,18 @@ const DonationHook = () => {
     }
   }, [checkoutData]);
 
-  if (!Auth.loggedIn()) {
-    return false;
-  }
+  const handleDonation = () => {
+    if (!Auth.loggedIn()) {
+      console.log("User not logged in");
+      return;
+    }
 
-  // Trigger the checkout process without a specific donation ID.
-  getCheckout({
-    variables: { donations: [], amount: donationAmount },
-  });
+    getCheckout({
+      variables: { donations: [], amount: donationAmount },
+    });
+  };
+
+  return handleDonation;
 };
 
-export default DonationHook;
+export default useDonationButton;
