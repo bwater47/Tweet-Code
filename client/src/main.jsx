@@ -6,7 +6,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import App from "./App.jsx";
 import "./styles/index.css";
 import Home from "./pages/Home.jsx";
-import Profile from "./pages/Profile.jsx";
+import Profile from "./pages/Dashboard.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
 

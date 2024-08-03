@@ -16,5 +16,8 @@
   "devDependencies": {
     "concurrently": "^5.1.0",
     "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "mongoose": "^8.5.2"
   }
 }
