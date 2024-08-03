@@ -4,6 +4,8 @@ import Footer from "./components/layout/Footer";
 
 import "./styles/App.css";
 
+
+
 function App() {
   return (
     <>
