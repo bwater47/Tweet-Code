@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
 import { QUERY_CHECKOUT } from "../graphQl/queries.js";
-import Auth from "../hooks/useAuth.js";
+import Auth from "./AuthService.js";
 
-const stripePromise = loadStripe("pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm");
+const stripePromise = loadStripe(
+  "pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm"
+);
 
 const useDonationButton = () => {
   const [getCheckout, { data: checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
