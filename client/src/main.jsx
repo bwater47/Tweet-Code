@@ -8,34 +8,31 @@ import "./styles/index.css";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import FAQ from "./pages/Faq.jsx";
+import Registration from "./pages/Registration.jsx";
 
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
 });
 
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react";
 
 // 2. Call `extendTheme` and pass your custom values
 const theme = extendTheme({
   colors: {
     palette: {
-
-        white: '#FFFFFF',
-        orange: '#FEA43C',
-        red: '#F9213B',
-        cyan: '#00FFFF',
-        purple: '#7A52FF',
-        yellow: '#ECFF77',
-        green: '#36802A',
-        grey: '#8B8C89',
-        darkgrey: '#1f1f1f',
-
-
-      
+      white: "#FFFFFF",
+      orange: "#FEA43C",
+      red: "#F9213B",
+      cyan: "#00FFFF",
+      purple: "#7A52FF",
+      yellow: "#ECFF77",
+      green: "#36802A",
+      grey: "#8B8C89",
+      darkgrey: "#1f1f1f",
     },
   },
-})
+});
 
 const router = createBrowserRouter([
   {
@@ -54,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/faq",
         element: <FAQ />,
+      },
+      {
+        path: "/registration",
+        element: <Registration />,
       },
     ],
   },
