@@ -1,9 +1,6 @@
-//import DonationTransaction from "../models/DonationTransaction.js";
 import { User, Donation, DonationTransaction } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
-import stripe from "stripe";
-
-const stripeInstance = stripe("");
+import stripe from "../utils/stripe.js";
 
 export const resolvers = {
   Query: {
