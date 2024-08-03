@@ -1,4 +1,4 @@
-import { User } from "../models/User.js";
+import User from "../models/User.js";
 
 const userData = [
   {
@@ -55,11 +55,17 @@ const userData = [
 
 const seedUsers = async () => {
   try {
-    await User.bulkCreate(userData);
-    console.log("Users seeded successfully");
+    // First, delete all existing users
+    await User.deleteMany({});
+    console.log("Existing users deleted");
+
+    // Then, insert the new users
+    const createdUsers = await User.insertMany(userData);
+    console.log(`${createdUsers.length} users seeded successfully`);
   } catch (err) {
     console.error("Error seeding users:", err);
   }
 };
+
 
 export default seedUsers;

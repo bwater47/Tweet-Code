@@ -11,17 +11,27 @@ const commentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
-    index: true,
   },
-  post: {
+  problem: {
     type: Schema.Types.ObjectId,
-    ref: "Post",
-    index: true,
+    ref: "Problem",
+    required: true,
   },
-  solution: {
-    type: Schema.Types.ObjectId,
-    ref: "Solution",
-    index: true,
+  code: {
+    type: String,
+    required: function () {
+      return this.isSolution;
+    },
+  },
+  explanation: {
+    type: String,
+  },
+  language: {
+    type: String,
+  },
+  isSolution: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,
@@ -39,7 +49,7 @@ const commentSchema = new Schema({
       },
       value: {
         type: Number,
-        enum: [-1, 1], // -1 for downvote, 1 for upvote
+        enum: [-1, 1],
         required: true,
       },
     },
@@ -51,28 +61,6 @@ const commentSchema = new Schema({
     },
   ],
 });
-
-// Ensure comment is associated with either a post or a solution, but not both
-commentSchema.pre("validate", function (next) {
-  if ((this.post && this.solution) || (!this.post && !this.solution)) {
-    next(
-      new Error(
-        "Comment must be associated with either a post or a solution, but not both."
-      )
-    );
-  }
-  next();
-});
-
-// Update the 'updatedAt' field before saving
-commentSchema.pre("save", function (next) {
-  this.updatedAt = Date.now();
-  next();
-});
-
-// Add indexes
-commentSchema.index({ post: 1, createdAt: -1 });
-commentSchema.index({ solution: 1, createdAt: -1 });
 
 const Comment = mongoose.model("Comment", commentSchema);
 
