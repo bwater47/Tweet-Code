@@ -36,14 +36,14 @@ export const QUERY_USER = gql`
       firstName
       lastName
       problems {
-      _id
-      title
-      description
+        _id
+        title
+        description
       }
       comments {
-      _id
-      content
-      createdAt
+        _id
+        content
+        createdAt
       }
       donationtransactions {
         _id

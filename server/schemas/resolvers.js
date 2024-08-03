@@ -44,7 +44,7 @@ export const resolvers = {
         });
         const price = await stripe.prices.create({
           product: donation.id,
-          unit_amount: donationList[i].amount * 100, // Use amount instead of price
+          unit_amount: donationList[i].amount * 100,
           currency: "usd",
         });
         line_items.push({

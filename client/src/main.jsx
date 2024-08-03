@@ -17,7 +17,7 @@ const client = new ApolloClient({
 
 import { extendTheme } from "@chakra-ui/react";
 
-// 2. Call `extendTheme` and pass your custom values
+// needs to go in its own folder for modularity and readability of code
 const theme = extendTheme({
   colors: {
     palette: {
