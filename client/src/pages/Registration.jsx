@@ -60,7 +60,7 @@ const LoginForm = () => (
 const SignUpForm = () => (
   <VStack spacing={4} as="form">
     <FormControl id="signup-name">
-      <FormLabel>Name</FormLabel>
+      <FormLabel>Username</FormLabel>
       <Input type="text" />
     </FormControl>
     <FormControl id="signup-email">
