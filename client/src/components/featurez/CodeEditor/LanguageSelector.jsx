@@ -7,7 +7,7 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import { LANGUAGE_VERSIONS } from "../CodeEditor/Constants";
+import { LANGUAGE_VERSIONS } from "./Constants";
 import PropTypes from "prop-types";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
