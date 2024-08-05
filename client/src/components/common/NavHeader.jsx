@@ -70,7 +70,7 @@ const NavHeader = ({ handlePageChange }) => {
 
               <Link
                 as={RouterLink}
-                to="/dashboard"
+                to="/Dashboard"
                 color="palette.white"
                 p={4}
                 alignContent="center"
@@ -108,7 +108,7 @@ const NavHeader = ({ handlePageChange }) => {
                   <MenuItem as={RouterLink} to="/profile">
                     Profile
                   </MenuItem>
-                  <MenuItem as={RouterLink} to="#">
+                  <MenuItem as={RouterLink} to="/Dashboard">
                     Dashboard
                   </MenuItem>
                   <MenuItem onClick={handleAuthAction}>
