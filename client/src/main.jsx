@@ -6,19 +6,18 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import App from "./App.jsx";
 import "./styles/index.css";
 import Home from "./pages/Home.jsx";
+import CreatePost from "./pages/Createpost.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Devs from "./pages/Devs.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
-import CreatePost from "./pages/Createpost.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
-import theme from './styles/theme.js'
+import theme from "./styles/theme.js";
 
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
 });
-
-
 
 const router = createBrowserRouter([
   {
@@ -31,23 +30,27 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
-      {
-        path: "/faq",
-        element: <FAQ />,
-      },
-      {
-        path: "/registration",
-        element: <Registration />,
-      },
-      {
-        path: "/post",
+        path: "/Post",
         element: <CreatePost />,
       },
       {
-        path: "/post/:id",
+        path: "/Dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/Developers",
+        element: <Devs />,
+      },
+      {
+        path: "/Faq",
+        element: <FAQ />,
+      },
+      {
+        path: "/Registration",
+        element: <Registration />,
+      },
+      {
+        path: "/Post/:id",
         element: <ViewPost />,
       },
     ],
