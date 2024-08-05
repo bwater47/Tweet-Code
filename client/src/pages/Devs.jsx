@@ -6,14 +6,14 @@ import {
   SimpleGrid,
   Heading,
 } from "@chakra-ui/react";
-import SocialIcons from "../components/featurez/Developers/SocialIcons.jsx"; // Adjust the path as needed
+import SocialIcons from "../components/featurez/Developers/SocialIcons.jsx";
 
 const devsData = [
   {
     id: 1,
     name: "Brennan Waterbury",
     description: "The Project Manager",
-    avatar: "../../public/images/Brennan.jpg", // Add the URL of the image or keep it empty for a placeholder
+    avatar: "/images/BrennanW.jpg",
     social: {
       x: "https://x.com/Brennnn23",
       github: "https://github.com/bwater47",
@@ -37,7 +37,7 @@ const devsData = [
     id: 3,
     name: "Jacob Toton",
     description: "The Assistant Project Manager",
-    avatar: "../../public/images/JacobT.jpg", // Add the URL of the image or keep it empty for a placeholder
+    avatar: "/images/JacobT.jpg",
     social: {
       x: "https://x.com/username",
       github: "https://github.com/JToton",
@@ -49,7 +49,7 @@ const devsData = [
     id: 4,
     name: "Charles Shumway",
     description: "The Senior Developer",
-    avatar: "../../public/images/CharlesS.jpg",
+    avatar: "/images/CharlesS.jpg",
     social: {
       x: "https://x.com/username",
       github: "https://github.com/Ownerman123",
@@ -61,7 +61,7 @@ const devsData = [
     id: 5,
     name: "David Pippin",
     description: "The Junior Developer",
-    avatar: "../../public/images/DavidP.jpg",
+    avatar: "/images/DavidP.jpg",
     social: {
       x: "https://x.com/username",
       github: "https://github.com/Dpippin09",
