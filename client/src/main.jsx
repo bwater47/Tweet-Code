@@ -9,9 +9,9 @@ import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
-import theme from './styles/theme.js'
 import CreatePost from "./pages/Createpost.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
+import theme from './styles/theme.js'
 
 const client = new ApolloClient({
   uri: "/graphql",
