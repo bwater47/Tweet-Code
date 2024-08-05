@@ -2,7 +2,7 @@
 import { GraphQLError } from "graphql";
 import jwt from "jsonwebtoken";
 
-const secret = "mysecretssshhhhhhh";
+const secret = process.env.JWT_SECRET || "mysecretssshhhhhhh";
 const expiration = "2h";
 
 export const AuthenticationError = new GraphQLError(
@@ -21,19 +21,22 @@ export function authMiddleware({ req }) {
   if (req.headers.authorization) {
     token = token.split(" ").pop().trim();
   }
+
   if (!token) {
     return req;
   }
+
   try {
     const { data } = jwt.verify(token, secret, { maxAge: expiration });
     req.user = data;
-  } catch {
-    console.log("Invalid token");
+  } catch (error) {
+    console.log("Invalid token", error.message);
   }
+
   return req;
 }
 
-export function signToken({ firstName, email, _id }) {
-  const payload = { firstName, email, _id };
+export function signToken({ username, email, _id }) {
+  const payload = { username, email, _id };
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
 }
