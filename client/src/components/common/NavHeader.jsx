@@ -1,3 +1,4 @@
+// import SearchBar from "../../hooks/SearchBar";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
