@@ -6,9 +6,12 @@ import "./styles/App.css";
 function App() {
   return (
     <>
+    
       <Header />
       <Outlet />
+      <div id="filler"></div>
       <Footer />
+      
     </>
   );
 }
