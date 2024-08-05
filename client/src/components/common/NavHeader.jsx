@@ -70,7 +70,7 @@ const NavHeader = ({ handlePageChange }) => {
 
               <Link
                 as={RouterLink}
-                to="#"
+                to="/dashboard"
                 color="palette.white"
                 p={4}
                 alignContent="center"

@@ -6,9 +6,11 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import App from "./App.jsx";
 import "./styles/index.css";
 import Home from "./pages/Home.jsx";
-import Profile from "./pages/Dashboard.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
+import CreatePost from "./pages/Createpost.jsx";
+import ViewPost from "./pages/Viewpost.jsx";
 import theme from './styles/theme.js'
 
 const client = new ApolloClient({
@@ -29,8 +31,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "/dashboard",
+        element: <Dashboard />,
       },
       {
         path: "/faq",
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: "/registration",
         element: <Registration />,
+      },
+      {
+        path: "/post",
+        element: <CreatePost />,
+      },
+      {
+        path: "/post/:id",
+        element: <ViewPost />,
       },
     ],
   },
