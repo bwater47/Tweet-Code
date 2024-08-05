@@ -5,10 +5,14 @@ const typeDefs = `
     lastName: String!
     username: String!
     email: String!
-    password: String!
     coins: Int
     problems: [Problem]
     donationsMade: [DonationTransaction]
+  }
+
+    type Auth {
+    token: ID!
+    user: User
   }
 
     type Vote {
@@ -94,8 +98,8 @@ const typeDefs = `
   type Mutation {
     # User Authentication and Management
     # These mutations handle user registration, login, and profile updates
-    addUser(username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
+    addUser(firstName: String!, lastName: String!, username: String!, email: String!, password: String!): Auth
+  login(email: String!, password: String!): Auth
     updateUser(username: String, firstName: String, lastName: String, email: String, password: String): User
     
     # Problem Management
