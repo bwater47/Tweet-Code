@@ -1,6 +1,6 @@
 // API for the Code Editor
 import axios from "axios";
-import { LANGUAGE_VERSIONS } from "../components/features/CodeEditor/Constants.jsx";
+import { LANGUAGE_VERSIONS } from "../components/featurez/CodeEditor/Constants.jsx";
 
 const API = axios.create({
   baseURL: "https://emkc.org/api/v2/piston",
