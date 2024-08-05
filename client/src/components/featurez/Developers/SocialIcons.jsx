@@ -11,7 +11,7 @@ const SocialIcons = ({ social }) => {
           icon={<RiTwitterXLine />}
           isRound
           variant="outline"
-          colorScheme="twitter"
+          colorScheme="X"
           aria-label="X link"
           m={1}
         />
