@@ -27,10 +27,24 @@ export const QUERY_ALL_DONATIONS = gql`
   }
 `;
 export const QUERY_USER = gql`
-  {
+  query {
     user {
+      _id
+      username
+      email
+      coins
       firstName
       lastName
+      problems {
+        _id
+        title
+        description
+      }
+      comments {
+        _id
+        content
+        createdAt
+      }
       donationtransactions {
         _id
         purchaseDate
@@ -41,6 +55,19 @@ export const QUERY_USER = gql`
           price
         }
       }
+    }
+  }
+`;
+
+export const QUERY_DASHBOARD_USER = gql`
+  query GetDashboardUser {
+    me {
+      firstName
+      lastName
+      email
+      coins
+      _id
+      username
     }
   }
 `;
