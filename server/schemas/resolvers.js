@@ -64,10 +64,24 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (parent, args) => {
-      const user = await User.create(args);
-      const token = signToken(user);
-      return { token, user };
+    addUser: async (
+      parent,
+      { firstName, lastName, username, email, password }
+    ) => {
+      try {
+        const user = await User.create({
+          firstName,
+          lastName,
+          username,
+          email,
+          password,
+        });
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error(error);
+        throw new AuthenticationError("Error creating user");
+      }
     },
     makeDonation: async (parent, { donationId, amount }, context) => {
       if (context.user) {
@@ -84,23 +98,39 @@ export const resolvers = {
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
-        return await User.findByIdAndUpdate(context.user._id, args, {
-          new: true,
-        });
+        try {
+          return await User.findByIdAndUpdate(context.user._id, args, {
+            new: true,
+          });
+        } catch (error) {
+          console.error(error);
+          throw new AuthenticationError("Error updating user");
+        }
       }
-      throw AuthenticationError;
+      throw new AuthenticationError("Not logged in");
     },
+    // Keeping specific error messages during testing.
+    // Will update all to a generic "Authentication Error" message for all afterwards.
     login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
-      if (!user) {
-        throw AuthenticationError;
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          throw new AuthenticationError(
+            "No user found with this email address"
+          );
+        }
+
+        const correctPw = await user.isCorrectPassword(password);
+        if (!correctPw) {
+          throw new AuthenticationError("Incorrect password");
+        }
+
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error(error);
+        throw new AuthenticationError("Error logging in");
       }
-      const correctPw = await user.isCorrectPassword(password);
-      if (!correctPw) {
-        throw AuthenticationError;
-      }
-      const token = signToken(user);
-      return { token, user };
     },
   },
 };
