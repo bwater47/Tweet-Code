@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { ADD_USER, LOGIN_USER } from "../graphQL/mutations.js";
+import { ADD_USER, LOGIN_USER } from "../graphQL/mutations.js"
 import { useAuth } from "../hooks/useAuth.jsx";
 import {
   Box,

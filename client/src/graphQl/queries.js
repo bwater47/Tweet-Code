@@ -62,12 +62,11 @@ export const QUERY_USER = gql`
 export const QUERY_DASHBOARD_USER = gql`
   query GetDashboardUser {
     me {
-      firstName
-      lastName
-      email
-      coins
       _id
       username
+      email
+      firstName
+      lastName
     }
   }
 `;
