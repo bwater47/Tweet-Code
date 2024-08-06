@@ -14,7 +14,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { useAuth } from "../../hooks/useAuth.js";
+import { useAuth } from "../../hooks/useAuth.jsx";
 
 const NavHeader = ({ handlePageChange }) => {
   const location = useLocation();

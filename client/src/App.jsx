@@ -1,18 +1,17 @@
 import { Outlet } from "react-router-dom";
+import { AuthProvider } from "./hooks/useAuth.jsx"; // Make sure this path is correct
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import "./styles/App.css";
 
 function App() {
   return (
-    <>
-    
+    <AuthProvider>
       <Header />
       <Outlet />
       <div id="filler"></div>
       <Footer />
-      
-    </>
+    </AuthProvider>
   );
 }
 
