@@ -6,7 +6,7 @@ import {
   SimpleGrid,
   Heading,
 } from "@chakra-ui/react";
-import SocialIcons from "../components/features/Developers/SocialIcons.jsx";
+import SocialIcons from "../components/featurez/Developers/SocialIcons.jsx";
 
 const devsData = [
   {

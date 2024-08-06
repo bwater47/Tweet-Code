@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { ADD_USER, LOGIN_USER } from "../graphQL/mutations.js"
+import { ADD_USER, LOGIN_USER } from "../graphQl/mutations.js";
 import { useAuth } from "../hooks/useAuth.jsx";
 import {
   Box,
@@ -84,24 +84,22 @@ const LoginForm = () => {
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="login-email">
-        <FormLabel color='palette.white'>Email</FormLabel>
+        <FormLabel>Email</FormLabel>
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          color='palette.white'
         />
       </FormControl>
       <FormControl id="login-password">
-        <FormLabel color='palette.white'>Password</FormLabel>
+        <FormLabel>Password</FormLabel>
         <Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          color='palette.white'
         />
       </FormControl>
-      <Button colorScheme="green" variant='colored' width="full" type="submit">
+      <Button colorScheme="blue" width="full" type="submit">
         Login
       </Button>
     </VStack>
@@ -158,56 +156,51 @@ const SignUpForm = () => {
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="signup-firstName">
-        <FormLabel color='palette.white'>First Name</FormLabel>
+        <FormLabel>First Name</FormLabel>
         <Input
           name="firstName"
           type="text"
           value={formState.firstName}
           onChange={handleChange}
-          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-lastName">
-        <FormLabel color='palette.white'>Last Name</FormLabel>
+        <FormLabel>Last Name</FormLabel>
         <Input
           name="lastName"
           type="text"
           value={formState.lastName}
           onChange={handleChange}
-          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-username">
-        <FormLabel color='palette.white'>Username</FormLabel>
+        <FormLabel>Username</FormLabel>
         <Input
           name="username"
           type="text"
           value={formState.username}
           onChange={handleChange}
-          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-email">
-        <FormLabel color='palette.white'>Email</FormLabel>
+        <FormLabel>Email</FormLabel>
         <Input
           name="email"
           type="email"
           value={formState.email}
           onChange={handleChange}
-          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-password">
-        <FormLabel color='palette.white'>Password</FormLabel>
+        <FormLabel>Password</FormLabel>
         <Input
           name="password"
           type="password"
           value={formState.password}
           onChange={handleChange}
-          color='palette.white'
         />
       </FormControl>
-      <Button colorScheme="green" variant="colored" width="full" type="submit">
+      <Button colorScheme="green" width="full" type="submit">
         Sign Up
       </Button>
     </VStack>
