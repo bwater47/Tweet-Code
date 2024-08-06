@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { AuthProvider } from "./hooks/useAuth.jsx"; // Make sure this path is correct
+import { AuthProvider } from "./hooks/useAuth.jsx";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import "./styles/App.css";
