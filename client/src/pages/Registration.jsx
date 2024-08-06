@@ -22,7 +22,7 @@ import {
 
 const Registration = () => {
   return (
-    <Box bgGradient="linear(palette.darkgrey, palette.gradgreen , palette.darkgrey )">
+    <Box bgGradient="linear(palette.darkgrey, palette.gradgreen, palette.darkgrey)">
     <Container maxW="md" py={8}>
       <Heading as="h1" mb={6} textAlign="center" color='palette.white'>
         Account Access

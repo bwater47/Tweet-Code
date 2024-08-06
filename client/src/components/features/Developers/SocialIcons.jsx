@@ -2,6 +2,7 @@ import { Flex, IconButton, Link } from "@chakra-ui/react";
 import { SlSocialGithub } from "react-icons/sl";
 import { TiSocialLinkedin, TiSocialYoutube } from "react-icons/ti";
 import { RiTwitterXLine } from "react-icons/ri";
+import theme from "../../../styles/theme.js";
 
 const SocialIcons = ({ social }) => {
   return (
@@ -11,7 +12,8 @@ const SocialIcons = ({ social }) => {
           icon={<RiTwitterXLine />}
           isRound
           variant="outline"
-          colorScheme="X"
+          colorScheme="palette.white"
+          _hover={{color:"palette.white"}}
           aria-label="X link"
           m={1}
         />

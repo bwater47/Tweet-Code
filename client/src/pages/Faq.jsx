@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   ChakraProvider,
   Box,
@@ -11,6 +11,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
+import theme from "../styles/theme.js";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
 const FAQItem = ({ question, answer }) => {
@@ -22,7 +23,7 @@ const FAQItem = ({ question, answer }) => {
       borderRadius="lg"
       overflow="hidden"
       mb={4}
-      bg="#00f5d4"
+      bg={theme.colors.palette.purple} // Use the purple color from the theme
       boxShadow="md"
     >
       <Box p={4} d="flex" justifyContent="space-between" alignItems="center">
@@ -33,7 +34,7 @@ const FAQItem = ({ question, answer }) => {
           icon={show ? <MinusIcon /> : <AddIcon />}
           onClick={() => setShow(!show)}
           variant="ghost"
-          colorScheme="teal"
+          colorScheme="gray"
         />
       </Box>
       <Collapse in={show} animateOpacity>
@@ -58,7 +59,7 @@ const FAQ = () => {
             <Heading as="h2" size="lg" mb={4} textAlign="center">
               AdWare FAQs
             </Heading>
-            <Box className="space-y-4">
+            <Box className="space-y-4" textColor={theme.colors.palette.cyan}>
               <FAQItem
                 question="What is AdWare?"
                 answer="AdWare is the ultimate application for managing and optimizing your online advertisements. Think of it as the personal trainer for your ads, making sure they’re in peak condition to capture attention and drive results."
@@ -108,7 +109,7 @@ const FAQ = () => {
             <Heading as="h2" size="lg" mb={4} textAlign="center">
               Tweet Code FAQs
             </Heading>
-            <Box className="space-y-4">
+            <Box className="space-y-4" textColor={theme.colors.palette.cyan}>
               <FAQItem
                 question="What is Tweet Code?"
                 answer="Tweet Code is the ultimate application for coding and posting your creations. Think of it as the social media platform where code gets to be a star, strutting its stuff and earning applause (and awards) for its brilliance."
