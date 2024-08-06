@@ -22,12 +22,13 @@ import {
 
 const Registration = () => {
   return (
+    <Box bgGradient="linear(palette.darkgrey, palette.gradgreen , palette.darkgrey )">
     <Container maxW="md" py={8}>
-      <Heading as="h1" mb={6} textAlign="center">
+      <Heading as="h1" mb={6} textAlign="center" color='palette.white'>
         Account Access
       </Heading>
-      <Box borderWidth={1} borderRadius="lg" p={4}>
-        <Tabs isFitted variant="enclosed">
+      <Box borderWidth={1} borderRadius="lg" p={4} bg='palette.darkgrey' borderColor='palette.lightgrey'>
+        <Tabs isFitted colorScheme={'green'}>
           <TabList mb="1em">
             <Tab>Login</Tab>
             <Tab>Sign Up</Tab>
@@ -43,6 +44,7 @@ const Registration = () => {
         </Tabs>
       </Box>
     </Container>
+    </Box>
   );
 };
 
@@ -82,22 +84,24 @@ const LoginForm = () => {
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="login-email">
-        <FormLabel>Email</FormLabel>
+        <FormLabel color='palette.white'>Email</FormLabel>
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          color='palette.white'
         />
       </FormControl>
       <FormControl id="login-password">
-        <FormLabel>Password</FormLabel>
+        <FormLabel color='palette.white'>Password</FormLabel>
         <Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          color='palette.white'
         />
       </FormControl>
-      <Button colorScheme="blue" width="full" type="submit">
+      <Button colorScheme="green" variant='colored' width="full" type="submit">
         Login
       </Button>
     </VStack>
@@ -154,51 +158,56 @@ const SignUpForm = () => {
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="signup-firstName">
-        <FormLabel>First Name</FormLabel>
+        <FormLabel color='palette.white'>First Name</FormLabel>
         <Input
           name="firstName"
           type="text"
           value={formState.firstName}
           onChange={handleChange}
+          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-lastName">
-        <FormLabel>Last Name</FormLabel>
+        <FormLabel color='palette.white'>Last Name</FormLabel>
         <Input
           name="lastName"
           type="text"
           value={formState.lastName}
           onChange={handleChange}
+          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-username">
-        <FormLabel>Username</FormLabel>
+        <FormLabel color='palette.white'>Username</FormLabel>
         <Input
           name="username"
           type="text"
           value={formState.username}
           onChange={handleChange}
+          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-email">
-        <FormLabel>Email</FormLabel>
+        <FormLabel color='palette.white'>Email</FormLabel>
         <Input
           name="email"
           type="email"
           value={formState.email}
           onChange={handleChange}
+          color='palette.white'
         />
       </FormControl>
       <FormControl id="signup-password">
-        <FormLabel>Password</FormLabel>
+        <FormLabel color='palette.white'>Password</FormLabel>
         <Input
           name="password"
           type="password"
           value={formState.password}
           onChange={handleChange}
+          color='palette.white'
         />
       </FormControl>
-      <Button colorScheme="green" width="full" type="submit">
+      <Button colorScheme="green" variant="colored" width="full" type="submit">
         Sign Up
       </Button>
     </VStack>

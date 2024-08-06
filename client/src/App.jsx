@@ -10,7 +10,7 @@ function App() {
     <AuthProvider>
       <Header />
       <Outlet />
-      <Box id="filler" bg='palette.grey' ></Box>
+      <Box id="filler" bg='palette.darkgrey' ></Box>
       <Footer />
     </AuthProvider>
   );
