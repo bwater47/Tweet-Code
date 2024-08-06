@@ -12,6 +12,7 @@ import Devs from "./pages/Devs.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
+import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 
 const client = new ApolloClient({
@@ -30,12 +31,17 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/Post",
-        element: <CreatePost />,
-      },
-      {
-        path: "/Dashboard",
-        element: <Dashboard />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/Post",
+            element: <CreatePost />,
+          },
+          {
+            path: "/Dashboard",
+            element: <Dashboard />,
+          },
+        ],
       },
       {
         path: "/Developers",
