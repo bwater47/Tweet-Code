@@ -95,9 +95,6 @@ const NavHeader = ({ handlePageChange }) => {
                   <MenuItem as={RouterLink} to="/">
                     Home
                   </MenuItem>
-                  <MenuItem as={RouterLink} to="/profile">
-                    Profile
-                  </MenuItem>
                   <MenuItem as={RouterLink} to="/Dashboard">
                     Dashboard
                   </MenuItem>
