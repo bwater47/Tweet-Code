@@ -11,9 +11,9 @@ export const LOGIN_USER = gql`
     }
   }
 `;
-export const ADD_DONATIONTRANSACTION = gql`
-  mutation addDonationTransaction($donations: [ID]!) {
-    addDonationTransaction(donations: $donations) {
+export const MAKE_DONATIONTRANSACTION = gql`
+  mutation makeDonationTransaction($donations: [ID]!) {
+    makeDonationTransaction(donations: $donations) {
       purchaseDate
       donations {
         _id

@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Box, Input, InputGroup, InputRightElement, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+} from "@chakra-ui/react";
 import { SearchIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import theme from "../styles/theme.js";
@@ -9,42 +15,43 @@ const data = [
     title: "Example Problem 1",
     description: "This is a description for problem 1.",
     tags: ["javascript", "react"],
-    link: "/problem/1"
+    link: "/problem/1",
   },
   {
     title: "Example Problem 2",
     description: "This is a description for problem 2.",
     tags: ["nodejs", "express"],
-    link: "/problem/2"
+    link: "/problem/2",
   },
   {
-    title: "Example Problem 1",
+    title: "Example Problem 3",
     description: "This is a description for problem 1.",
     tags: ["javascript", "react"],
-    link: "/problem/1"
+    link: "/problem/1",
   },
   {
-    title: "Example Problem 2",
+    title: "Example Problem 4",
     description: "This is a description for problem 2.",
     tags: ["nodejs", "express"],
-    link: "/problem/2"
+    link: "/problem/2",
   },
   {
-    title: "Example Problem 1",
+    title: "Example Problem 5",
     description: "This is a description for problem 1.",
     tags: ["javascript", "react"],
-    link: "/problem/1"
+    link: "/problem/1",
   },
   {
-    title: "Example Problem 2",
+    title: "Example Problem 6",
     description: "This is a description for problem 2.",
     tags: ["nodejs", "express"],
-    link: "/problem/2"
+    link: "/problem/2",
   },
   // Add more mock problems as needed
 ];
 
 const SearchBar = ({ placeholder, w, p, _focus }) => {
+
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(-1);
@@ -90,7 +97,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
   }, [search]);
 
   return (
-    <Box w={w} p={p} mx="auto" m="2" p="1" position="relative">
+    <Box w={w} p={p} mx="auto" m="2" position="relative">
       <InputGroup>
         <Input
           type="text"
@@ -107,7 +114,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
           ) : (
             <IconButton
               aria-label="Clear search"
-              icon={<CloseIcon textColor={theme.colors.palette.red}/>}
+              icon={<CloseIcon textColor={theme.colors.palette.red} />}
               onClick={handleClose}
               size="sm"
             />
