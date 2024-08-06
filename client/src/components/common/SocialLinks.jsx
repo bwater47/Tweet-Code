@@ -15,7 +15,7 @@ const SocialLinks = () => {
                     aria-label='Twitter link'
                     fontSize='20px'
                     alignSelf='center'
-                    _hover={{color:"palette.purple"}}
+                    _hover={{color:"palette.xhex"}}
                     icon={<RiTwitterXLine />}
                     m={4}
                 />
@@ -25,7 +25,7 @@ const SocialLinks = () => {
                     aria-label='Github link'
                     fontSize='20px'
                     alignSelf='center'
-                    _hover={{color:"palette.cyan"}}
+                    _hover={{color:"palette.githubhex"}}
                     icon={<SlSocialGithub />}
                     m={4}
                 />
@@ -35,7 +35,7 @@ const SocialLinks = () => {
                     aria-label='Linkedin link'
                     fontSize='20px'
                     alignSelf='center'
-                    _hover={{color:"palette.green"}}
+                    _hover={{color:"palette.linkedinhex"}}
                     icon={<TiSocialLinkedin />}
                     m={4}
                 />
@@ -45,7 +45,7 @@ const SocialLinks = () => {
                     aria-label='Youtube link'
                     fontSize='20px'
                     alignSelf='center'
-                    _hover={{color:"palette.red"}}
+                    _hover={{color:"palette.youtubehex"}}
                     icon={<TiSocialYoutube />}
                     m={4}
                 />

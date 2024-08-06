@@ -34,13 +34,13 @@ const Dashboard = () => {
     <Box
       p={5}
       minHeight="100vh"
-      bgGradient="linear(palette.darkgrey, palette.gradgreen , palette.darkgrey )"
+      bgGradient="linear(palette.darkgrey, palette.gradpurple , palette.darkgrey )"
       color="white"
     >
       <VStack spacing={6} align="stretch">
         <Heading>My Dashboard</Heading>
 
-        <Box borderWidth="1px" borderRadius="lg" bg='palette.darkgrey' p={4} bgGradient="linear(palette.darkgrey, palette.grey )" boxShadow='4px 5px 10px 5px black' borderRadius={10} borderColor='palette.grey'>
+        <Box borderWidth="1px" bg='palette.darkgrey' p={4} bgGradient="linear(palette.darkgrey, palette.grey )" boxShadow='4px 5px 10px 5px black' borderRadius={10} borderColor='palette.grey'>
           <Text color='palette.white'>
             <strong>Username:</strong> {user.username}
           </Text>
