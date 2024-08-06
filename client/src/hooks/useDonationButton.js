@@ -9,22 +9,9 @@ const stripePromise = loadStripe(
 );
 
 const useDonationButton = () => {
-  const [getCheckout, { data: checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
+  const [getCheckout, { data: checkoutData, error: queryError }] =
+    useLazyQuery(QUERY_CHECKOUT);
   const donationAmount = 10;
-
-  useEffect(() => {
-    if (checkoutData) {
-      stripePromise
-        .then((stripe) => {
-          stripe.redirectToCheckout({
-            sessionId: checkoutData.checkout.session,
-          });
-        })
-        .catch((err) => {
-          console.error("Stripe redirect error:", err);
-        });
-    }
-  }, [checkoutData]);
 
   const handleDonation = () => {
     if (!Auth.loggedIn()) {
@@ -32,10 +19,34 @@ const useDonationButton = () => {
       return;
     }
 
+    console.log("Initiating checkout with donation amount:", donationAmount);
+
     getCheckout({
       variables: { donations: [], amount: donationAmount },
+    }).catch((err) => {
+      console.error("Error executing GraphQL query:", err);
     });
   };
+
+  useEffect(() => {
+    if (checkoutData) {
+      stripePromise
+        .then((stripe) => {
+          if (stripe) {
+            return stripe.redirectToCheckout({
+              sessionId: checkoutData.checkout.session,
+            });
+          } else {
+            console.error("Stripe instance not available");
+          }
+        })
+        .catch((err) => {
+          console.error("Stripe redirect error:", err);
+        });
+    } else if (queryError) {
+      console.error("GraphQL Query Error:", queryError);
+    }
+  }, [checkoutData, queryError]);
 
   return handleDonation;
 };

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth.jsx";
 import {
   Box,
   Heading,
@@ -15,8 +16,20 @@ function CreatePost() {
   const [summary, setSummary] = useState("");
   const [code, setCode] = useState("");
   const toast = useToast();
+  const { isLoggedIn } = useAuth(); // Assuming useAuth provides isLoggedIn property
 
   const handleSubmit = async () => {
+    if (!isLoggedIn) {
+      toast({
+        title: "Not Authenticated",
+        description: "You need to be logged in to create a post",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     if (!title || !summary || !code) {
       toast({
         title: "Missing information",
@@ -81,7 +94,12 @@ function CreatePost() {
           />
         </Stack>
         <CodeEditor onCodeChange={setCode} />
-        <Button colorScheme="blue" mt={4} onClick={handleSubmit}>
+        <Button
+          colorScheme="blue"
+          mt={4}
+          onClick={handleSubmit}
+          isDisabled={!isLoggedIn} // Optional: Disable button if not logged in
+        >
           Submit Post
         </Button>
       </Box>
