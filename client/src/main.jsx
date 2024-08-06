@@ -12,7 +12,7 @@ import Devs from "./pages/Devs.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
-import ProtectedRoute from "./components/common/ProtectedRoute.jsx"; // Import ProtectedRoute
+import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 
 const client = new ApolloClient({
