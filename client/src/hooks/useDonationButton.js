@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
-import { QUERY_CHECKOUT } from "../graphQL/queries.js";
-import Auth from "./AuthService.js";
+import { QUERY_CHECKOUT } from "../graphQL/queries";
+import Auth from "./AuthService";
 
 const stripePromise = loadStripe(
   "pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm"
@@ -11,7 +11,6 @@ const stripePromise = loadStripe(
 const useDonationButton = () => {
   const [getCheckout, { data: checkoutData, error: queryError }] =
     useLazyQuery(QUERY_CHECKOUT);
-  const donationAmount = 10;
 
   const handleDonation = () => {
     if (!Auth.loggedIn()) {
@@ -19,10 +18,12 @@ const useDonationButton = () => {
       return;
     }
 
-    console.log("Initiating checkout with donation amount:", donationAmount);
+    const donationId = "someDonationId"; // Replace with the actual donation ID you want to pass to the server
+
+    console.log("Initiating checkout with donation amount:");
 
     getCheckout({
-      variables: { donations: [], amount: donationAmount },
+      variables: { donations: [donationId] },
     }).catch((err) => {
       console.error("Error executing GraphQL query:", err);
     });
