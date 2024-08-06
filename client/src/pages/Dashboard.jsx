@@ -11,7 +11,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
-import { QUERY_DASHBOARD_USER } from "../graphQl/queries";
+import { QUERY_DASHBOARD_USER } from "../graphQL/queries";
 
 const Dashboard = () => {
   const { loading, data } = useQuery(QUERY_DASHBOARD_USER);
