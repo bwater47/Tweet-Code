@@ -60,16 +60,6 @@ const NavHeader = ({ handlePageChange }) => {
 
               <Link
                 as={RouterLink}
-                to="/profile"
-                color="palette.white"
-                p={4}
-                alignContent="center"
-              >
-                Profile
-              </Link>
-
-              <Link
-                as={RouterLink}
                 to="/Dashboard"
                 color="palette.white"
                 p={4}
@@ -104,9 +94,6 @@ const NavHeader = ({ handlePageChange }) => {
                 <MenuList>
                   <MenuItem as={RouterLink} to="/">
                     Home
-                  </MenuItem>
-                  <MenuItem as={RouterLink} to="/profile">
-                    Profile
                   </MenuItem>
                   <MenuItem as={RouterLink} to="/Dashboard">
                     Dashboard
