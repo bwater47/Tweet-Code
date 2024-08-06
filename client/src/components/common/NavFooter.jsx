@@ -12,7 +12,7 @@ const NavFooter = () => {
         <Box display='flex' flexDirection='column' mr={3} p={3} pt={6} >
           <Heading as='h3' size='md'  >Developers</Heading>
           <Link to="/Developers" className="nav-link text-white"   >
-            <Text _hover={{ color: "palette.orange" }}>
+            <Text _hover={{ color: "palette.purple" }}>
               Contact / Developers
             </Text>
           </Link>
@@ -20,7 +20,7 @@ const NavFooter = () => {
         <Box display='block' mr={3} p={3} pt={6}>
           <Heading as='h3' size='md' >FAQ</Heading>
           <Link to="/FAQ" className="nav-link text-white">
-            <Text _hover={{ color: "palette.orange" }}>
+            <Text _hover={{ color: "palette.red" }}>
               Common Questions
             </Text>
           </Link>

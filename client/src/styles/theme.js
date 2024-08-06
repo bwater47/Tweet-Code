@@ -11,8 +11,15 @@ const theme = extendTheme({
       purple: "#7A52FF",
       yellow: "#ECFF77",
       green: "#36802A",
-      grey: "#8B8C89",
-      darkgrey: "#1f1f1f",
+      grey: "#1f1f1f",
+      darkgrey: "#000000",
+      gradorange: "#D38933",
+      gradred: "#C31932",
+      gradcyan: "#00CCCC",
+      gradpurple: "#6342CC",
+      gradyellow: "#B4CC60",
+      gradgreen: "#2A6623",
+      
     },
   },
 });

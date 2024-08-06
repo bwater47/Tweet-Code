@@ -1,7 +1,9 @@
+import { Text } from "@chakra-ui/react";
+
 const Home = () => {
   return (
     <>
-      <p>welcome home!</p>
+      <Text bg='palette.grey' textColor='palette.purple'>welcome home!</Text>
     </>
   );
 };
