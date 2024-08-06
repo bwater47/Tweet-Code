@@ -1,24 +1,32 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector.jsx";
 import { CODE_SNIPPETS } from "./Constants.jsx";
 import Output from "./Output.jsx";
 
-const CodeEditor = () => {
-  const editorRef = useRef();
+const CodeEditor = ({ onCodeChange }) => {
+  const editorRef = useRef(null);
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
+  const [isEditorReady, setIsEditorReady] = useState(false);
 
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
+    setIsEditorReady(true); // Editor is now ready
   };
 
   const onSelect = (language) => {
     setLanguage(language);
     setValue(CODE_SNIPPETS[language]);
   };
+
+  useEffect(() => {
+    if (onCodeChange) {
+      onCodeChange(value);
+    }
+  }, [value, onCodeChange]);
 
   return (
     <Box>
@@ -40,9 +48,12 @@ const CodeEditor = () => {
             onChange={(value) => setValue(value)}
           />
         </Box>
-        <Output editorRef={editorRef} language={language} />
+        {isEditorReady && (
+          <Output editorRef={editorRef} language={language} />
+        )}
       </HStack>
     </Box>
   );
 };
+
 export default CodeEditor;
