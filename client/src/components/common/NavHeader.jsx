@@ -1,8 +1,6 @@
-// import SearchBar from "../../hooks/SearchBar";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
-  Button,
   Flex,
   Link,
   Menu,
@@ -15,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../hooks/useAuth.jsx";
+import SearchBar from "../../hooks/SearchBar.jsx";
 
 const NavHeader = ({ handlePageChange }) => {
   const location = useLocation();
@@ -36,13 +35,13 @@ const NavHeader = ({ handlePageChange }) => {
         <Flex alignContent="center" height="100%" >
           <Show above="sm">
             <Box height="100%" alignContent="center" mr={1}>
-              <Input placeholder="Search" w="200px" p={4}  _focus={{borderColor: 'palette.cyan'}}/>
+              <SearchBar placeholder="Search" w="200px" p={4}  _focus={{borderColor: 'palette.cyan'}}/>
             </Box>
           </Show>
 
           <Show below="sm">
             <Box height="100%" alignContent="center" mr={1}>
-              <Input placeholder="Search" w="100px" p={4} />
+            <SearchBar placeholder="Search" w="200px" p={4}/>
             </Box>
           </Show>
 
