@@ -16,7 +16,7 @@ const Header = () => {
                     <Box >
                         <Stack direction='row' spacing='5px'>
                             <Image src={logo} alt='Tweetcode Icon' width={100} minW={50}/>
-                            <Image src={brand} alt='tweecode brand' width={200}  height={100} minW={150}></Image>
+                            <Image src={brand} alt='tweecode brand' width={200}  height={100} minW={100}></Image>
                         </Stack>
                     </Box>
                 </Link>

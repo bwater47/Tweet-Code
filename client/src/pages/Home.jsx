@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, GridItem, Text, Box } from "@chakra-ui/react";
+import { Grid, GridItem, Text, Box , Show} from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEMS } from "../graphQL/queries";
 import ProblemList from "../components/common/problemList.jsx";
@@ -40,10 +40,11 @@ const Home = () => {
   const allTags = Array.from(new Set(data.problems.flatMap((p) => p.tags)));
 
   return (
-    <Box bg="palette.grey" p={5}>
+    <Box bg="palette.grey" bgGradient="linear(palette.darkgrey, palette.gradyellow, palette.darkgrey)" p={5}>
       <Text textColor="palette.purple" mb={4}>
-        Welcome to TweetCode!
+        
       </Text>
+    <Show above="sm">
       <Grid templateColumns="3fr 1fr" gap={6}>
         <GridItem>
           <ProblemList problems={filteredProblems} />
@@ -53,12 +54,32 @@ const Home = () => {
             tags={allTags}
             selectedTags={selectedTags}
             onTagChange={handleTagChange}
-          />
+            />
           <Box mt={6}>
             <AdSpace />
           </Box>
         </GridItem>
       </Grid>
+    </Show>
+
+    <Show below="sm">
+      <Grid templateRows=" 1fr" gap={0}>
+        <GridItem>
+          <TagFilter
+            tags={allTags}
+            selectedTags={selectedTags}
+            onTagChange={handleTagChange}
+            />
+        </GridItem>
+        <GridItem>
+          <ProblemList problems={filteredProblems} />
+          <Box mt={6}>
+            <AdSpace />
+          </Box>
+        </GridItem>
+      </Grid>
+    </Show>
+
     </Box>
   );
 };
