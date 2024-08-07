@@ -1,4 +1,9 @@
-import { User, Donation, DonationTransaction } from "../models/index.js";
+import {
+  User,
+  Donation,
+  DonationTransaction,
+  Problem,
+} from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "../utils/stripe.js";
 
@@ -73,6 +78,23 @@ export const resolvers = {
       });
 
       return { session: session.id };
+    },
+    problems: async () => {
+      try {
+        return await Problem.find().populate("author");
+      } catch (error) {
+        console.error("Error fetching problems:", error);
+        throw new Error("Failed to fetch problems");
+      }
+    },
+
+    problem: async (parent, { _id }) => {
+      try {
+        return await Problem.findById(_id).populate("author");
+      } catch (error) {
+        console.error("Error fetching problem:", error);
+        throw new Error("Failed to fetch problem");
+      }
     },
   },
   Mutation: {
