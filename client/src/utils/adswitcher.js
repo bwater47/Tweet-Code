@@ -1,11 +1,9 @@
-import {Crunchy,CupHub,Dino,EcoGadget,EcoGadget2,FreshFizz,Hair,HomeDefense,HydroBeam,Medication,SkinCare} from '../assets/ads/index.js'
+import { Crunchy, CupHub, Dino, EcoGadget, EcoGadget2, FreshFizz, Hair, HomeDefense, HydroBeam, Medication, SkinCare } from '../assets/ads/index.js'
 
-const images =[Crunchy,CupHub,Dino,EcoGadget,EcoGadget2,FreshFizz,Hair,HomeDefense,HydroBeam,Medication,SkinCare]
+const images = [Crunchy, CupHub, Dino, EcoGadget, EcoGadget2, FreshFizz, Hair, HomeDefense, HydroBeam, Medication, SkinCare]
 function logimages() {
-    
-    const selected = images[Math.floor(Math.random() * images.length)]
-    console.log(Math.floor(Math.random() * images.length))
 
+    const selected = images[Math.floor(Math.random() * images.length)]
 
     return selected;
 }
