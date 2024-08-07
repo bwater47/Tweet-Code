@@ -1,4 +1,3 @@
-// API for the Code Editor
 import axios from "axios";
 import { LANGUAGE_VERSIONS } from "../components/features/CodeEditor/Constants.jsx";
 
@@ -19,5 +18,15 @@ export const executeCode = async (language, sourceCode) => {
   return response.data;
 };
 
+// Add the new submitCodeSnippet function
+export const submitCodeSnippet = async ({ title, description, language, sourceCode }) => {
+  const response = await API.post("/submit", {
+    title,
+    description,
+    language,
+    sourceCode,
+  });
+  return response.data;
+};
+
 export default API;
-// Add more APIS for other parts here.

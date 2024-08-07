@@ -11,6 +11,7 @@ const Footer = () => {
         <Spacer />
         <NavFooter />
         <Spacer />
+        <Spacer />
       </Flex>
 
       <Flex justifyContent='center'>

@@ -13,12 +13,12 @@ const ProblemCard = ({ problem }) => {
   const LanguageIcon = languageIcons[problem.primaryLanguage] || FaCode;
 
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} mb={4}>
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} mb={4} bg='palette.darkgrey' borderColor='palette.grey' boxShadow='2px 0px 5px 2px '>
       <HStack spacing={2} mb={2}>
-        <Icon as={LanguageIcon} w={6} h={6} />
-        <Heading size="md">{problem.title}</Heading>
+        <Icon as={LanguageIcon} w={6} h={6} color='palette.white' />
+        <Heading size="md" color='palette.white'>{problem.title}</Heading>
       </HStack>
-      <Text noOfLines={2} mb={2}>
+      <Text noOfLines={2} mb={2} color='palette.white'>
         {problem.description}
       </Text>
       <HStack spacing={2}>

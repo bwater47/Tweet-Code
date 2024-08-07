@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
-import { QUERY_CHECKOUT } from "../graphQL/queries";
+import { QUERY_CHECKOUT, QUERY_DONATION } from "../graphQL/queries";
 import Auth from "./AuthService";
 
 const stripePromise = loadStripe(
@@ -9,7 +9,9 @@ const stripePromise = loadStripe(
 );
 
 const useDonationButton = () => {
-  const [getCheckout, { data: checkoutData, error: queryError }] =
+  const [getDonation, { data: donationData, error: donationError }] =
+    useLazyQuery(QUERY_DONATION);
+  const [getCheckout, { data: checkoutData, error: checkoutError }] =
     useLazyQuery(QUERY_CHECKOUT);
 
   const handleDonation = () => {
@@ -18,20 +20,35 @@ const useDonationButton = () => {
       return;
     }
 
-    const donationId = "someDonationId"; // Replace with the actual donation ID you want to pass to the server
+    const donationId = "66b2b99c2ec98c32d72e6116"; // Replace with the actual donation ID you want to pass to the server
 
-    console.log("Initiating checkout with donation amount:");
+    console.log("Initiating donation fetch with donation ID:", donationId);
 
-    getCheckout({
-      variables: { donations: [donationId] },
+    getDonation({
+      variables: { _id: donationId },
     }).catch((err) => {
-      console.error("Error executing GraphQL query:", err);
+      console.error("Error executing GraphQL query for donation:", err);
     });
   };
 
   useEffect(() => {
+    if (donationData) {
+      console.log("Donation data fetched:", donationData);
+
+      getCheckout({
+        variables: { donations: [donationData.donation._id] },
+      }).catch((err) => {
+        console.error("Error executing GraphQL query for checkout:", err);
+      });
+    } else if (donationError) {
+      console.error("GraphQL Query Error for donation:", donationError);
+    }
+  }, [donationData, donationError, getCheckout]);
+
+  useEffect(() => {
     if (checkoutData) {
-      stripePromise
+      console.log(checkoutData);
+        stripePromise
         .then((stripe) => {
           if (stripe) {
             return stripe.redirectToCheckout({
@@ -44,10 +61,10 @@ const useDonationButton = () => {
         .catch((err) => {
           console.error("Stripe redirect error:", err);
         });
-    } else if (queryError) {
-      console.error("GraphQL Query Error:", queryError);
+    } else if (checkoutError) {
+      console.error("GraphQL Query Error for checkout:", checkoutError);
     }
-  }, [checkoutData, queryError]);
+  }, [checkoutData, checkoutError]);
 
   return handleDonation;
 };

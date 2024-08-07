@@ -12,17 +12,18 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { useAuth } from "../../hooks/useAuth.jsx";
+// import { useAuth } from "../../hooks/useAuth.jsx";
+import Auth from "../../hooks/AuthService.js";
 import SearchBar from "../../hooks/SearchBar.jsx";
-
+const token = Auth.getToken();
 const NavHeader = ({ handlePageChange }) => {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
+  // const { isLoggedIn, logout } = useAuth();
 
   const handleAuthAction = () => {
-    if (isLoggedIn) {
-      logout();
+    if (token.isLoggedIn()) {
+      token.logout();
       // The logout function in AuthService handles redirection.
     } else {
       navigate("/registration");
@@ -41,7 +42,7 @@ const NavHeader = ({ handlePageChange }) => {
 
           <Show below="sm">
             <Box height="100%" alignContent="center" mr={1}>
-            <SearchBar placeholder="Search" w="200px" p={4}/>
+            <SearchBar placeholder="..." w="100px" p={1}/>
             </Box>
           </Show>
 
@@ -78,7 +79,7 @@ const NavHeader = ({ handlePageChange }) => {
                 onClick={handleAuthAction}
                 _hover={{color: 'palette.orange'}}
               >
-                {isLoggedIn ? "Logout" : "Login/Signup"}
+                {Auth.loggedIn() ? "Logout" : "Login/Signup"}
               </Link>
             </Flex>
           </Show>
@@ -101,7 +102,7 @@ const NavHeader = ({ handlePageChange }) => {
                     Dashboard
                   </MenuItem>
                   <MenuItem onClick={handleAuthAction}>
-                    {isLoggedIn ? "Logout" : "Login/SignUp"}
+                    {Auth.loggedIn() ? "Logout" : "Login/SignUp"}
                   </MenuItem>
                 </MenuList>
               </Menu>

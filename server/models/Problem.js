@@ -13,7 +13,7 @@ const problemSchema = new Schema({
   },
   code: {
     type: String,
-    default: "",
+    required: true,
   },
   programmingLanguage: {
     type: String,
