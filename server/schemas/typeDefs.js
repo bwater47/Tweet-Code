@@ -65,7 +65,7 @@ const typeDefs = `
     _id: ID
     name: String
     description: String
-    amount: Float
+    price: Int
   }
 
   type DonationTransaction {
@@ -90,8 +90,9 @@ const typeDefs = `
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment
-    donations: [Donation]  # Add this line
-    donation(_id: ID!): Donation  # Add this line
+    donations: [Donation]
+    donation(_id: ID!): Donation
+    donationtransaction(_id: ID!): DonationTransaction
     checkout(donations: [ID]!): Checkout  # Add this line if you want to keep the checkout functionality
   }
 
@@ -128,7 +129,7 @@ const typeDefs = `
     
     # Donation Transaction
     # This mutation handles making a donation
-    makeDonation(donationId: ID!, amount: Float!): DonationTransaction
+    makeDonationTransaction(donationId: ID!): DonationTransaction
     
     # Comment Management for Replys
     # These mutations handle replying to existing comments
