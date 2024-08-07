@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
   User,
   Donation,
@@ -10,13 +11,36 @@ import stripe from "../utils/stripe.js";
 export const resolvers = {
   Query: {
     me: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: "donationTransactions.donations",
-        });
-        return user;
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
       }
-      throw new AuthenticationError("Not logged in");
+      try {
+        const user = await User.findById(context.user._id)
+          .populate({
+            path: "problems",
+            select: "_id title description",
+          })
+          .populate({
+            path: "comments",
+            select: "_id content createdAt",
+          })
+          .populate({
+            path: "donationTransactions",
+            populate: {
+              path: "donations",
+              select: "_id name description price",
+            },
+          });
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        return user;
+      } catch (error) {
+        console.error("Error in me query:", error);
+        throw new Error("Failed to fetch user data");
+      }
     },
     donations: async (parent, {}) => {
       return await Donation.find();
@@ -46,18 +70,18 @@ export const resolvers = {
       throw new AuthenticationError("User not authenticated");
     },
     checkout: async (parent, args, context) => {
-      console.log('Checkout Started!');
+      console.log("Checkout Started!");
       const url = new URL(context.headers.referer).origin;
       const donationData = args.donations;
       console.log(donationData);
-      const donationtransaction = await DonationTransaction.create({ donations: [donationData] });
+      const donationtransaction = await DonationTransaction.create({
+        donations: [donationData],
+      });
       // const donationtransaction = new DonationTransaction({ donations: args.donations });
       // await donationtransaction.save();
       const line_items = [];
 
-      const { donations } = await donationtransaction.populate(
-        "donations"
-      );
+      const { donations } = await donationtransaction.populate("donations");
       // for (let i = 0; i < donations.length; i++) {
       line_items.push({
         price_data: {
@@ -84,7 +108,7 @@ export const resolvers = {
       //   quantity: 1,
       // });
       // }
-      console.log('Checkout query hit!')
+      console.log("Checkout query hit!");
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items,
@@ -92,7 +116,7 @@ export const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
-      console.log('Checkout session created!');
+      console.log("Checkout session created!");
 
       return { session: session.id };
     },
@@ -114,23 +138,35 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (
-      parent,
-      { firstName, lastName, username, email, password }
-    ) => {
+    addUser: async (parent, args) => {
       try {
-        const user = await User.create({
-          firstName,
-          lastName,
-          username,
-          email,
-          password,
+        // Check if user already exists
+        const existingUser = await User.findOne({ email: args.email });
+        if (existingUser) {
+          throw new GraphQLError("A user with this email already exists");
+        }
+
+        // Create new user
+        const user = await User.create(args);
+
+        // Generate token
+        const token = signToken({
+          _id: user._id,
+          email: user.email,
+          username: user.username,
         });
-        const token = signToken(user);
+
+        if (!token) {
+          throw new Error("Failed to generate token");
+        }
+
+        console.log("User created successfully:", user.username);
+        console.log("Token generated:", token);
+
         return { token, user };
       } catch (error) {
-        console.error(error);
-        throw new AuthenticationError("Error creating user");
+        console.error("Error in addUser mutation:", error);
+        throw new AuthenticationError("Failed to create new user");
       }
     },
     makeDonationTransaction: async (parent, { donationId }, context) => {
@@ -163,22 +199,42 @@ export const resolvers = {
     login: async (parent, { email, password }) => {
       try {
         const user = await User.findOne({ email });
+
         if (!user) {
-          throw new AuthenticationError(
-            "No user found with this email address"
-          );
+          throw AuthenticationError;
         }
 
         const correctPw = await user.isCorrectPassword(password);
+
         if (!correctPw) {
-          throw new AuthenticationError("Incorrect password");
+          throw AuthenticationError;
         }
 
-        const token = signToken(user);
+        const token = signToken({
+          _id: user._id,
+          email: user.email,
+          username: user.username,
+        });
+
+        if (!token) {
+          throw new GraphQLError("Failed to generate token", {
+            extensions: { code: "INTERNAL_SERVER_ERROR" },
+          });
+        }
+
+        console.log("User logged in successfully:", user.username);
+        console.log("Token generated:", token);
+
         return { token, user };
       } catch (error) {
-        console.error(error);
-        throw new AuthenticationError("Error logging in");
+        console.error("Error in login mutation:", error);
+        if (error === AuthenticationError) {
+          throw error;
+        } else {
+          throw new GraphQLError("An error occurred during login", {
+            extensions: { code: "INTERNAL_SERVER_ERROR" },
+          });
+        }
       }
     },
     // Problem Management
