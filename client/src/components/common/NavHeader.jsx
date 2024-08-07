@@ -41,7 +41,7 @@ const NavHeader = ({ handlePageChange }) => {
 
           <Show below="sm">
             <Box height="100%" alignContent="center" mr={1}>
-            <SearchBar placeholder="Search" w="200px" p={4}/>
+            <SearchBar placeholder="..." w="100px" p={1}/>
             </Box>
           </Show>
 
