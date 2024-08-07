@@ -58,33 +58,29 @@ export const resolvers = {
       //   "donations"
       // );
       // for (let i = 0; i < donations.length; i++) {
-        line_items.push({
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: donationData.name,
-            },
-            unit_amount: donationData.price * 100,
+      line_items.push({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: donationData.name,
           },
-          quantity: 1,
-        });
+          unit_amount: donationData.price * 100,
+        },
+        quantity: 1,
+      });
 
-
-
-
-
-        // const donation = await stripe.donations.create({
-        //   name: donations[i].name,
-        //   description: donations[i].description,
-        // });
-        // const price = await stripe.prices.create({
-        //   donation: donation.id,
-        //   unit_amount: donations[i].price * 100,
-        //   currency: "usd",
-        // });
-        // line_items.push({
-        //   price: price.id,
-        // });
+      // const donation = await stripe.donations.create({
+      //   name: donations[i].name,
+      //   description: donations[i].description,
+      // });
+      // const price = await stripe.prices.create({
+      //   donation: donation.id,
+      //   unit_amount: donations[i].price * 100,
+      //   currency: "usd",
+      // });
+      // line_items.push({
+      //   price: price.id,
+      // });
       // }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -104,7 +100,6 @@ export const resolvers = {
         throw new Error("Failed to fetch problems");
       }
     },
-
     problem: async (parent, { _id }) => {
       try {
         return await Problem.findById(_id).populate("author");
@@ -181,6 +176,69 @@ export const resolvers = {
         console.error(error);
         throw new AuthenticationError("Error logging in");
       }
+    },
+    // Problem Management
+    createProblem: async (
+      parent,
+      { title, description, programmingLanguage, code, tags, coinReward },
+      context
+    ) => {
+      if (context.user) {
+        const problem = await Problem.create({
+          title,
+          description,
+          programmingLanguage,
+          code,
+          tags,
+          coinReward,
+          author: context.user._id,
+        });
+
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { problems: problem._id },
+        });
+
+        return problem.populate("author");
+      }
+      throw new AuthenticationError("Not logged in");
+    },
+    updateProblem: async (
+      parent,
+      { id, title, description, programmingLanguage, code, tags, coinReward },
+      context
+    ) => {
+      if (context.user) {
+        const problem = await Problem.findByIdAndUpdate(
+          id,
+          {
+            title,
+            description,
+            programmingLanguage,
+            code,
+            tags,
+            coinReward,
+          },
+          { new: true }
+        ).populate("author");
+
+        return problem;
+      }
+      throw new AuthenticationError("Not logged in");
+    },
+    deleteProblem: async (parent, { id }, context) => {
+      if (context.user) {
+        const problem = await Problem.findByIdAndDelete(id);
+
+        if (problem) {
+          await User.findByIdAndUpdate(context.user._id, {
+            $pull: { problems: id },
+          });
+          return true;
+        }
+
+        return false;
+      }
+      throw new AuthenticationError("Not logged in");
     },
   },
 };

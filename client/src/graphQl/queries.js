@@ -98,8 +98,8 @@ export const GET_PROBLEMS = gql`
       _id
       title
       description
-      code
       programmingLanguage
+      code
       tags
       coinReward
       author {
