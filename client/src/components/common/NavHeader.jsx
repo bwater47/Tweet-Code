@@ -1,8 +1,6 @@
-// import SearchBar from "../../hooks/SearchBar";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
-  Button,
   Flex,
   Link,
   Menu,
@@ -15,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../hooks/useAuth.jsx";
+import SearchBar from "../../hooks/SearchBar.jsx";
 
 const NavHeader = ({ handlePageChange }) => {
   const location = useLocation();
@@ -33,16 +32,16 @@ const NavHeader = ({ handlePageChange }) => {
   return (
     <>
       <nav>
-        <Flex alignContent="center" height="100%">
+        <Flex alignContent="center" height="100%" >
           <Show above="sm">
             <Box height="100%" alignContent="center" mr={1}>
-              <Input placeholder="Search" w="200px" p={4} />
+              <SearchBar placeholder="Search" w="200px" p={4}  _focus={{borderColor: 'palette.cyan'}}/>
             </Box>
           </Show>
 
           <Show below="sm">
             <Box height="100%" alignContent="center" mr={1}>
-              <Input placeholder="Search" w="100px" p={4} />
+            <SearchBar placeholder="Search" w="200px" p={4}/>
             </Box>
           </Show>
 
@@ -54,6 +53,7 @@ const NavHeader = ({ handlePageChange }) => {
                 color="palette.white"
                 p={4}
                 alignContent="center"
+                _hover={{color: 'palette.purple'}}
               >
                 Home
               </Link>
@@ -64,6 +64,7 @@ const NavHeader = ({ handlePageChange }) => {
                 color="palette.white"
                 p={4}
                 alignContent="center"
+                _hover={{color: 'palette.red'}}
               >
                 Dashboard
               </Link>
@@ -75,6 +76,7 @@ const NavHeader = ({ handlePageChange }) => {
                 p={4}
                 alignContent="center"
                 onClick={handleAuthAction}
+                _hover={{color: 'palette.orange'}}
               >
                 {isLoggedIn ? "Logout" : "Login/Signup"}
               </Link>

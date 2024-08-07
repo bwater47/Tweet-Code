@@ -9,7 +9,7 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import CodeEditor from "../components/featurez/CodeEditor/CodeEditor.jsx";
+import CodeEditor from "../components/features/CodeEditor/CodeEditor.jsx";
 
 function CreatePost() {
   const [title, setTitle] = useState("");

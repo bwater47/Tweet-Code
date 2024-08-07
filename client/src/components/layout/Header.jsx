@@ -11,7 +11,7 @@ const Header = () => {
     return (
         <>
         <header> 
-            <Flex w="100%" p={0} bg ='palette.darkgrey'>
+            <Flex w="100%" p={0} bg ='palette.darkgrey' borderBottom='2px' borderColor='palette.grey'>
                 <Link href='/'>
                     <Box >
                         <Stack direction='row' spacing='5px'>

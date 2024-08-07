@@ -17,7 +17,7 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 export const QUERY_ALL_DONATIONS = gql`
-query getAllDonations {
+  query getAllDonations {
     donations {
       _id
       name
@@ -59,15 +59,53 @@ export const QUERY_USER = gql`
   }
 `;
 
-export const QUERY_DASHBOARD_USER = gql`
-  query GetDashboardUser {
+export const QUERY_ME = gql`
+  query me {
     me {
-      firstName
-      lastName
-      email
-      coins
       _id
       username
+      email
+      coins
+      firstName
+      lastName
+      problems {
+        _id
+        title
+        description
+      }
+      comments {
+        _id
+        content
+        createdAt
+      }
+      donationTransactions {
+        _id
+        purchaseDate
+        donations {
+          _id
+          name
+          description
+          price
+        }
+      }
     }
   }
 `;
+
+export const GET_PROBLEMS = gql`
+  query GetProblems {
+    problems {
+      _id
+      title
+      description
+      code
+      programmingLanguage
+      tags
+      coinReward
+      author {
+        username
+      }
+    }
+  }
+`;
+

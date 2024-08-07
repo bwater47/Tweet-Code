@@ -1,50 +1,67 @@
-import { User, Donation, DonationTransaction } from "../models/index.js";
+import {
+  User,
+  Donation,
+  DonationTransaction,
+  Problem,
+} from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "../utils/stripe.js";
 
 export const resolvers = {
   Query: {
+    me: async (parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: "donationTransactions.donations",
+        });
+        return user;
+      }
+      throw new AuthenticationError("Not logged in");
+    },
     donations: async (parent, {}) => {
       return await Donation.find();
     },
     donation: async (parent, { _id }) => {
       return await Donation.findById(_id);
     },
-    user: async (parent, args, context) => {
+    user: async (_, __, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
           path: "donationtransactions.donations",
         });
-        user.donations.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.donationtransactions.sort(
+          (a, b) => b.purchaseDate - a.purchaseDate
+        );
         return user;
       }
       throw new AuthenticationError("User not authenticated");
     },
-    donation: async (parent, { _id }, context) => {
+    donationtransaction: async (_, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: "donationtransactions.donations",
+          path: "donationtransaction.donations",
         });
-        return user.donations.find((d) => d._id.toString() === _id);
+        return user.donationtransaction.id(_id);
       }
       throw new AuthenticationError("User not authenticated");
     },
-    checkout: async (parent, { donations }, context) => {
+    checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const donationTransaction = new DonationTransaction({ donations });
+      const donationtransaction = new DonationTransaction({
+        donations: args.donations,
+      });
+      await donationtransaction.save();
       const line_items = [];
 
-      const { donations: donationList } = await donationTransaction.populate(
-        "donations"
-      );
-      for (let i = 0; i < donationList.length; i++) {
-        const donation = await stripe.products.create({
-          name: donationList[i].name,
-          description: donationList[i].description,
+      const { donations } = await donationtransaction.populate("donations");
+      for (let i = 0; i < donations.length; i++) {
+        const donation = await stripe.donations.create({
+          name: donations[i].name,
+          description: donations[i].description,
         });
         const price = await stripe.prices.create({
-          product: donation.id,
-          unit_amount: donationList[i].amount * 100,
+          donation: donation.id,
+          unit_price: donations[i].price * 100,
           currency: "usd",
         });
         line_items.push({
@@ -61,6 +78,23 @@ export const resolvers = {
       });
 
       return { session: session.id };
+    },
+    problems: async () => {
+      try {
+        return await Problem.find().populate("author");
+      } catch (error) {
+        console.error("Error fetching problems:", error);
+        throw new Error("Failed to fetch problems");
+      }
+    },
+
+    problem: async (parent, { _id }) => {
+      try {
+        return await Problem.findById(_id).populate("author");
+      } catch (error) {
+        console.error("Error fetching problem:", error);
+        throw new Error("Failed to fetch problem");
+      }
     },
   },
   Mutation: {
@@ -83,16 +117,15 @@ export const resolvers = {
         throw new AuthenticationError("Error creating user");
       }
     },
-    makeDonation: async (parent, { donationId, amount }, context) => {
+    makeDonationTransaction: async (parent, { donationId }, context) => {
       if (context.user) {
-        const donationTransaction = new DonationTransaction({
+        const donationtransaction = new DonationTransaction({
           donations: [donationId],
         });
-        await donationTransaction.save();
         await User.findByIdAndUpdate(context.user._id, {
-          $push: { donationTransactions: donationTransaction },
+          $push: { donationtransactions: donationtransaction },
         });
-        return donationTransaction;
+        return donationtransaction;
       }
       throw new AuthenticationError("Not logged in");
     },
