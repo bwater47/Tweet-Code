@@ -5,14 +5,15 @@ import jwt from "jsonwebtoken";
 const secret = process.env.JWT_SECRET || "mysecretssshhhhhhh";
 const expiration = "2h";
 
-export const AuthenticationError = new GraphQLError(
-  "Could not authenticate user.",
-  {
-    extensions: {
-      code: "UNAUTHENTICATED",
-    },
+export class AuthenticationError extends GraphQLError {
+  constructor(message) {
+    super(message, {
+      extensions: {
+        code: "UNAUTHENTICATED",
+      },
+    });
   }
-);
+}
 
 export function authMiddleware({ req }) {
   // Allows token to be sent via req.body, req.query, or headers.

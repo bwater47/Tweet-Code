@@ -4,6 +4,15 @@ import stripe from "../utils/stripe.js";
 
 export const resolvers = {
   Query: {
+    me: async (parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: "donationTransactions.donations",
+        });
+        return user;
+      }
+      throw new AuthenticationError("Not logged in");
+    },
     donations: async (parent, {}) => {
       return await Donation.find();
     },
@@ -15,7 +24,9 @@ export const resolvers = {
         const user = await User.findById(context.user._id).populate({
           path: "donationtransactions.donations",
         });
-        user.donationtransactions.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.donationtransactions.sort(
+          (a, b) => b.purchaseDate - a.purchaseDate
+        );
         return user;
       }
       throw new AuthenticationError("User not authenticated");
@@ -31,13 +42,13 @@ export const resolvers = {
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const donationtransaction = new DonationTransaction({ donations: args.donations });
+      const donationtransaction = new DonationTransaction({
+        donations: args.donations,
+      });
       await donationtransaction.save();
       const line_items = [];
 
-      const { donations } = await donationtransaction.populate(
-        "donations"
-      );
+      const { donations } = await donationtransaction.populate("donations");
       for (let i = 0; i < donations.length; i++) {
         const donation = await stripe.donations.create({
           name: donations[i].name,
@@ -86,7 +97,9 @@ export const resolvers = {
     },
     makeDonationTransaction: async (parent, { donationId }, context) => {
       if (context.user) {
-        const donationtransaction = new DonationTransaction({ donations: [donationId] });
+        const donationtransaction = new DonationTransaction({
+          donations: [donationId],
+        });
         await User.findByIdAndUpdate(context.user._id, {
           $push: { donationtransactions: donationtransaction },
         });
