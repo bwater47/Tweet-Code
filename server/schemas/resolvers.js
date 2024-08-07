@@ -46,17 +46,18 @@ export const resolvers = {
       throw new AuthenticationError("User not authenticated");
     },
     checkout: async (parent, args, context) => {
+      console.log('Checkout Started!');
       const url = new URL(context.headers.referer).origin;
       const donationData = args.donations;
       console.log(donationData);
-      await DonationTransaction.create({ donations: donationData });
+      const donationtransaction = await DonationTransaction.create({ donations: [donationData] });
       // const donationtransaction = new DonationTransaction({ donations: args.donations });
       // await donationtransaction.save();
       const line_items = [];
 
-      // const { donations } = await donationtransaction.populate(
-      //   "donations"
-      // );
+      const { donations } = await donationtransaction.populate(
+        "donations"
+      );
       // for (let i = 0; i < donations.length; i++) {
       line_items.push({
         price_data: {
@@ -69,19 +70,21 @@ export const resolvers = {
         quantity: 1,
       });
 
-      // const donation = await stripe.donations.create({
+      // const donation = await stripe.products.create({
       //   name: donations[i].name,
       //   description: donations[i].description,
       // });
       // const price = await stripe.prices.create({
-      //   donation: donation.id,
+      //   product: donation.id,
       //   unit_amount: donations[i].price * 100,
       //   currency: "usd",
       // });
       // line_items.push({
       //   price: price.id,
+      //   quantity: 1,
       // });
       // }
+      console.log('Checkout query hit!')
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items,
@@ -89,6 +92,7 @@ export const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
+      console.log('Checkout session created!');
 
       return { session: session.id };
     },

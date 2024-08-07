@@ -25,7 +25,7 @@ const useDonationButton = () => {
     console.log("Initiating donation fetch with donation ID:", donationId);
 
     getDonation({
-      variables: { donationId },
+      variables: { _id: donationId },
     }).catch((err) => {
       console.error("Error executing GraphQL query for donation:", err);
     });
@@ -47,7 +47,8 @@ const useDonationButton = () => {
 
   useEffect(() => {
     if (checkoutData) {
-      stripePromise
+      console.log(checkoutData);
+        stripePromise
         .then((stripe) => {
           if (stripe) {
             return stripe.redirectToCheckout({
