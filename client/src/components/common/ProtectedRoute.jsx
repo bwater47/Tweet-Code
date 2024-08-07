@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth.jsx";
+import Auth from "../../hooks/AuthService.js";
+
+const token = Auth.getToken();
 
 const ProtectedRoute = () => {
-  const { isLoggedIn } = useAuth();
-
-  if (!isLoggedIn) {
+  if (token && typeof token.isLoggedIn === 'function' && token.isLoggedIn()) {
     return <Navigate to="/registration" replace />;
   }
 
@@ -12,3 +12,4 @@ const ProtectedRoute = () => {
 };
 
 export default ProtectedRoute;
+

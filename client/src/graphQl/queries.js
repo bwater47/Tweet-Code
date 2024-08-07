@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 export const QUERY_DONATION = gql`
-  query getDonation {
-    donation {
+  query getDonation($_id: ID!) {
+    donation(_id: $_id) {
       _id
       name
       description
@@ -98,8 +98,8 @@ export const GET_PROBLEMS = gql`
       _id
       title
       description
-      code
       programmingLanguage
+      code
       tags
       coinReward
       author {

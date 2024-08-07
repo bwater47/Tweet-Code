@@ -48,3 +48,74 @@ export const ADD_USER = gql`
     }
   }
 `;
+export const CREATE_PROBLEM = gql`
+  mutation CreateProblem(
+    $title: String!
+    $description: String!
+    $programmingLanguage: String!
+    $code: String!
+    $tags: [String]
+    $coinReward: Int
+  ) {
+    createProblem(
+      title: $title
+      description: $description
+      programmingLanguage: $programmingLanguage
+      code: $code
+      tags: $tags
+      coinReward: $coinReward
+    ) {
+      _id
+      title
+      description
+      programmingLanguage
+      code
+      tags
+      coinReward
+      createdAt
+      author {
+        username
+      }
+    }
+  }
+`;
+
+export const UPDATE_PROBLEM = gql`
+  mutation UpdateProblem(
+    $id: ID!
+    $title: String
+    $description: String
+    $programmingLanguage: String
+    $code: String
+    $tags: [String]
+    $coinReward: Int
+  ) {
+    updateProblem(
+      id: $id
+      title: $title
+      description: $description
+      programmingLanguage: $programmingLanguage
+      code: $code
+      tags: $tags
+      coinReward: $coinReward
+    ) {
+      _id
+      title
+      description
+      programmingLanguage
+      code
+      tags
+      coinReward
+      createdAt
+      author {
+        username
+      }
+    }
+  }
+`;
+
+export const DELETE_PROBLEM = gql`
+  mutation DeleteProblem($id: ID!) {
+    deleteProblem(id: $id)
+  }
+`;
