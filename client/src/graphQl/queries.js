@@ -17,7 +17,7 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 export const QUERY_ALL_DONATIONS = gql`
-query getAllDonations {
+  query getAllDonations {
     donations {
       _id
       name
@@ -68,6 +68,23 @@ export const QUERY_DASHBOARD_USER = gql`
       coins
       _id
       username
+    }
+  }
+`;
+
+export const GET_PROBLEMS = gql`
+  query GetProblems {
+    problems {
+      _id
+      title
+      description
+      code
+      programmingLanguage
+      tags
+      coinReward
+      author {
+        username
+      }
     }
   }
 `;

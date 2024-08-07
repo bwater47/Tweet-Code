@@ -26,7 +26,7 @@ const typeDefs = `
     title: String!
     description: String!
     code: String
-    language: String!
+    programmingLanguage: String!
     author: User!
     createdAt: String
     solutions: [Solution]
