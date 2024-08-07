@@ -14,7 +14,7 @@ import SocialIcons from "../components/features/Developers/SocialIcons.jsx";
 
 const Devs = () => {
   return (
-    <Box bgGradient="linear(palette.darkgrey, palette.gradpurple, palette.darkgrey)" minH="55vh" maxW="100%" p={5}>
+    <Box bgGradient="linear(palette.darkgrey, palette.gradorange, palette.darkgrey)" minH="55vh" maxW="100%" p={5}>
       <Heading as="h2" size="xl" textAlign="center" mb={10} textColor={theme.colors.palette.white}>
         Meet our team
       </Heading>

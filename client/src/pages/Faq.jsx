@@ -20,9 +20,10 @@ const FAQItem = ({ question, answer }) => {
     <Box
       borderWidth="1px"
       borderRadius="lg"
+      borderColor={theme.colors.palette.grey}
       overflow="hidden"
       mb={4}
-      bg={theme.colors.palette.purple} // Use the purple color from the theme
+      bg={theme.colors.palette.grey} // Use the purple color from the theme
       boxShadow="md"
     >
       <Box p={4} d="flex" justifyContent="space-between" alignItems="center">
@@ -33,7 +34,10 @@ const FAQItem = ({ question, answer }) => {
           icon={show ? <MinusIcon /> : <AddIcon />}
           onClick={() => setShow(!show)}
           variant="ghost"
-          colorScheme="gray"
+          bg = {theme.colors.palette.grey}
+          textColor={theme.colors.palette.cyan}
+          _hover={{ bg: theme.colors.palette.cyan, textColor: theme.colors.palette.grey }}
+          m={1}
         />
       </Box>
       <Collapse in={show} animateOpacity>
@@ -48,17 +52,17 @@ const FAQItem = ({ question, answer }) => {
 
 const FAQ = () => {
   return (
-    <Box className="container" maxW="container.xl" mx="auto" px={4} py={8}>
-      <Heading as="h1" textAlign="center" size="2xl" mb={6}>
+    <Box bgGradient="linear(palette.darkgrey, palette.gradcyan, palette.darkgrey)" px={4} py={8}>
+      <Heading textColor={theme.colors.palette.white} as="h1" textAlign="center" size="2xl" mb={6}>
         Frequently Asked Questions
       </Heading>
 
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
         <GridItem>
-          <Heading as="h2" size="lg" mb={4} textAlign="center">
+          <Heading textColor={theme.colors.palette.white} as="h2" size="lg" mb={4} textAlign="center">
             AdWare FAQs
           </Heading>
-          <Box className="space-y-4" textColor={theme.colors.palette.cyan}>
+          <Box className="space-y-4" textColor={theme.colors.palette.white}>
             <FAQItem
               question="What is AdWare?"
               answer="AdWare is the ultimate application for managing and optimizing your online advertisements. Think of it as the personal trainer for your ads, making sure they’re in peak condition to capture attention and drive results."
@@ -106,10 +110,10 @@ const FAQ = () => {
         </GridItem>
 
         <GridItem>
-          <Heading as="h2" size="lg" mb={4} textAlign="center">
+          <Heading textColor={theme.colors.palette.white} as="h2" size="lg" mb={4} textAlign="center">
             Tweet Code FAQs
           </Heading>
-          <Box className="space-y-4" textColor={theme.colors.palette.cyan}>
+          <Box className="space-y-4" textColor={theme.colors.palette.white}>
             <FAQItem
               question="What is Tweet Code?"
               answer="Tweet Code is the ultimate application for coding and posting your creations. Think of it as the social media platform where code gets to be a star, strutting its stuff and earning applause (and awards) for its brilliance."

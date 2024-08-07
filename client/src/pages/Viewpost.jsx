@@ -38,7 +38,7 @@ const ViewPost = () => {
     setNewComment('');
   };
   return (
-    <Box maxW="600px" mx="auto" mt={10} p={5} borderWidth={1} borderRadius="lg">
+    <Box bgGradient="linear(palette.darkgrey, palette.gradred, palette.darkgrey)" maxW="600px" mx="auto" mt={10} p={5} borderWidth={1} borderRadius="lg">
       <Flex alignItems="center" mb={4}>
         <Avatar src="https://bit.ly/dan-abramov" size="md" mr={3} />
         <Textarea
