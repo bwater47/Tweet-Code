@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import App from "./App.jsx";
 import "./styles/index.css";
 import Home from "./pages/Home.jsx";
@@ -14,11 +14,7 @@ import Registration from "./pages/Registration.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
-
-const client = new ApolloClient({
-  uri: "/graphql",
-  cache: new InMemoryCache(),
-});
+import client from "./utils/helpers.js";
 
 const router = createBrowserRouter([
   {

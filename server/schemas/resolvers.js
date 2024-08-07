@@ -47,28 +47,45 @@ export const resolvers = {
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const donationtransaction = new DonationTransaction({
-        donations: args.donations,
-      });
-      await donationtransaction.save();
+      const donationData = args.donations;
+      console.log(donationData);
+      await DonationTransaction.create({ donations: donationData });
+      // const donationtransaction = new DonationTransaction({ donations: args.donations });
+      // await donationtransaction.save();
       const line_items = [];
 
-      const { donations } = await donationtransaction.populate("donations");
-      for (let i = 0; i < donations.length; i++) {
-        const donation = await stripe.donations.create({
-          name: donations[i].name,
-          description: donations[i].description,
-        });
-        const price = await stripe.prices.create({
-          donation: donation.id,
-          unit_price: donations[i].price * 100,
-          currency: "usd",
-        });
+      // const { donations } = await donationtransaction.populate(
+      //   "donations"
+      // );
+      // for (let i = 0; i < donations.length; i++) {
         line_items.push({
-          price: price.id,
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: donationData.name,
+            },
+            unit_amount: donationData.price * 100,
+          },
           quantity: 1,
         });
-      }
+
+
+
+
+
+        // const donation = await stripe.donations.create({
+        //   name: donations[i].name,
+        //   description: donations[i].description,
+        // });
+        // const price = await stripe.prices.create({
+        //   donation: donation.id,
+        //   unit_amount: donations[i].price * 100,
+        //   currency: "usd",
+        // });
+        // line_items.push({
+        //   price: price.id,
+        // });
+      // }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items,
