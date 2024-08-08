@@ -9,6 +9,7 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import { request, gql } from 'graphql-request';
 import CodeEditor from "../components/features/CodeEditor/CodeEditor.jsx";
 
 function CreatePost() {
@@ -17,6 +18,15 @@ function CreatePost() {
   const [code, setCode] = useState("");
   const toast = useToast();
   const { isLoggedIn } = useAuth(); // Assuming useAuth provides isLoggedIn property
+
+  const CREATE_POST_MUTATION = gql`
+    mutation CreatePost($title: String!, $summary: String!, $code: String!) {
+      createPost(title: $title, summary: $summary, code: $code) {
+        success
+        message
+      }
+    }
+  `;
 
   const handleSubmit = async () => {
     if (!isLoggedIn) {
@@ -42,15 +52,9 @@ function CreatePost() {
     }
 
     try {
-      const response = await fetch("/api/create-post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, summary, code }),
-      });
+      const response = await request('http://localhost:3001/graphql', CREATE_POST_MUTATION, { title, summary, code });
 
-      if (response.ok) {
+      if (response.createPost.success) {
         toast({
           title: "Post created",
           description: "Your post has been successfully created",
@@ -62,7 +66,7 @@ function CreatePost() {
         setSummary("");
         setCode("");
       } else {
-        throw new Error("Failed to create post");
+        throw new Error(response.createPost.message);
       }
     } catch (error) {
       toast({
@@ -108,3 +112,5 @@ function CreatePost() {
 }
 
 export default CreatePost;
+
+
