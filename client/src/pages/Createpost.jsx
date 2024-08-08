@@ -14,6 +14,15 @@ import CodeEditor from "../components/features/CodeEditor/CodeEditor.jsx";
 
 const [createPost, { loading }] = useMutation(CREATE_POST_MUTATION);
 
+const CREATE_POST_MUTATION = gql`
+mutation CreatePost($title: String!, $summary: String!, $code: String!) {
+  createPost(title: $title, summary: $summary, code: $code) {
+    success
+    message
+  }
+}
+`;
+
 function CreatePost() {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
