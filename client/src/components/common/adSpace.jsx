@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
-import { Box, Image, Text } from "@chakra-ui/react";
+import { Box, Image} from "@chakra-ui/react";
 import adImage from "../../assets/ads/ad-Dino.webp";
 import { log } from "../../utils/adswitcher"
 

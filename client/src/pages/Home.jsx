@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Grid, GridItem, Text, Box, Show } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEMS } from "../graphQL/queries";

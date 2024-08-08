@@ -15,7 +15,6 @@ import ViewPost from "./pages/Viewpost.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 import client from "./utils/helpers.js";
-import { AuthProvider } from "./hooks/useAuth.jsx";
 
 const router = createBrowserRouter([
   {
@@ -63,11 +62,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <AuthProvider>
         <ApolloProvider client={client}>
           <RouterProvider router={router} />
         </ApolloProvider>
-      </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
