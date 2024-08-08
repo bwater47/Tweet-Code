@@ -14,11 +14,11 @@ import SocialIcons from "../components/features/Developers/SocialIcons.jsx";
 
 const Devs = () => {
   return (
-    <Box bgGradient="linear(palette.darkgrey, palette.gradorange, palette.darkgrey)" minH="55vh" maxW="100%" p={5}>
+    <Box bgGradient="linear(palette.darkgrey, palette.gradorange, palette.darkgrey)"  maxW="100%" p={5}>
       <Heading as="h2" size="xl" textAlign="center" mb={10} textColor={theme.colors.palette.white}>
         Meet our team
       </Heading>
-      <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={8}>
+      <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} minChildWidth='280px' spacing={10}>
         {devsData.map((dev) => (
           <Box
             key={dev.id}
@@ -28,6 +28,7 @@ const Devs = () => {
             borderColor={theme.colors.palette.lightgrey}
             textAlign="center"
             maxW="280px"
+            minW='100px'
             mx="auto"
             bg = {theme.colors.palette.lightgrey}
             // bgGradient="linear(palette.darkgrey, palette.white, palette.darkgrey)"
