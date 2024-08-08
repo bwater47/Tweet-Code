@@ -62,9 +62,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <ApolloProvider client={client}>
-        <RouterProvider router={router} />
-      </ApolloProvider>
+        <ApolloProvider client={client}>
+          <RouterProvider router={router} />
+        </ApolloProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

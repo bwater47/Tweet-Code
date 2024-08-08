@@ -31,10 +31,14 @@ const startApolloServer = async () => {
   app.use(
     "/graphql",
     expressMiddleware(server, {
-      context: authMiddleware,
+      context: async ({ req }) => {
+        // Add logging here
+        console.log("Request headers:", req.headers);
+        return authMiddleware({ req });
+      },
     })
   );
-
+  
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 

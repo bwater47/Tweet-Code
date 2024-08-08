@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { ADD_USER, LOGIN_USER } from "../graphQL/mutations.js";
@@ -51,7 +51,7 @@ const Registration = () => {
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const [login] = useMutation(LOGIN_USER);
   const toast = useToast();
   const navigate = useNavigate();
   const { login: authLogin } = useAuth();
