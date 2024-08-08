@@ -10,7 +10,7 @@ const languageIcons = {
 };
 
 const ProblemCard = ({ problem }) => {
-  const LanguageIcon = languageIcons[problem.primaryLanguage] || FaCode;
+  const LanguageIcon = languageIcons[problem.programmingLanguage] || FaCode;
 
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} mb={4} bg='palette.darkgrey' borderColor='palette.grey' boxShadow='2px 0px 5px 2px '>
