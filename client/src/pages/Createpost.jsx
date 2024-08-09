@@ -9,15 +9,28 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import { useMutation, gql } from "@apollo/client";
 import CodeEditor from "../components/features/CodeEditor/CodeEditor.jsx";
 
-function CreatePost() {
+
+const CREATE_POST_MUTATION = gql`
+mutation CreatePost($title: String!, $summary: String!, $code: String!) {
+  createPost(title: $title, summary: $summary, code: $code) {
+    success
+    message
+    }
+    }
+    `;
+    
+    function CreatePost() {
+  const [createPost, { loading }] = useMutation(CREATE_POST_MUTATION);
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [code, setCode] = useState("");
   const toast = useToast();
   const { isLoggedIn } = useAuth(); // Assuming useAuth provides isLoggedIn property
-
+  
+  
   const handleSubmit = async () => {
     if (!isLoggedIn) {
       toast({
@@ -29,7 +42,7 @@ function CreatePost() {
       });
       return;
     }
-
+    
     if (!title || !summary || !code) {
       toast({
         title: "Missing information",
@@ -40,17 +53,11 @@ function CreatePost() {
       });
       return;
     }
-
+    
     try {
-      const response = await fetch("/api/create-post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, summary, code }),
-      });
-
-      if (response.ok) {
+      const response = await request('http://localhost:3001/graphql', CREATE_POST_MUTATION, { title, summary, code });
+      
+      if (response.createPost.success) {
         toast({
           title: "Post created",
           description: "Your post has been successfully created",
@@ -62,7 +69,7 @@ function CreatePost() {
         setSummary("");
         setCode("");
       } else {
-        throw new Error("Failed to create post");
+        throw new Error(response.createPost.message);
       }
     } catch (error) {
       toast({
@@ -74,7 +81,7 @@ function CreatePost() {
       });
     }
   };
-
+  
   return (
     <Box p={4}>
       <Heading as="h1" size="lg" mb={4}>
@@ -86,12 +93,12 @@ function CreatePost() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-          />
+            />
           <Textarea
             placeholder="Summary"
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
-          />
+            />
         </Stack>
         <CodeEditor onCodeChange={setCode} />
         <Button
@@ -99,7 +106,7 @@ function CreatePost() {
           mt={4}
           onClick={handleSubmit}
           isDisabled={!isLoggedIn} // Optional: Disable button if not logged in
-        >
+          >
           Submit Post
         </Button>
       </Box>
@@ -108,3 +115,5 @@ function CreatePost() {
 }
 
 export default CreatePost;
+
+

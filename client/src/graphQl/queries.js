@@ -17,7 +17,7 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 export const QUERY_ALL_DONATIONS = gql`
-query getAllDonations {
+  query getAllDonations {
     donations {
       _id
       name
@@ -110,3 +110,19 @@ export const GET_PROBLEMS = gql`
   }
 `;
 
+export const GET_PROBLEM = gql`
+  query GetProblem($id: ID!) {
+    problem(id: $id) {
+      _id
+      title
+      description
+      programmingLanguage
+      code
+      tags
+      coinReward
+      author {
+        username
+      }
+    }
+  }
+`;
