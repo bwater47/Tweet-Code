@@ -5,7 +5,7 @@ import LanguageSelector from "./LanguageSelector.jsx";
 import { CODE_SNIPPETS } from "./Constants.jsx";
 import Output from "./Output.jsx";
 
-const CodeEditor = ({ onCodeChange }) => {
+const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
   const editorRef = useRef(null);
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
@@ -20,6 +20,9 @@ const CodeEditor = ({ onCodeChange }) => {
   const onSelect = (language) => {
     setLanguage(language);
     setValue(CODE_SNIPPETS[language]);
+    if (onLanguageChange) {
+      onLanguageChange(language);
+    }
   };
 
   useEffect(() => {
@@ -48,9 +51,7 @@ const CodeEditor = ({ onCodeChange }) => {
             onChange={(value) => setValue(value)}
           />
         </Box>
-        {isEditorReady && (
-          <Output editorRef={editorRef} language={language} />
-        )}
+        {isEditorReady && <Output editorRef={editorRef} language={language} />}
       </HStack>
     </Box>
   );
