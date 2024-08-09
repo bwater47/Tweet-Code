@@ -126,3 +126,12 @@ export const GET_PROBLEM = gql`
     }
   }
 `;
+
+export const GET_PROBLEM_TITLE = gql`
+  query GetProblemTitles {
+    problems {
+      _id
+      title
+    }
+  }
+`;

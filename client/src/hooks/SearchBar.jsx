@@ -8,53 +8,16 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_PROBLEM_TITLE } from "../graphQL/queries"; // Adjust the path as needed
 import theme from "../styles/theme.js";
 
-const data = [
-  {
-    title: "Example Problem 1",
-    description: "This is a description for problem 1.",
-    tags: ["javascript", "react"],
-    link: "/problem/1",
-  },
-  {
-    title: "Example Problem 2",
-    description: "This is a description for problem 2.",
-    tags: ["nodejs", "express"],
-    link: "/problem/2",
-  },
-  {
-    title: "Example Problem 3",
-    description: "This is a description for problem 1.",
-    tags: ["javascript", "react"],
-    link: "/problem/1",
-  },
-  {
-    title: "Example Problem 4",
-    description: "This is a description for problem 2.",
-    tags: ["nodejs", "express"],
-    link: "/problem/2",
-  },
-  {
-    title: "Example Problem 5",
-    description: "This is a description for problem 1.",
-    tags: ["javascript", "react"],
-    link: "/problem/1",
-  },
-  {
-    title: "Example Problem 6",
-    description: "This is a description for problem 2.",
-    tags: ["nodejs", "express"],
-    link: "/problem/2",
-  },
-  // Add more mock problems as needed
-];
-
 const SearchBar = ({ placeholder, w, p, _focus }) => {
-
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(-1);
+
+  const { data } = useQuery(GET_PROBLEM_TITLE);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -76,7 +39,6 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
       ) {
         setSelectedItem((prev) => prev + 1);
       } else if (e.key === "Enter" && selectedItem >= 0) {
-        // Using the Link component to navigate without opening a new tab
         window.location.href = searchData[selectedItem].link;
         setSearchData([]);
       }
@@ -86,15 +48,15 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
   };
 
   useEffect(() => {
-    if (search !== "") {
-      const newFilterData = data.filter((post) => {
-        return post.title.toLowerCase().includes(search.toLowerCase());
+    if (data && search !== "") {
+      const newFilterData = data.problems.filter((problem) => {
+        return problem.title.toLowerCase().includes(search.toLowerCase());
       });
       setSearchData(newFilterData);
     } else {
       setSearchData([]);
     }
-  }, [search]);
+  }, [search, data]);
 
   return (
     <Box w={w} p={p} mx="auto" m="2" position="relative">
@@ -126,16 +88,16 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
           position="absolute"
           width="100%"
           mt={2}
-          bg="palette.white" // The background color for the search results.
+          bg="palette.white"
           borderRadius="md"
           boxShadow="md"
           zIndex="1"
         >
-          {searchData.slice(0, 10).map((data, index) => (
+          {searchData.slice(0, 10).map((problem, index) => (
             <Box
               key={index}
               as={Link}
-              to={data.link}
+              to={`/problem/${problem._id}`}
               display="block"
               bg={selectedItem === index ? "palette.red" : "transparent"}
               borderRadius="md"
@@ -143,7 +105,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
               onMouseEnter={() => setSelectedItem(index)}
               onMouseLeave={() => setSelectedItem(-1)}
             >
-              {data.title}
+              {problem.title}
             </Box>
           ))}
         </Box>
