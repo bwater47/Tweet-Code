@@ -114,6 +114,26 @@ export const UPDATE_PROBLEM = gql`
   }
 `;
 
+export const UPDATE_USER = gql`
+  mutation UpdateUser(
+    $username: String
+    $firstName: String
+    $lastName: String
+  ) {
+    updateUser(
+      username: $username
+      firstName: $firstName
+      lastName: $lastName
+    ) {
+      _id
+      username
+      firstName
+      lastName
+      email
+    }
+  }
+`;
+
 export const DELETE_PROBLEM = gql`
   mutation DeleteProblem($id: ID!) {
     deleteProblem(id: $id)
