@@ -13,8 +13,9 @@ const TagFilter = ({ tags, selectedTags, onTagChange }) => {
         onChange={() => onTagChange(tag)}
         color='palette.white'
         mr={1}
+        maxLength={7}
         >
-          {tag}
+          {tag.length > 9 ? tag.substring(0,7)+ '...' : tag.trim() }
         </Checkbox>
       ))}
       </Flex>
