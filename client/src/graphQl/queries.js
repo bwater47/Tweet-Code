@@ -72,6 +72,7 @@ export const QUERY_ME = gql`
         _id
         title
         description
+        createdAt
       }
       comments {
         _id
