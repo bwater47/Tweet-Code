@@ -119,3 +119,16 @@ export const DELETE_PROBLEM = gql`
     deleteProblem(id: $id)
   }
 `;
+export const ADD_MEDAL_TO_USER = gql`
+mutation Mutation($userId: ID!, $medalId: ID!) {
+  addMedalToUser(userId: $userId, medalId: $medalId) {
+    _id
+    medals {
+      _id
+      title
+      description
+      price
+    }
+  }
+}
+`;

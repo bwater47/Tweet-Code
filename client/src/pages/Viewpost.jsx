@@ -42,7 +42,6 @@ const ViewPost = () => {
     <Box bgGradient="linear(palette.darkgrey, palette.gradred, palette.darkgrey)" maxW="600px" mx="auto" mt={10} p={5} borderWidth={1} borderRadius="lg">
       <Flex alignItems="center" mb={4}>
         <Avatar src="https://bit.ly/dan-abramov" size="md" mr={3} />
-        <Medals usermedals={[{title:'you Suck!', description: 'This guy really sucks'}]}/>
         <Textarea
           placeholder="Add a comment"
           value={newComment}
@@ -62,7 +61,7 @@ const ViewPost = () => {
               <Box ml={3}>
                 <HStack>
                 <Text fontWeight="bold">{comment.username}</Text>
-                <Medals usermedals={[{title:'you Suck!', description: 'This guy really sucks'}]}/>
+                <Medals userid='66b64c6a2c5d6b636e60c493'/>
                 </HStack>
                 <Text fontSize="sm" color="gray.500">
                   {comment.date}

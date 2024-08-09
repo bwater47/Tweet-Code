@@ -126,3 +126,13 @@ export const GET_PROBLEM = gql`
     }
   }
 `;
+export const GET_USER_MEDALS = gql`
+query Usermedals($id: ID!) {
+  usermedals(_id: $id) {
+    _id
+    title
+    description
+    price
+  }
+}
+`;

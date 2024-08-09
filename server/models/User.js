@@ -106,10 +106,10 @@ userSchema.methods.getDynamicMedals = function(){
     dynamicMedals.push({title:'Supreme Hoarder Medal', description: 'has collected over 5 Medals'})
   }
   else if(this.medals.length + dynamicMedals.length > 3){
-    dynamicMedals.push({title:'Participation Medal', description: 'has collected over 3 Medals'})
+    dynamicMedals.push({title:'The Collector', description: 'has collected over 3 Medals'})
   }
   else if(this.medals.length + dynamicMedals.length > 1){
-    dynamicMedals.push({title:'Participation Medal', description: 'has collected over 1 Medals'})
+    dynamicMedals.push({title:'A Humble Start', description: 'has collected over 1 Medals'})
   }
   
 

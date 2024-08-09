@@ -1,5 +1,7 @@
 import { HStack , Image, Tooltip} from '@chakra-ui/react'
-import {youSuck, goldCoin,bronzeCoin,silverCoin} from '../../assets/medals/index'
+import {youSuck, goldCoin,bronzeCoin,silverCoin,SupremeInsight,AdvancedInsight,Participation,SupremeHoarder,TheCollector,HumbleStart,ChampionSeeker,ExpertSeeker,NoviceSeeker} from '../../assets/medals/index'
+import { GET_USER_MEDALS } from '../../graphQL/queries';
+import { useQuery } from '@apollo/client';
 
 const Medal = ({medal}) => {
 
@@ -27,6 +29,51 @@ const Medal = ({medal}) => {
         thisMedal = goldCoin;
             
             break;
+        case 'Supreme Insight Award':
+
+        thisMedal = SupremeInsight;
+            
+            break;
+        case 'Advanced Insight Award':
+
+        thisMedal = AdvancedInsight;
+            
+            break;
+        case 'Participation Medal':
+
+        thisMedal = Participation;
+            
+            break;
+        case 'Supreme Hoarder Medal':
+
+        thisMedal = SupremeHoarder;
+            
+            break;
+        case 'The Collector':
+
+        thisMedal = TheCollector;
+            
+            break;
+        case 'A Humble Start':
+
+        thisMedal = HumbleStart;
+            
+            break;
+        case 'Champion Seeker':
+
+        thisMedal = ChampionSeeker;
+            
+            break;
+        case 'Expert Seeker':
+
+        thisMedal = ExpertSeeker;
+            
+            break;
+        case 'Novice Seeker':
+
+        thisMedal = NoviceSeeker;
+            
+            break;
     
         default:
             break;
@@ -48,14 +95,23 @@ return(
 }
 
 
-const Medals = ({usermedals}) => {
+const Medals = ({userid}) => {
+    const {loading, error, data} = useQuery(GET_USER_MEDALS, {
+        variables: {
+            id: userid,
+        }
+    });
+    if(loading){console.log(loading); return (<p>loading</p>)}
+    if(error){console.log(error); return( <Text>{error}</Text>)}
+    console.log(data);
 
-    const medals = usermedals;
+
+    const medals = [...data.usermedals]
 
   return (
     <HStack>
         {medals.map((medal) => (
-            <Medal key={medal.id} medal={medal} />
+            <Medal key={medal._id} medal={medal} />
         ))}
     </HStack>
   );
