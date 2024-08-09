@@ -20,13 +20,50 @@ import {
   List,
   ListItem,
   Badge,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../graphQL/queries.js";
 
+const ProblemModal = ({ isOpen, onClose, problems }) => (
+  <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent bg="palette.darkgrey">
+      <ModalHeader color="palette.white">My Problems</ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        <List spacing={3}>
+          {problems.map((problem) => (
+            <ListItem key={problem._id} color="palette.white">
+              <Text fontWeight="bold">{problem.title}</Text>
+              <Text fontSize="sm">{problem.description}</Text>
+            </ListItem>
+          ))}
+        </List>
+      </ModalBody>
+    </ModalContent>
+  </Modal>
+);
+
+ProblemModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  problems: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
+
 const Dashboard = () => {
-  const { loading, data, } = useQuery(QUERY_ME);
+  const { loading, error, data } = useQuery(QUERY_ME);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  console.log("QUERY_ME data:", data);
 
   if (loading)
     return (
@@ -40,27 +77,35 @@ const Dashboard = () => {
       </Box>
     );
 
+  if (error)
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        Error loading dashboard: {error.message}
+      </Alert>
+    );
+
   const user = data?.me || {};
 
-  const ProblemModal = () => (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent bg="palette.darkgrey">
-        <ModalHeader color="palette.white">My Problems</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <List spacing={3}>
-            {user.problems.map((problem) => (
-              <ListItem key={problem._id} color="palette.white">
-                <Text fontWeight="bold">{problem.title}</Text>
-                <Text fontSize="sm">{problem.description}</Text>
-              </ListItem>
-            ))}
-          </List>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
-  );
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  const recentActivity = [
+    ...(user.problems || []),
+    ...(user.comments || []),
+    ...(user.donationTransactions || []),
+  ]
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt || b.purchaseDate) -
+        new Date(a.createdAt || a.purchaseDate)
+    )
+    .slice(0, 5);
 
   return (
     <Box
@@ -90,7 +135,7 @@ const Dashboard = () => {
           <StatGroup>
             <Stat>
               <StatLabel>Coins</StatLabel>
-              <StatNumber>{user.coins}</StatNumber>
+              <StatNumber>{user.coins || 0}</StatNumber>
             </Stat>
           </StatGroup>
         </Box>
@@ -110,7 +155,12 @@ const Dashboard = () => {
               My Problems
             </Heading>
             <Text>Total: {user.problems?.length || 0}</Text>
-            <Button mt={2} colorScheme="purple" onClick={onOpen}>
+            <Button
+              mt={2}
+              colorScheme="purple"
+              onClick={onOpen}
+              isDisabled={!user.problems?.length}
+            >
               View All
             </Button>
           </Box>
@@ -161,22 +211,14 @@ const Dashboard = () => {
           <Heading size="md" mb={2}>
             Recent Activity
           </Heading>
-          <List spacing={3}>
-            {[
-              ...(user.problems || []),
-              ...(user.comments || []),
-              ...(user.donationTransactions || []),
-            ]
-              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-              .slice(0, 5)
-              .map((item, index) => (
+          {recentActivity.length > 0 ? (
+            <List spacing={3}>
+              {recentActivity.map((item, index) => (
                 <ListItem key={index}>
                   <Text>
                     {item.title ||
                       item.content ||
-                      `Donation on ${new Date(
-                        item.purchaseDate
-                      ).toLocaleDateString()}`}
+                      `Donation on ${formatDate(item.purchaseDate)}`}
                     <Badge
                       ml={2}
                       colorScheme={
@@ -190,13 +232,23 @@ const Dashboard = () => {
                         : "Donation"}
                     </Badge>
                   </Text>
+                  <Text fontSize="sm" color="gray.300">
+                    {formatDate(item.createdAt || item.purchaseDate)}
+                  </Text>
                 </ListItem>
               ))}
-          </List>
+            </List>
+          ) : (
+            <Text>No recent activity to display.</Text>
+          )}
         </Box>
       </VStack>
 
-      <ProblemModal />
+      <ProblemModal
+        isOpen={isOpen}
+        onClose={onClose}
+        problems={user.problems || []}
+      />
     </Box>
   );
 };
