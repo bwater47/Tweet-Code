@@ -27,7 +27,8 @@ const ProblemList = ({ problems }) => {
           <Button
             key={index}
             onClick={() => paginate(index + 1)}
-            colorScheme={currentPage === index + 1 ? "blue" : "gray"}
+            variant={currentPage === index + 1 ? "currentpage" : "otherpages"}
+            colorScheme={currentPage === index + 1 ? "yellow" : "purple"}
           >
             {index + 1}
           </Button>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, GridItem, Text, Box, Show } from "@chakra-ui/react";
+import { Grid, GridItem, Text, Box, Show, Hide } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEMS } from "../graphQL/queries";
 import ProblemList from "../components/common/problemList.jsx";
@@ -59,7 +59,9 @@ const Home = () => {
               onTagChange={handleTagChange}
             />
             <Box mt={6}>
+              
               <AdSpace />
+              
             </Box>
           </GridItem>
         </Grid>
