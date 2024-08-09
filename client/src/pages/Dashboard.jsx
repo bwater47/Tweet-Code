@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import {
   Box,
   VStack,
@@ -16,33 +16,33 @@ import {
   Badge,
   Alert,
   AlertIcon,
-  Input,
-  useToast,
   Divider,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
+  Image,
 } from "@chakra-ui/react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../graphQL/queries.js";
-import { UPDATE_USER } from "../graphQL/mutations.js";
 import { Link as RouterLink } from "react-router-dom";
 import DonationModal from "../components/common/DonationModal";
+import { UpdateProfile } from "../components/common/UpdateProfile";
 
 const Dashboard = () => {
   const { loading, error, data, refetch } = useQuery(QUERY_ME);
-  const [updateUser] = useMutation(UPDATE_USER);
   const {
     isOpen: isDonationModalOpen,
     onOpen: onDonationModalOpen,
     onClose: onDonationModalClose,
   } = useDisclosure();
-  const toast = useToast();
+  const {
+    isOpen: isUpdateProfileOpen,
+    onOpen: onUpdateProfileOpen,
+    onClose: onUpdateProfileClose,
+  } = useDisclosure();
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedUser, setEditedUser] = useState({});
 
   if (loading)
     return (
@@ -65,49 +65,6 @@ const Dashboard = () => {
     );
 
   const user = data?.me || {};
-
-  const handleEdit = () => {
-    setIsEditing(true);
-    setEditedUser({
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-    });
-  };
-
-  const handleSave = async () => {
-    try {
-      await updateUser({
-        variables: {
-          username: editedUser.username,
-          firstName: editedUser.firstName,
-          lastName: editedUser.lastName,
-        },
-      });
-      setIsEditing(false);
-      refetch();
-      toast({
-        title: "Profile updated",
-        description: "Your profile information has been successfully updated.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-    } catch (err) {
-      toast({
-        title: "Error",
-        description: "Failed to update profile. Please try again.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUser((prev) => ({ ...prev, [name]: value }));
-  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -148,61 +105,30 @@ const Dashboard = () => {
           borderRadius={10}
           borderColor="palette.grey"
         >
-          {isEditing ? (
-            <>
-              <Text color="palette.white">
-                <strong>Username:</strong>
-                <Input
-                  name="username"
-                  value={editedUser.username}
-                  onChange={handleInputChange}
-                  color="palette.white"
-                  ml={2}
-                />
-              </Text>
-              <Text>
-                <strong>First Name:</strong>
-                <Input
-                  name="firstName"
-                  value={editedUser.firstName}
-                  onChange={handleInputChange}
-                  color="palette.white"
-                  ml={2}
-                />
-              </Text>
-              <Text>
-                <strong>Last Name:</strong>
-                <Input
-                  name="lastName"
-                  value={editedUser.lastName}
-                  onChange={handleInputChange}
-                  color="palette.white"
-                  ml={2}
-                />
-              </Text>
-              <Button mt={2} colorScheme="green" onClick={handleSave}>
-                Save
-              </Button>
-            </>
-          ) : (
-            <>
-              <Text color="palette.white">
-                <strong>Username:</strong> {user.username}
-              </Text>
-              <Text>
-                <strong>First Name:</strong> {user.firstName}
-              </Text>
-              <Text>
-                <strong>Last Name:</strong> {user.lastName}
-              </Text>
-              <Button mt={2} colorScheme="blue" onClick={handleEdit}>
-                Update
-              </Button>
-            </>
-          )}
-          <Text>
-            <strong>Email:</strong> {user.email}
-          </Text>
+          <VStack spacing={4} align="flex-start">
+            <Image
+              borderRadius="full"
+              boxSize="150px"
+              src={user.avatar || "https://via.placeholder.com/150"}
+              alt={`${user.username}'s avatar`}
+              alignSelf="center"
+            />
+            <Text color="palette.white">
+              <strong>Username:</strong> {user.username}
+            </Text>
+            <Text>
+              <strong>First Name:</strong> {user.firstName}
+            </Text>
+            <Text>
+              <strong>Last Name:</strong> {user.lastName}
+            </Text>
+            <Text>
+              <strong>Email:</strong> {user.email}
+            </Text>
+            <Button colorScheme="blue" onClick={onUpdateProfileOpen}>
+              Update Profile
+            </Button>
+          </VStack>
           <Divider my={2} />
           <Text fontWeight="bold" mt={2}>
             Coins:
@@ -335,8 +261,16 @@ const Dashboard = () => {
         onClose={onDonationModalClose}
         donations={user.donationTransactions || []}
       />
+
+      <UpdateProfile
+        isOpen={isUpdateProfileOpen}
+        onClose={onUpdateProfileClose}
+        user={user}
+        refetch={refetch}
+      />
     </Box>
   );
 };
 
 export default Dashboard;
+
