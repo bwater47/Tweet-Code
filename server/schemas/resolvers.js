@@ -18,7 +18,7 @@ export const resolvers = {
         const user = await User.findById(context.user._id)
           .populate({
             path: "problems",
-            select: "_id title description",
+            select: "_id title description createdAt",
           })
           .populate({
             path: "comments",
@@ -39,7 +39,7 @@ export const resolvers = {
         return user;
       } catch (error) {
         console.error("Error in me query:", error);
-        throw new Error("Failed to fetch user data");
+        throw new Error(`Failed to fetch user data: ${error.message}`);
       }
     },
     donations: async (parent, {}) => {

@@ -34,7 +34,28 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
-  DonationTransaction: [DonationTransaction.schema],
+  coins: {
+    type: Number,
+    default: 0,
+  },
+  problems: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Problem",
+    },
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
+  donationTransactions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "DonationTransaction",
+    },
+  ],
 });
 
 // Set up pre-save middleware to create password.

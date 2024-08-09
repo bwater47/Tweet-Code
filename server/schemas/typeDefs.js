@@ -1,13 +1,30 @@
 const typeDefs = `
   type User {
     _id: ID
+    username: String!
     firstName: String!
     lastName: String!
-    username: String!
     email: String!
+    password: String!
     coins: Int
     problems: [Problem]
-    donationsMade: [DonationTransaction]
+    comments: [Comment]
+    donationTransactions: [DonationTransaction]
+  }
+
+  type Comment {
+    _id: ID
+    content: String!
+    author: User!
+    problem: Problem!
+    code: String
+    explanation: String
+    language: String
+    isSolution: Boolean
+    createdAt: String
+    updatedAt: String
+    votes: [Vote]
+    replies: [Comment]
   }
 
     type Auth {
@@ -41,17 +58,6 @@ const typeDefs = `
     explanation: String
     author: User!
     createdAt: String
-  }
-
-  type Comment {
-    _id: ID
-    content: String!
-    author: User!
-    createdAt: String
-    updatedAt: String
-    votes: [Vote]
-    replies: [Comment]
-    problem: Problem!
   }
 
   type Coin {
