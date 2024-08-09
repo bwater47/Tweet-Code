@@ -10,6 +10,8 @@ const typeDefs = `
     problems: [Problem]
     comments: [Comment]
     donationTransactions: [DonationTransaction]
+    medals: [Medal]
+    allmedals: [Medal]
   }
 
   type Comment {
@@ -90,10 +92,18 @@ const typeDefs = `
     user: User
   }
 
+  type Medal {
+    _id: ID
+    title: String!
+    description: String!
+    price: Int
+  }
+
   type Query {
     me: User
     users: [User]
     user(username: String!): User
+    usermedals(_id: ID!): [Medal]
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment
@@ -145,6 +155,10 @@ const typeDefs = `
     # Voting System for Comments
     # These mutations allow users to vote on comments
     voteComment(commentId: ID!, value: Int!): Comment
+
+    # Medal Management on Users
+    addMedalToUser(userId: ID!, medalId: ID!): User
+
   }
 `;
 

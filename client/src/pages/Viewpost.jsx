@@ -9,6 +9,7 @@ import {
   VStack,
   HStack,
 } from '@chakra-ui/react';
+import Medals from '../components/common/Medals.jsx';
 const commentsData = [
   {
     id: 1,
@@ -41,6 +42,7 @@ const ViewPost = () => {
     <Box bgGradient="linear(palette.darkgrey, palette.gradred, palette.darkgrey)" maxW="600px" mx="auto" mt={10} p={5} borderWidth={1} borderRadius="lg">
       <Flex alignItems="center" mb={4}>
         <Avatar src="https://bit.ly/dan-abramov" size="md" mr={3} />
+        <Medals usermedals={[{title:'you Suck!', description: 'This guy really sucks'}]}/>
         <Textarea
           placeholder="Add a comment"
           value={newComment}
@@ -58,7 +60,10 @@ const ViewPost = () => {
             <HStack alignItems="center" mb={2}>
               <Avatar src={comment.avatar} size="sm" />
               <Box ml={3}>
+                <HStack>
                 <Text fontWeight="bold">{comment.username}</Text>
+                <Medals usermedals={[{title:'you Suck!', description: 'This guy really sucks'}]}/>
+                </HStack>
                 <Text fontSize="sm" color="gray.500">
                   {comment.date}
                 </Text>

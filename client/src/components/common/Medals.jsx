@@ -1,4 +1,4 @@
-import { HStack , Image} from '@chakra-ui/react'
+import { HStack , Image, Tooltip} from '@chakra-ui/react'
 import {youSuck, goldCoin,bronzeCoin,silverCoin} from '../../assets/medals/index'
 
 const Medal = ({medal}) => {
@@ -34,13 +34,15 @@ const Medal = ({medal}) => {
 
 
 return(
+<Tooltip label={medal.description} fontSize='md'>
 
     <Image
   borderRadius='full'
-  boxSize='20px'
+  boxSize='30px'
   src={thisMedal}
   alt={medal.title}
 />
+  </Tooltip>
 );
 
 }

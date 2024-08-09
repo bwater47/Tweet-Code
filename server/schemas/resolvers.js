@@ -60,6 +60,18 @@ export const resolvers = {
       }
       throw new AuthenticationError("User not authenticated");
     },
+    usermedals: async (_, { _id }) => {
+      if (!_id) {
+        throw new Error('User ID is required');
+      }
+      const user = await User.findById(_id).populate('medals');
+      console.log('User:',user);
+      if (!user) {
+        throw new Error(`User with id ${_id} not found`);
+      }
+      return user.allMedals;
+    },
+  
     donationtransaction: async (_, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
@@ -191,6 +203,12 @@ export const resolvers = {
         }
       }
       throw new AuthenticationError("Not logged in");
+    },
+    addMedalToUser: async (parent, { userId, medalId }) => {
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $addToSet: { medals: medalId }
+      }, { new: true }).populate('medals');
+      return updatedUser;
     },
     // Keeping specific error messages during testing.
     // Will update all to a generic "Authentication Error" message for all afterwards.
