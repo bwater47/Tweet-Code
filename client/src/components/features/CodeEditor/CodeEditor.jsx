@@ -5,7 +5,9 @@ import LanguageSelector from "./LanguageSelector.jsx";
 import { CODE_SNIPPETS } from "./Constants.jsx";
 import Output from "./Output.jsx";
 
-const CodeEditor = ({ onCodeChange }) => {
+
+
+const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
   const editorRef = useRef(null);
   const [value, setValue] = useState("");
   const [language, setLanguage] = useState("javascript");
@@ -17,10 +19,7 @@ const CodeEditor = ({ onCodeChange }) => {
     setIsEditorReady(true); // Editor is now ready
   };
 
-  const onSelect = (language) => {
-    setLanguage(language);
-    setValue(CODE_SNIPPETS[language]);
-  };
+  const onSelect = (language) => { setLanguage(language); setValue(CODE_SNIPPETS[language]); if (onLanguageChange) { onLanguageChange(language); } };
 
   useEffect(() => {
     if (onCodeChange) {

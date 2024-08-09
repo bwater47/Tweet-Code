@@ -1,4 +1,5 @@
 import { useState } from "react";
+import{ CREATE_PROBLEM } from "../graphQL/mutations";
 import { useAuth } from "../hooks/useAuth.jsx";
 import {
   Box,
@@ -12,26 +13,22 @@ import {
 import { useMutation, gql } from "@apollo/client";
 import CodeEditor from "../components/features/CodeEditor/CodeEditor.jsx";
 
-
-const CREATE_POST_MUTATION = gql`
-mutation CreatePost($title: String!, $summary: String!, $code: String!) {
-  createPost(title: $title, summary: $summary, code: $code) {
-    success
-    message
-    }
-    }
-    `;
     
     function CreatePost() {
-  const [createPost, { loading }] = useMutation(CREATE_POST_MUTATION);
+  const [createProblem, { loading, error }] = useMutation(CREATE_PROBLEM);
   const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
+  const [description, setDescription] = useState("");
+  const [Language, setLanguage] = useState("");
   const [code, setCode] = useState("");
+  const [tags, setTags] = useState("");
   const toast = useToast();
-  const { isLoggedIn } = useAuth(); // Assuming useAuth provides isLoggedIn property
+  const { isLoggedIn } = useAuth(); 
   
+  const handleLanguageChange = (Language) => {
+    setLanguage(Language);
+  }
   
-  const handleSubmit = async () => {
+  const handleSubmit = async (problemData) => {
     if (!isLoggedIn) {
       toast({
         title: "Not Authenticated",
@@ -43,7 +40,7 @@ mutation CreatePost($title: String!, $summary: String!, $code: String!) {
       return;
     }
     
-    if (!title || !summary || !code) {
+    if (!title || !description || !code) {
       toast({
         title: "Missing information",
         description: "Please fill in all fields",
@@ -55,7 +52,16 @@ mutation CreatePost($title: String!, $summary: String!, $code: String!) {
     }
     
     try {
-      const response = await request('http://localhost:3001/graphql', CREATE_POST_MUTATION, { title, summary, code });
+      const { data } = await createProblem({ 
+        variables: { 
+          title,
+          description,
+          Language,
+          code,
+          tags,
+        },
+      });
+      
       
       if (response.createPost.success) {
         toast({
@@ -66,7 +72,7 @@ mutation CreatePost($title: String!, $summary: String!, $code: String!) {
           isClosable: true,
         });
         setTitle("");
-        setSummary("");
+        setDescription("");
         setCode("");
       } else {
         throw new Error(response.createPost.message);
@@ -95,12 +101,13 @@ mutation CreatePost($title: String!, $summary: String!, $code: String!) {
             onChange={(e) => setTitle(e.target.value)}
             />
           <Textarea
-            placeholder="Summary"
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
+            placeholder="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             />
+             
         </Stack>
-        <CodeEditor onCodeChange={setCode} />
+        <CodeEditor onCodeChange={setCode}onLanguageChange={handleLanguageChange} />
         <Button
           colorScheme="blue"
           mt={4}
