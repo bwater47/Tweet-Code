@@ -4,9 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { QUERY_CHECKOUT, QUERY_DONATION } from "../graphQL/queries";
 import Auth from "./AuthService";
 
-const stripePromise = loadStripe(
-  "pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm"
-);
+const stripePromise = loadStripe("pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm");
 
 const useDonationButton = () => {
   const [getDonation, { data: donationData, error: donationError }] =
@@ -48,15 +46,15 @@ const useDonationButton = () => {
   useEffect(() => {
     if (checkoutData) {
       console.log(checkoutData);
-        stripePromise
+      stripePromise
         .then((stripe) => {
-          if (stripe) {
-            return stripe.redirectToCheckout({
-              sessionId: checkoutData.checkout.session,
-            });
-          } else {
-            console.error("Stripe instance not available");
-          }
+          // if (stripe) {
+          return stripe.redirectToCheckout({
+            sessionId: checkoutData.checkout.session,
+          });
+          // } else {
+          // console.error("Stripe instance not available");
+          // }
         })
         .catch((err) => {
           console.error("Stripe redirect error:", err);

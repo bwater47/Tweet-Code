@@ -18,7 +18,7 @@ export const resolvers = {
         const user = await User.findById(context.user._id)
           .populate({
             path: "problems",
-            select: "_id title description",
+            select: "_id title description createdAt",
           })
           .populate({
             path: "comments",
@@ -39,7 +39,7 @@ export const resolvers = {
         return user;
       } catch (error) {
         console.error("Error in me query:", error);
-        throw new Error("Failed to fetch user data");
+        throw new Error(`Failed to fetch user data: ${error.message}`);
       }
     },
     donations: async (parent, {}) => {
@@ -72,51 +72,49 @@ export const resolvers = {
     checkout: async (parent, args, context) => {
       console.log("Checkout Started!");
       const url = new URL(context.headers.referer).origin;
-      const donationData = args.donations;
-      console.log(donationData);
       const donationtransaction = await DonationTransaction.create({
-        donations: [donationData],
+        donations: args.donations,
       });
       // const donationtransaction = new DonationTransaction({ donations: args.donations });
       // await donationtransaction.save();
       const line_items = [];
 
       const { donations } = await donationtransaction.populate("donations");
-      // for (let i = 0; i < donations.length; i++) {
-      line_items.push({
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: donationData.name,
+      console.log(donations);
+      donations.map(async (donation) => {
+        line_items.push({
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: donation.name,
+            },
+            unit_amount: donation.price * 100,
           },
-          unit_amount: donationData.price * 100,
-        },
-        quantity: 1,
-      });
+          quantity: 1,
+        });
+        // const product = await stripe.products.create({
+        // name: donation.name,
+        // description: donation.description,
+        // });
 
-      // const donation = await stripe.products.create({
-      //   name: donations[i].name,
-      //   description: donations[i].description,
-      // });
-      // const price = await stripe.prices.create({
-      //   product: donation.id,
-      //   unit_amount: donations[i].price * 100,
-      //   currency: "usd",
-      // });
-      // line_items.push({
-      //   price: price.id,
-      //   quantity: 1,
-      // });
-      // }
-      console.log("Checkout query hit!");
+        // const price = await stripe.prices.create({
+        // product: product.id,
+        // unit_amount: donation.price * 100,
+        // currency: "usd",
+        // });
+
+        // line_items.push({
+        // price: price.id,
+        // quantity: 1,
+        // });
+      });
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
-        line_items,
+        line_items: line_items,
         mode: "payment",
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
-      console.log("Checkout session created!");
 
       return { session: session.id };
     },

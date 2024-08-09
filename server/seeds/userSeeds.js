@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 const userData = [
   {
@@ -59,13 +60,21 @@ const seedUsers = async () => {
     await User.deleteMany({});
     console.log("Existing users deleted");
 
-    // Then, insert the new users
-    const createdUsers = await User.insertMany(userData);
+    // Hash passwords and create new users
+    const saltRounds = 10;
+    const hashedUserData = await Promise.all(
+      userData.map(async (user) => {
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+        return { ...user, password: hashedPassword };
+      })
+    );
+
+    // Insert the new users with hashed passwords
+    const createdUsers = await User.insertMany(hashedUserData);
     console.log(`${createdUsers.length} users seeded successfully`);
   } catch (err) {
     console.error("Error seeding users:", err);
   }
 };
-
 
 export default seedUsers;
