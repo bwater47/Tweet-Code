@@ -2,15 +2,18 @@ import React from "react";
 import { Box, Heading, Text, Tag, HStack, Icon, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaJs, FaPython, FaJava, FaCode } from "react-icons/fa";
+import { SiTypescript } from "react-icons/si";
 
 const languageIcons = {
-  JavaScript: FaJs,
-  Python: FaPython,
-  Java: FaJava,
+  javascript: FaJs,
+  python: FaPython,
+  java: FaJava,
+  typescript: SiTypescript,
 };
 
 const ProblemCard = ({ problem }) => {
-  const LanguageIcon = languageIcons[problem.programmingLanguage] || FaCode;
+  const LanguageIcon =
+    languageIcons[problem.programmingLanguage.toLowerCase()] || FaCode;
 
   return (
     <Box
@@ -24,9 +27,9 @@ const ProblemCard = ({ problem }) => {
       boxShadow="2px 0px 5px 2px "
     >
       <HStack spacing={2} mb={2}>
-        <Icon as={LanguageIcon} w={6} h={6} color="palette.white" />
+        <Icon as={LanguageIcon} w={6} h={6} color="palette.cyan" />
         <Link as={RouterLink} to={`/problem/${problem._id}`}>
-          <Heading size="md" color="palette.white">
+          <Heading size="md" color="palette.purple">
             {problem.title}
           </Heading>
         </Link>

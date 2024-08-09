@@ -4,7 +4,7 @@ import ProblemCard from "../common/problemCard.jsx";
 
 const ProblemList = ({ problems }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const problemsPerPage = 10;
+  const problemsPerPage = 5;
 
   const indexOfLastProblem = currentPage * problemsPerPage;
   const indexOfFirstProblem = indexOfLastProblem - problemsPerPage;
