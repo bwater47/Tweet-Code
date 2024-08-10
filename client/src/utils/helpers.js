@@ -1,6 +1,7 @@
-import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
+import { ApolloClient, InMemoryCache, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
+import { createUploadLink } from "apollo-upload-client";
 
 // Error handling link
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -16,10 +17,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-// HTTP link for GraphQL endpoint
-const httpLink = new HttpLink({
-  uri: "/graphql", // This will be proxied by Vite to the actual server URL
-  credentials: "include", // Include credentials (cookies) in requests
+// Custom upload link
+const uploadLink = createUploadLink({
+  uri: "http://localhost:3001/graphql",
 });
 
 // Authentication link
@@ -29,13 +29,14 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : "",
+      "Apollo-Require-Preflight": "true",
     },
   };
 });
 
 // Apollo Client instance
 const client = new ApolloClient({
-  link: from([errorLink, authLink, httpLink]),
+  link: from([errorLink, authLink, uploadLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {

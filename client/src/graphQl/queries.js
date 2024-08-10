@@ -68,6 +68,7 @@ export const QUERY_ME = gql`
       coins
       firstName
       lastName
+      avatar
       problems {
         _id
         title

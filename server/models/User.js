@@ -56,6 +56,10 @@ const userSchema = new Schema({
       ref: "DonationTransaction",
     },
   ],
+  avatar: {
+    type: String,
+    default: "https://example.com/default-avatar.png", // Set a default avatar URL
+  },
 });
 
 // Set up pre-save middleware to create password.
