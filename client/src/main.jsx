@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Devs from "./pages/Devs.jsx";
 import FAQ from "./pages/Faq.jsx";
 import Registration from "./pages/Registration.jsx";
+import Search from "./pages/Search.jsx";
+import Success from "./pages/Success.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: "/Registration",
         element: <Registration />,
+      },
+      {
+        path: "/Search",
+        element: <Search />,
+      },
+      {
+        path: "/Success",
+        element: <Success />,
       },
       {
         path: "/Post/:id",

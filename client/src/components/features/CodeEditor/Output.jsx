@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Text, useToast, VStack } from "@chakra-ui/react";
 import { executeCode } from "../../../utils/api";
 
 const Output = ({ editorRef, language }) => {
@@ -31,32 +31,33 @@ const Output = ({ editorRef, language }) => {
   };
 
   return (
-    <Box w="50%">
-      <Text mb={2} fontSize="lg">
-        Output
-      </Text>
+    <VStack height="100%" spacing={2}>
       <Button
         variant="outline"
         colorScheme="green"
-        mb={4}
         isLoading={isLoading}
         onClick={runCode}
+        size="sm"
+        width="100%"
       >
         Run Code
       </Button>
       <Box
-        height="75vh"
+        height="calc(100% - 32px)" // Adjust for button height
+        width="100%"
+        overflowY="auto"
         p={2}
-        color={isError ? "red.400" : ""}
+        color={isError ? "red.400" : "white"}
         border="1px solid"
-        borderRadius={4}
-        borderColor={isError ? "red.500" : "#333"}
+        borderRadius="md"
+        borderColor="#333"
+        bg="palette.grey"
       >
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
           : 'Click "Run Code" to see the output here'}
       </Box>
-    </Box>
+    </VStack>
   );
 };
 

@@ -68,6 +68,7 @@ export const QUERY_ME = gql`
       coins
       firstName
       lastName
+      avatar
       problems {
         _id
         title
@@ -105,6 +106,7 @@ export const GET_PROBLEMS = gql`
       coinReward
       author {
         username
+        avatar
       }
     }
   }
@@ -123,6 +125,15 @@ export const GET_PROBLEM = gql`
       author {
         username
       }
+    }
+  }
+`;
+
+export const GET_PROBLEM_TITLE = gql`
+  query GetProblemTitles {
+    problems {
+      _id
+      title
     }
   }
 `;

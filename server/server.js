@@ -7,20 +7,32 @@ import { fileURLToPath } from "url";
 import { authMiddleware } from "./utils/auth.js";
 import { typeDefs, resolvers } from "./schemas/index.js";
 import db from "./config/connection.js";
+import { graphqlUploadExpress } from "graphql-upload-minimal";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  uploads: false,
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema.
 const startApolloServer = async () => {
   await server.start();
+
+  // CORS configuration
+  const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+  };
+
+  app.use(cors(corsOptions));
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
@@ -28,17 +40,19 @@ const startApolloServer = async () => {
   // Serve up static assets.
   app.use("/images", express.static(path.join(__dirname, "../client/images")));
 
+  // File upload middleware
+  app.use(graphqlUploadExpress());
+
   app.use(
     "/graphql",
     expressMiddleware(server, {
       context: async ({ req }) => {
-        // Add logging here
         console.log("Request headers:", req.headers);
         return authMiddleware({ req });
       },
     })
   );
-  
+
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, VStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector.jsx";
 import { CODE_SNIPPETS } from "./Constants.jsx";
@@ -14,7 +14,7 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
-    setIsEditorReady(true); // Editor is now ready
+    setIsEditorReady(true);
   };
 
   const onSelect = (language) => {
@@ -32,17 +32,29 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
   }, [value, onCodeChange]);
 
   return (
-    <Box>
-      <HStack spacing={4}>
-        <Box w="50%">
-          <LanguageSelector language={language} onSelect={onSelect} />
+    <VStack spacing={4} height="100%" width="100%">
+      <LanguageSelector language={language} onSelect={onSelect} />
+      <HStack spacing={4} width="100%" height="calc(100% - 40px)">
+        {" "}
+        {/* Adjust for LanguageSelector height */}
+        <Box
+          width="50%"
+          height="100%"
+          borderRadius="md"
+          overflow="hidden"
+          border="1px solid"
+          borderColor="#333"
+        >
           <Editor
             options={{
-              minimap: {
-                enabled: false,
-              },
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              fontSize: 14,
+              lineNumbers: "on",
+              roundedSelection: false,
+              automaticLayout: true,
             }}
-            height="75vh"
+            height="100%"
             theme="vs-dark"
             language={language}
             defaultValue={CODE_SNIPPETS[language]}
@@ -51,9 +63,13 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
             onChange={(value) => setValue(value)}
           />
         </Box>
-        {isEditorReady && <Output editorRef={editorRef} language={language} />}
+        {isEditorReady && (
+          <Box width="50%" height="100%">
+            <Output editorRef={editorRef} language={language} />
+          </Box>
+        )}
       </HStack>
-    </Box>
+    </VStack>
   );
 };
 

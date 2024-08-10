@@ -1,26 +1,15 @@
-import { useState, useEffect } from "react";
-import {
-  Grid,
-  GridItem,
-  Text,
-  Box,
-  Show,
-  IconButton,
-  Tooltip,
-} from "@chakra-ui/react";
+import { useState } from "react";
+import { Grid, GridItem, Text, Box, Show, Hide } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
-import { GET_PROBLEMS } from "../graphQL/queries";
+import { GET_PROBLEM } from "../graphQL/queries";
 import ProblemList from "../components/common/problemList.jsx";
 import TagFilter from "../components/common/tagFilter.jsx";
 import AdSpace from "../components/common/adSpace.jsx";
-import { AddIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+import SearchBar from "../hooks/SearchBar.jsx"; // Ensure the path is correct
 
-const Home = () => {
+const Search = () => {
   const [selectedTags, setSelectedTags] = useState([]);
-  const { loading, error, data } = useQuery(GET_PROBLEMS);
-  const navigate = useNavigate();
-  const [fabPosition, setFabPosition] = useState("24px");
+  const { loading, error, data } = useQuery(GET_PROBLEM);
 
   const handleTagChange = (tag) => {
     setSelectedTags((prevTags) =>
@@ -29,25 +18,6 @@ const Home = () => {
         : [...prevTags, tag]
     );
   };
-
-  const handleCreateProblem = () => {
-    navigate("/Post");
-  };
-
-  useEffect(() => {
-    const updateFabPosition = () => {
-      const footer = document.querySelector("footer");
-      if (footer) {
-        const footerHeight = footer.offsetHeight;
-        setFabPosition(`${footerHeight + 24}px`);
-      }
-    };
-
-    updateFabPosition();
-    window.addEventListener("resize", updateFabPosition);
-
-    return () => window.removeEventListener("resize", updateFabPosition);
-  }, []);
 
   if (loading)
     return (
@@ -76,9 +46,13 @@ const Home = () => {
       bg="palette.grey"
       bgGradient="linear(palette.darkgrey, palette.gradyellow, palette.darkgrey)"
       p={5}
-      position="relative"
-      pb="100px"
     >
+      <SearchBar
+        placeholder="Search Problems"
+        w="100%"
+        p={4}
+        _focus={{ borderColor: "palette.purple" }}
+      />
       <Text textColor="palette.purple" mb={4}></Text>
       <Show above="sm">
         <Grid templateColumns="3fr 1fr" gap={6}>
@@ -115,44 +89,8 @@ const Home = () => {
           </GridItem>
         </Grid>
       </Show>
-
-      {/* Floating Action Button with Tooltip */}
-      <Tooltip
-        label="Post a new problem here"
-        bg="palette.purple"
-        color="white"
-        fontSize="md"
-        placement="left"
-        hasArrow
-      >
-        <IconButton
-          icon={<AddIcon boxSize={8} />}
-          isRound={true}
-          size="xl"
-          bg="palette.red"
-          color="white"
-          position="fixed"
-          bottom={fabPosition}
-          right="8"
-          onClick={handleCreateProblem}
-          boxShadow="0px 4px 10px rgba(0, 0, 0, 0.3)"
-          _hover={{
-            bg: "palette.gradred",
-            transform: "translateY(-2px)",
-            boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.4)",
-          }}
-          _active={{
-            bg: "palette.gradred",
-          }}
-          transition="all 0.2s"
-          aria-label="Create new problem"
-          width="70px"
-          height="70px"
-          zIndex={1000}
-        />
-      </Tooltip>
     </Box>
   );
 };
 
-export default Home;
+export default Search;
