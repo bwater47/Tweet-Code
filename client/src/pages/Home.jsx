@@ -7,17 +7,20 @@ import {
   Show,
   IconButton,
   Tooltip,
+  Flex,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEMS } from "../graphQL/queries";
 import ProblemList from "../components/common/problemList.jsx";
-import TagFilter from "../components/common/tagFilter.jsx";
 import AdSpace from "../components/common/adSpace.jsx";
 import { AddIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import FilterAndSort from "../components/common/FilterAndSort.jsx";
 
 const Home = () => {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  const [sortBy, setSortBy] = useState("dateDesc");
   const { loading, error, data } = useQuery(GET_PROBLEMS);
   const navigate = useNavigate();
   const [fabPosition, setFabPosition] = useState("24px");
@@ -28,6 +31,14 @@ const Home = () => {
         ? prevTags.filter((t) => t !== tag)
         : [...prevTags, tag]
     );
+  };
+
+  const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value);
+  };
+
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
   };
 
   const handleCreateProblem = () => {
@@ -63,13 +74,34 @@ const Home = () => {
     );
 
   const problems = data?.problems || [];
-  const filteredProblems = problems.filter(
-    (problem) =>
-      selectedTags.length === 0 ||
-      problem.tags.some((tag) => selectedTags.includes(tag))
+  const allTags = Array.from(new Set(problems.flatMap((p) => p.tags)));
+  const allLanguages = Array.from(
+    new Set(problems.map((p) => p.programmingLanguage))
   );
 
-  const allTags = Array.from(new Set(problems.flatMap((p) => p.tags)));
+  let filteredProblems = problems.filter(
+    (problem) =>
+      (selectedTags.length === 0 ||
+        problem.tags.some((tag) => selectedTags.includes(tag))) &&
+      (selectedLanguage === "All" ||
+        problem.programmingLanguage === selectedLanguage)
+  );
+
+  // Sort problems
+  filteredProblems.sort((a, b) => {
+    switch (sortBy) {
+      case "dateAsc":
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      case "dateDesc":
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      case "commentsAsc":
+        return a.comments.length - b.comments.length;
+      case "commentsDesc":
+        return b.comments.length - a.comments.length;
+      default:
+        return 0;
+    }
+  });
 
   return (
     <Box
@@ -86,11 +118,20 @@ const Home = () => {
             <ProblemList problems={filteredProblems} />
           </GridItem>
           <GridItem>
-            <TagFilter
-              tags={allTags}
-              selectedTags={selectedTags}
-              onTagChange={handleTagChange}
-            />
+            <Flex direction="column" alignItems="flex-start">
+              <FilterAndSort
+                tags={allTags}
+                selectedTags={selectedTags}
+                onTagChange={handleTagChange}
+                languages={allLanguages}
+                selectedLanguage={selectedLanguage}
+                onLanguageChange={handleLanguageChange}
+                sortBy={sortBy}
+                onSortChange={handleSortChange}
+              />
+              {/* Increased Space for dropdown menus */}
+              <Box height="150px" mt={2} />
+            </Flex>
             <Box mt={6}>
               <AdSpace />
             </Box>
@@ -99,13 +140,22 @@ const Home = () => {
       </Show>
 
       <Show below="sm">
-        <Grid templateRows=" 1fr" gap={0}>
+        <Grid templateRows="auto auto 1fr" gap={4}>
           <GridItem>
-            <TagFilter
-              tags={allTags}
-              selectedTags={selectedTags}
-              onTagChange={handleTagChange}
-            />
+            <Flex direction="column" alignItems="center">
+              <FilterAndSort
+                tags={allTags}
+                selectedTags={selectedTags}
+                onTagChange={handleTagChange}
+                languages={allLanguages}
+                selectedLanguage={selectedLanguage}
+                onLanguageChange={handleLanguageChange}
+                sortBy={sortBy}
+                onSortChange={handleSortChange}
+              />
+              {/* Increased Space for dropdown menus */}
+              <Box height="150px" mt={2} />
+            </Flex>
           </GridItem>
           <GridItem>
             <ProblemList problems={filteredProblems} />
