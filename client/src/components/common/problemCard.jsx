@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Box, Heading, Text, Tag, HStack, Icon, Link, Tooltip } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaJs, FaPython, FaJava, FaCode } from "react-icons/fa";

@@ -106,6 +106,7 @@ export const GET_PROBLEMS = gql`
       coinReward
       author {
         username
+        avatar
       }
     }
   }
