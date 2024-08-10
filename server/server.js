@@ -26,7 +26,7 @@ const server = new ApolloServer({
 const startApolloServer = async () => {
   await server.start();
 
-  // CORS configuration
+  // CORS configuration.
   const corsOptions = {
     origin: "http://localhost:3000",
     credentials: true,
@@ -40,7 +40,7 @@ const startApolloServer = async () => {
   // Serve up static assets.
   app.use("/images", express.static(path.join(__dirname, "../client/images")));
 
-  // File upload middleware
+  // File upload middleware.
   app.use(graphqlUploadExpress());
 
   app.use(
