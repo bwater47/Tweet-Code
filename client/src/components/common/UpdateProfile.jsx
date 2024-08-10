@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -31,49 +31,63 @@ export const UpdateProfile = ({ isOpen, onClose, user, refetch }) => {
   const fileInputRef = useRef(null);
   const toast = useToast();
 
+  // Handle input change for text fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedUser((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle file selection and set the preview URL
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setAvatarFile(file);
-      // Preview the image
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditedUser((prev) => ({ ...prev, avatar: reader.result }));
-      };
-      reader.readAsDataURL(file);
+      const previewUrl = URL.createObjectURL(file);
+      setEditedUser((prev) => ({ ...prev, avatar: previewUrl }));
     }
   };
 
+  // Clean up the object URL when the component unmounts or the avatar changes
+  useEffect(() => {
+    return () => {
+      if (editedUser.avatar && avatarFile) {
+        URL.revokeObjectURL(editedUser.avatar);
+      }
+    };
+  }, [avatarFile, editedUser.avatar]);
+
+  // Handle form submission and mutation
   const handleSave = async () => {
     try {
-      // Here you would typically upload the image file to your server or a cloud storage service
-      // and get back a URL to store in the database. For this example, we'll assume a direct update.
-      const result = await updateUser({
+      const { data } = await updateUser({
         variables: {
           username: editedUser.username,
           firstName: editedUser.firstName,
           lastName: editedUser.lastName,
-          avatar: editedUser.avatar, // This should be the URL of the uploaded image
+          avatar: avatarFile, // Pass the File object directly
         },
       });
-      onClose();
-      refetch();
-      toast({
-        title: "Profile updated",
-        description: "Your profile information has been successfully updated.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+
+      if (data?.updateUser) {
+        onClose();
+        refetch();
+        toast({
+          title: "Profile updated",
+          description:
+            "Your profile information has been successfully updated.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        throw new Error("No data returned from mutation");
+      }
     } catch (err) {
+      console.error("Error updating profile:", err);
       toast({
         title: "Error",
-        description: "Failed to update profile. Please try again.",
+        description:
+          err.message || "Failed to update profile. Please try again.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -90,8 +104,9 @@ export const UpdateProfile = ({ isOpen, onClose, user, refetch }) => {
         <ModalBody>
           <VStack spacing={4}>
             <FormControl>
-              <FormLabel>Avatar</FormLabel>
+              <FormLabel htmlFor="avatar">Avatar</FormLabel>
               <Input
+                id="avatar"
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}

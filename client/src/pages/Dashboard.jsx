@@ -23,8 +23,10 @@ import {
   Tab,
   TabPanel,
   Image,
+  useToast,
 } from "@chakra-ui/react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { DELETE_PROBLEM, DELETE_COMMENT } from "../graphQL/mutations.js";
 import { QUERY_ME } from "../graphQL/queries.js";
 import { Link as RouterLink } from "react-router-dom";
 import DonationModal from "../components/common/DonationModal";
@@ -32,6 +34,9 @@ import { UpdateProfile } from "../components/common/UpdateProfile";
 
 const Dashboard = () => {
   const { loading, error, data, refetch } = useQuery(QUERY_ME);
+  const [deleteProblem] = useMutation(DELETE_PROBLEM);
+  const [deleteComment] = useMutation(DELETE_COMMENT);
+  const toast = useToast();
   const {
     isOpen: isDonationModalOpen,
     onOpen: onDonationModalOpen,
@@ -73,6 +78,47 @@ const Dashboard = () => {
       day: "numeric",
     });
   };
+  const handleDeleteProblem = async (problemId) => {
+    try {
+      await deleteProblem({ variables: { id: problemId } });
+      refetch();
+      toast({
+        title: "Problem deleted",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (err) {
+      toast({
+        title: "Error deleting problem",
+        description: err.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await deleteComment({ variables: { id: commentId } });
+      refetch();
+      toast({
+        title: "Comment deleted",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (err) {
+      toast({
+        title: "Error deleting comment",
+        description: err.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   const recentActivity = [
     ...(user.problems || []),
@@ -111,7 +157,7 @@ const Dashboard = () => {
               boxSize="150px"
               src={user.avatar || "https://via.placeholder.com/150"}
               alt={`${user.username}'s avatar`}
-              alignSelf="center"
+              fallbackSrc="https://via.placeholder.com/150"
             />
             <Text color="palette.white">
               <strong>Username:</strong> {user.username}
@@ -225,6 +271,14 @@ const Dashboard = () => {
                         <Text fontSize="sm" color="gray.300">
                           {formatDate(problem.createdAt)}
                         </Text>
+                        <Button
+                          size="sm"
+                          colorScheme="red"
+                          mt={1}
+                          onClick={() => handleDeleteProblem(problem._id)}
+                        >
+                          Delete
+                        </Button>
                       </ListItem>
                     ))}
                   </List>
@@ -244,6 +298,14 @@ const Dashboard = () => {
                         <Text fontSize="sm" color="gray.300">
                           {formatDate(comment.createdAt)}
                         </Text>
+                        <Button
+                          size="sm"
+                          colorScheme="red"
+                          mt={1}
+                          onClick={() => handleDeleteComment(comment._id)}
+                        >
+                          Delete
+                        </Button>
                       </ListItem>
                     ))}
                   </List>

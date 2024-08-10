@@ -119,23 +119,33 @@ export const UPDATE_USER = gql`
     $username: String
     $firstName: String
     $lastName: String
+    $avatar: Upload
   ) {
     updateUser(
       username: $username
       firstName: $firstName
       lastName: $lastName
+      avatar: $avatar
     ) {
       _id
       username
       firstName
       lastName
       email
+      avatar
     }
   }
 `;
 
+
 export const DELETE_PROBLEM = gql`
   mutation DeleteProblem($id: ID!) {
     deleteProblem(id: $id)
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($id: ID!) {
+    deleteComment(id: $id)
   }
 `;
