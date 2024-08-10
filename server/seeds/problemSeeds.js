@@ -52,7 +52,7 @@ const seedProblems = async () => {
 
         randomUser.problems = [ ...randomUser.problems, newProblem];
 
-        await randomUser.save();
+        
         await newProblem.save();
         return newProblem;
       })

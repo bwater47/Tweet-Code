@@ -1,7 +1,8 @@
-import { HStack , Image, Tooltip} from '@chakra-ui/react'
+import { HStack , Image, Tooltip, Text} from '@chakra-ui/react'
 import {youSuck, goldCoin,bronzeCoin,silverCoin,SupremeInsight,AdvancedInsight,Participation,SupremeHoarder,TheCollector,HumbleStart,ChampionSeeker,ExpertSeeker,NoviceSeeker} from '../../assets/medals/index'
 import { GET_USER_MEDALS } from '../../graphQL/queries';
 import { useQuery } from '@apollo/client';
+
 
 const Medal = ({medal}) => {
 
@@ -81,7 +82,7 @@ const Medal = ({medal}) => {
 
 
 return(
-<Tooltip label={medal.description} fontSize='md'>
+<Tooltip label={`${medal.title}: \n ${medal.description}`} fontSize='md'>
 
     <Image
   borderRadius='full'
@@ -111,7 +112,7 @@ const Medals = ({userid}) => {
   return (
     <HStack>
         {medals.map((medal) => (
-            <Medal key={medal._id} medal={medal} />
+            <Medal key={medal?._id || medal.title} medal={medal} />
         ))}
     </HStack>
   );
