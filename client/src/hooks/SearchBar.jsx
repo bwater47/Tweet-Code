@@ -11,24 +11,24 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEM_TITLE } from "../graphQL/queries"; // Adjust the path as needed
 import theme from "../styles/theme.js";
-
+// Search Bar component for searching problems by title.
 const SearchBar = ({ placeholder, w, p, _focus }) => {
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(-1);
-
+  // Query to get all problems for searching by title.
   const { data } = useQuery(GET_PROBLEM_TITLE);
-
+  // Function to handle changes in the search bar.
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
-
+  // Function to handle closing the search bar.
   const handleClose = () => {
     setSearch("");
     setSearchData([]);
     setSelectedItem(-1);
   };
-
+  // Function to handle key down events in the search bar.
   const handleKeyDown = (e) => {
     if (selectedItem < searchData.length) {
       if (e.key === "ArrowUp" && selectedItem > 0) {
@@ -46,7 +46,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
       setSelectedItem(-1);
     }
   };
-
+  // Use effect to filter problems by title.
   useEffect(() => {
     if (data && search !== "") {
       const newFilterData = data.problems.filter((problem) => {
@@ -57,9 +57,10 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
       setSearchData([]);
     }
   }, [search, data]);
-
+  // Return the search bar component.
   return (
     <Box w={w} p={p} mx="auto" m="2" position="relative">
+      {/* Search bar input */}
       <InputGroup>
         <Input
           type="text"
@@ -70,6 +71,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
           onKeyDown={handleKeyDown}
           _focus={_focus}
         />
+        {/* Search bar icons */}
         <InputRightElement>
           {search === "" ? (
             <SearchIcon />
@@ -83,6 +85,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
           )}
         </InputRightElement>
       </InputGroup>
+      {/* Search results */}
       {searchData.length > 0 && (
         <Box
           position="absolute"
@@ -93,6 +96,7 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
           boxShadow="md"
           zIndex="1"
         >
+          {/* Display search results */}
           {searchData.slice(0, 10).map((problem, index) => (
             <Box
               key={index}

@@ -3,7 +3,7 @@ import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 
-// Error handling link
+// Error handling link.
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) =>
@@ -17,12 +17,12 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-// Custom upload link
+// Custom upload link.
 const uploadLink = createUploadLink({
   uri: "http://localhost:3001/graphql",
 });
 
-// Authentication link
+// Authentication link.
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
   return {
@@ -34,7 +34,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// Apollo Client instance
+// Apollo Client instance.
 const client = new ApolloClient({
   link: from([errorLink, authLink, uploadLink]),
   cache: new InMemoryCache(),
