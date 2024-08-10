@@ -7,8 +7,11 @@ import {
 } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "../utils/stripe.js";
+import { GraphQLUpload } from "graphql-upload-minimal";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 export const resolvers = {
+  Upload: GraphQLUpload,
   Query: {
     me: async (parent, args, context) => {
       if (!context.user) {
@@ -191,18 +194,42 @@ export const resolvers = {
       }
       throw new AuthenticationError("Not logged in");
     },
-    updateUser: async (parent, args, context) => {
-      if (context.user) {
-        try {
-          return await User.findByIdAndUpdate(context.user._id, args, {
-            new: true,
-          });
-        } catch (error) {
-          console.error(error);
-          throw new AuthenticationError("Error updating user");
-        }
+    updateUser: async (
+      _,
+      { username, firstName, lastName, avatar },
+      context
+    ) => {
+      if (!context.user) {
+        throw new AuthenticationError("Not logged in");
       }
-      throw new AuthenticationError("Not logged in");
+
+      try {
+        const updates = { username, firstName, lastName };
+
+        if (avatar) {
+          console.log("Avatar received in resolver:", avatar);
+          // Await the resolution of the avatar Promise
+          const resolvedAvatar = await avatar;
+          console.log("Resolved avatar:", resolvedAvatar);
+          const avatarUrl = await uploadToCloudinary(resolvedAvatar);
+          updates.avatar = avatarUrl;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+          context.user._id,
+          updates,
+          { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+          throw new Error("User not found");
+        }
+
+        return updatedUser;
+      } catch (error) {
+        console.error("Error in updateUser mutation:", error);
+        throw new Error(`Failed to update user: ${error.message}`);
+      }
     },
     addMedalToUser: async (parent, { userId, medalId }) => {
       const updatedUser = await User.findByIdAndUpdate(userId, {

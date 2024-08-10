@@ -68,6 +68,7 @@ export const QUERY_ME = gql`
       coins
       firstName
       lastName
+      avatar
       problems {
         _id
         title
@@ -135,4 +136,13 @@ query Usermedals($id: ID!) {
     price
   }
 }
+`;
+
+export const GET_PROBLEM_TITLE = gql`
+  query GetProblemTitles {
+    problems {
+      _id
+      title
+    }
+  }
 `;

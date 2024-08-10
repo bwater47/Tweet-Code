@@ -1,4 +1,6 @@
 const typeDefs = `
+  scalar Upload
+
   type User {
     _id: ID
     username: String!
@@ -10,6 +12,7 @@ const typeDefs = `
     problems: [Problem]
     comments: [Comment]
     donationTransactions: [DonationTransaction]
+    avatar: String
     medals: [Medal]
     allmedals: [Medal]
   }
@@ -87,11 +90,6 @@ const typeDefs = `
     session: ID
   }
 
-  type Auth {
-    token: ID!
-    user: User
-  }
-
   type Medal {
     _id: ID
     title: String!
@@ -114,47 +112,125 @@ const typeDefs = `
   }
 
   type Mutation {
-    # User Authentication and Management
-    # These mutations handle user registration, login, and profile updates
-    addUser(firstName: String!, lastName: String!, username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
-    updateUser(username: String, firstName: String, lastName: String, email: String, password: String): User
-    
-    # Problem Management
-    # These mutations allow creation, updating, and deletion of coding problems
-    createProblem(title: String!, description: String!, programmingLanguage: String!, code: String!, tags: [String], coinReward: Int): Problem
-    updateProblem(id: ID!, title: String, description: String, programmingLanguage: String, code: String, tags: [String], coinReward: Int): Problem
-    deleteProblem(id: ID!): Boolean
-    
-    # Solution Management
-    # These mutations handle the creation, updating, and deletion of solutions to problems
-    addSolution(problemId: ID!, code: String!, explanation: String): Solution
-    updateSolution(_id: ID!, code: String, explanation: String): Solution
-    deleteSolution(_id: ID!): Solution
-    
-    # Comment Management for Solutions
-    # These mutations handle adding, updating, and deleting comments on solutions
-    addComment(solutionId: ID!, content: String!): Comment
-    updateComment(_id: ID!, content: String!): Comment
-    deleteComment(_id: ID!): Comment
-    
-    # Coin Management
-    # These mutations handle awarding, transferring, and redeeming coins
-    awardCoins(recipientId: ID!, amount: Int!, reason: String): Coin
-    transferCoins(recipientId: ID!, amount: Int!): Coin
-    redeemCoins(amount: Int!): User
-    
-    # Donation Transaction
-    # This mutation handles making a donation
-    makeDonationTransaction(donationId: ID!): DonationTransaction
-    
-    # Comment Management for Replys
-    # These mutations handle replying to existing comments
-    addReplyToComment(commentId: ID!, content: String!): Comment
-    
-    # Voting System for Comments
-    # These mutations allow users to vote on comments
-    voteComment(commentId: ID!, value: Int!): Comment
+  # User Authentication and Management
+  # These mutations handle user registration, login, and profile updates
+  addUser(
+    firstName: String!, 
+    lastName: String!, 
+    username: String!, 
+    email: String!, 
+    password: String!
+  ): Auth
+
+  login(
+    email: String!, 
+    password: String!
+  ): Auth
+
+  updateUser(
+    username: String, 
+    firstName: String, 
+    lastName: String, 
+    email: String, 
+    password: String, 
+    avatar: Upload
+  ): User
+
+  # Problem Management
+  # These mutations allow creation, updating, and deletion of coding problems
+  createProblem(
+    title: String!, 
+    description: String!, 
+    programmingLanguage: String!, 
+    code: String!, 
+    tags: [String], 
+    coinReward: Int
+  ): Problem
+
+  updateProblem(
+    id: ID!, 
+    title: String, 
+    description: String, 
+    programmingLanguage: String, 
+    code: String, 
+    tags: [String], 
+    coinReward: Int
+  ): Problem
+
+  deleteProblem(
+    id: ID!
+  ): Boolean
+
+  # Solution Management
+  # These mutations handle the creation, updating, and deletion of solutions to problems
+  addSolution(
+    problemId: ID!, 
+    code: String!, 
+    explanation: String!
+  ): Solution
+
+  updateSolution(
+    _id: ID!, 
+    code: String, 
+    explanation: String
+  ): Solution
+
+  deleteSolution(
+    _id: ID!
+  ): Solution
+
+  # Comment Management for Solutions
+  # These mutations handle adding, updating, and deleting comments on solutions
+  addComment(
+    solutionId: ID!, 
+    content: String!
+  ): Comment
+
+  updateComment(
+    _id: ID!, 
+    content: String!
+  ): Comment
+
+  deleteComment(
+    _id: ID!
+  ): Comment
+
+  # Coin Management
+  # These mutations handle awarding, transferring, and redeeming coins
+  awardCoins(
+    recipientId: ID!, 
+    amount: Int!, 
+    reason: String!
+  ): Coin
+
+  transferCoins(
+    recipientId: ID!, 
+    amount: Int!
+  ): Coin
+
+  redeemCoins(
+    amount: Int!
+  ): User
+
+  # Donation Transaction
+  # This mutation handles making a donation
+  makeDonationTransaction(
+    donationId: ID!
+  ): DonationTransaction
+
+  # Comment Management for Replies
+  # These mutations handle replying to existing comments
+  addReplyToComment(
+    commentId: ID!, 
+    content: String!
+  ): Comment
+
+  # Voting System for Comments
+  # These mutations allow users to vote on comments
+  voteComment(
+    commentId: ID!, 
+    value: Int!
+  ): Comment
 
     # Medal Management on Users
     addMedalToUser(userId: ID!, medalId: ID!): User
