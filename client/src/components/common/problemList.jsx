@@ -9,7 +9,6 @@ import {
   Badge,
   Avatar,
   Icon,
-  Spacer,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FaJs, FaPython, FaJava } from "react-icons/fa";
@@ -108,7 +107,7 @@ const ProblemCard = ({ problem }) => {
               src={problem.author.avatar || "https://bit.ly/broken-link"}
               transition="transform 0.3s ease-in-out"
               _hover={{
-                transform: "scale(1.33)",
+                transform: "scale(1.20)",
               }}
             />
             <Text color="palette.orange" fontSize="md" fontWeight="medium">
