@@ -1,4 +1,6 @@
+// Import useState from React.
 import { useState } from "react";
+// Import Box, Heading, Text, IconButton, Collapse, UnorderedList, ListItem, and Grid from Chakra UI.
 import {
   Box,
   Heading,
@@ -10,12 +12,15 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
+// Import theme from the styles folder.
 import theme from "../styles/theme.js";
+// Import the AddIcon and MinusIcon from Chakra UI.
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
-
+// Define the FAQItem component.
 const FAQItem = ({ question, answer }) => {
+  // Use the useState hook to create a show state variable and a setShow function to toggle the state.
   const [show, setShow] = useState(false);
-
+  // Return the FAQItem component.
   return (
     <Box
       borderWidth="1px"
@@ -23,7 +28,7 @@ const FAQItem = ({ question, answer }) => {
       borderColor={theme.colors.palette.grey}
       overflow="hidden"
       mb={4}
-      bg={theme.colors.palette.grey} // Use the purple color from the theme
+      bg={theme.colors.palette.grey} // Use the purple color from the theme.
       boxShadow="md"
     >
       <Box p={4} d="flex" justifyContent="space-between" alignItems="center">
@@ -34,9 +39,12 @@ const FAQItem = ({ question, answer }) => {
           icon={show ? <MinusIcon /> : <AddIcon />}
           onClick={() => setShow(!show)}
           variant="ghost"
-          bg = {theme.colors.palette.grey}
+          bg={theme.colors.palette.grey}
           textColor={theme.colors.palette.cyan}
-          _hover={{ bg: theme.colors.palette.cyan, textColor: theme.colors.palette.grey }}
+          _hover={{
+            bg: theme.colors.palette.cyan,
+            textColor: theme.colors.palette.grey,
+          }}
           m={1}
         />
       </Box>
@@ -49,17 +57,33 @@ const FAQItem = ({ question, answer }) => {
     </Box>
   );
 };
-
+// Export the FAQItem component.
 const FAQ = () => {
   return (
-    <Box bgGradient="linear(palette.darkgrey, palette.gradcyan, palette.darkgrey)" px={4} py={8}>
-      <Heading textColor={theme.colors.palette.white} as="h1" textAlign="center" size="2xl" mb={6}>
+    <Box
+      bgGradient="linear(palette.darkgrey, palette.gradcyan, palette.darkgrey)"
+      px={4}
+      py={8}
+    >
+      <Heading
+        textColor={theme.colors.palette.white}
+        as="h1"
+        textAlign="center"
+        size="2xl"
+        mb={6}
+      >
         Frequently Asked Questions
       </Heading>
 
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
         <GridItem>
-          <Heading textColor={theme.colors.palette.white} as="h2" size="lg" mb={4} textAlign="center">
+          <Heading
+            textColor={theme.colors.palette.white}
+            as="h2"
+            size="lg"
+            mb={4}
+            textAlign="center"
+          >
             AdWare FAQs
           </Heading>
           <Box className="space-y-4" textColor={theme.colors.palette.white}>
@@ -110,7 +134,13 @@ const FAQ = () => {
         </GridItem>
 
         <GridItem>
-          <Heading textColor={theme.colors.palette.white} as="h2" size="lg" mb={4} textAlign="center">
+          <Heading
+            textColor={theme.colors.palette.white}
+            as="h2"
+            size="lg"
+            mb={4}
+            textAlign="center"
+          >
             Tweet Code FAQs
           </Heading>
           <Box className="space-y-4" textColor={theme.colors.palette.white}>
@@ -163,5 +193,5 @@ const FAQ = () => {
     </Box>
   );
 };
-
+// Export the FAQ component.
 export default FAQ;

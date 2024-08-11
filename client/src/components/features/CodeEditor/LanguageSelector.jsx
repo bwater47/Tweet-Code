@@ -1,3 +1,4 @@
+// Import Box, Button, Menu, MenuButton, MenuItem, MenuList, and Text from Chakra UI.
 import {
   Box,
   Button,
@@ -7,18 +8,22 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
+// Import the LANGUAGE_VERSIONS constant from the Constants file.
 import { LANGUAGE_VERSIONS } from "./Constants";
+// Import PropTypes from prop-types.
 import PropTypes from "prop-types";
-
+// Create a languages variable to hold the entries of the LANGUAGE_VERSIONS object.
 const languages = Object.entries(LANGUAGE_VERSIONS);
+// Define the ACTIVE_COLOR constant.
 const ACTIVE_COLOR = "blue.400";
-
+// Define the LanguageSelector component.
 const LanguageSelector = ({ language, onSelect }) => {
-  // Add prop types validation
+  // Add prop types validation.
   LanguageSelector.propTypes = {
     language: PropTypes.string.isRequired,
     onSelect: PropTypes.func.isRequired,
   };
+  // Return the LanguageSelector component.
   return (
     <Box ml={2} mb={4}>
       <Text mb={2} fontSize="lg">
@@ -50,4 +55,5 @@ const LanguageSelector = ({ language, onSelect }) => {
     </Box>
   );
 };
+// Export the LanguageSelector component.
 export default LanguageSelector;

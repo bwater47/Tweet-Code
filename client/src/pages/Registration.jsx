@@ -1,8 +1,14 @@
+// Imoprt useState from React.
 import { useState } from "react";
+// Import the useMutation hook from Apollo Client.
 import { useMutation } from "@apollo/client";
+// Import the useNavigate hook from React Router.
 import { useNavigate } from "react-router-dom";
+// Import the ADD_USER and LOGIN_USER mutations.
 import { ADD_USER, LOGIN_USER } from "../graphQL/mutations.js";
+// Import the useAuth hook from the hooks folder.
 import { useAuth } from "../hooks/useAuth.jsx";
+// Import the Box, Tabs, TabList, TabPanels, Tab, TabPanel, Button, FormControl, FormLabel, Input, VStack, Container, and Heading components from Chakra UI.
 import {
   Box,
   Tabs,
@@ -19,35 +25,41 @@ import {
   Heading,
   useToast,
 } from "@chakra-ui/react";
-
+// Define the Registration component.
 const Registration = () => {
   return (
     <Box bgGradient="linear(palette.darkgrey, palette.gradgreen, palette.darkgrey)">
-    <Container maxW="md" py={8}>
-      <Heading as="h1" mb={6} textAlign="center" color='palette.white'>
-        Account Access
-      </Heading>
-      <Box borderWidth={1} borderRadius="lg" p={4} bg='palette.darkgrey' borderColor='palette.lightgrey'>
-        <Tabs isFitted colorScheme={'green'}>
-          <TabList mb="1em">
-            <Tab>Login</Tab>
-            <Tab>Sign Up</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <LoginForm />
-            </TabPanel>
-            <TabPanel>
-              <SignUpForm />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
-    </Container>
+      <Container maxW="md" py={8}>
+        <Heading as="h1" mb={6} textAlign="center" color="palette.white">
+          Account Access
+        </Heading>
+        <Box
+          borderWidth={1}
+          borderRadius="lg"
+          p={4}
+          bg="palette.darkgrey"
+          borderColor="palette.lightgrey"
+        >
+          <Tabs isFitted colorScheme={"green"}>
+            <TabList mb="1em">
+              <Tab>Login</Tab>
+              <Tab>Sign Up</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <LoginForm />
+              </TabPanel>
+              <TabPanel>
+                <SignUpForm />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
+      </Container>
     </Box>
   );
 };
-
+// Define the LoginForm component.
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -80,34 +92,34 @@ const LoginForm = () => {
       });
     }
   };
-
+  // Define the LoginForm component.
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="login-email">
-        <FormLabel color='palette.white'>Email</FormLabel>
+        <FormLabel color="palette.white">Email</FormLabel>
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
       <FormControl id="login-password">
-        <FormLabel color='palette.white'>Password</FormLabel>
+        <FormLabel color="palette.white">Password</FormLabel>
         <Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
-      <Button colorScheme="green" variant='colored' width="full" type="submit">
+      <Button colorScheme="green" variant="colored" width="full" type="submit">
         Login
       </Button>
     </VStack>
   );
 };
-
+// Define the SignUpForm component.
 const SignUpForm = () => {
   const [formState, setFormState] = useState({
     firstName: "",
@@ -128,7 +140,7 @@ const SignUpForm = () => {
       [name]: value,
     });
   };
-
+  // Define the handleSubmit function.
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -154,57 +166,57 @@ const SignUpForm = () => {
       });
     }
   };
-
+  // Define the Registration component.
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="signup-firstName">
-        <FormLabel color='palette.white'>First Name</FormLabel>
+        <FormLabel color="palette.white">First Name</FormLabel>
         <Input
           name="firstName"
           type="text"
           value={formState.firstName}
           onChange={handleChange}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
       <FormControl id="signup-lastName">
-        <FormLabel color='palette.white'>Last Name</FormLabel>
+        <FormLabel color="palette.white">Last Name</FormLabel>
         <Input
           name="lastName"
           type="text"
           value={formState.lastName}
           onChange={handleChange}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
       <FormControl id="signup-username">
-        <FormLabel color='palette.white'>Username</FormLabel>
+        <FormLabel color="palette.white">Username</FormLabel>
         <Input
           name="username"
           type="text"
           value={formState.username}
           onChange={handleChange}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
       <FormControl id="signup-email">
-        <FormLabel color='palette.white'>Email</FormLabel>
+        <FormLabel color="palette.white">Email</FormLabel>
         <Input
           name="email"
           type="email"
           value={formState.email}
           onChange={handleChange}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
       <FormControl id="signup-password">
-        <FormLabel color='palette.white'>Password</FormLabel>
+        <FormLabel color="palette.white">Password</FormLabel>
         <Input
           name="password"
           type="password"
           value={formState.password}
           onChange={handleChange}
-          color='palette.white'
+          color="palette.white"
         />
       </FormControl>
       <Button colorScheme="green" variant="colored" width="full" type="submit">
@@ -213,5 +225,5 @@ const SignUpForm = () => {
     </VStack>
   );
 };
-
+// Export the Registration component.
 export default Registration;
