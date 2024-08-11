@@ -1,33 +1,33 @@
-import { tabsAnatomy } from '@chakra-ui/anatomy';
-import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools'; // import utility for setting light and dark mode props
+import { tabsAnatomy } from "@chakra-ui/anatomy"; // Import the tabs anatomy.
+import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools"; // Import utility for setting light and dark mode props.
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(tabsAnatomy.keys);
 
-// define the base component styles
+// Define the base component styles.
 const baseStyle = definePartsStyle({
-  // define the part you're going to style
+  // Define the part you're going to style.
   tab: {
-    fontWeight: 'bold', // change the font weight
+    fontWeight: "bold", // Change the font weight.
   },
   tabpanel: {
-    fontFamily: 'mono', // change the font family
+    fontFamily: "mono", // Change the font family.
   },
 });
 
-// define custom sizes
+// Define custom sizes.
 const sizes = {
   xl: definePartsStyle({
-    // define the parts that will change for each size
+    // Define the parts that will change for each size.
     tab: {
-      fontSize: 'xl',
-      py: '4',
-      px: '6',
+      fontSize: "xl",
+      py: "4",
+      px: "6",
     },
     tabpanel: {
-      py: '4',
-      px: '6',
+      py: "4",
+      px: "6",
     },
   }),
   sm: definePartsStyle({
@@ -39,36 +39,35 @@ const sizes = {
   })
 };
 
-// define custom variants
-const colorfulVariant = definePartsStyle(props => {
-  const { colorScheme: c } = props; // add colorScheme as a prop
+// Define custom variants.
+const colorfulVariant = definePartsStyle((props) => {
+  const { colorScheme: c } = props; // Add colorScheme as a prop.
 
   return {
     tab: {
-        border: 'none',
-        borderBottom: '2px solid',
-        borderColor: 'palette.lightgrey',
-        textColor: mode('palette.white','palette.white')(props),
-        color: 'palette.white',
+      border: "none",
+      borderBottom: "2px solid",
+      borderColor: "palette.lightgrey",
+      textColor: mode("palette.white", "palette.white")(props),
+      color: "palette.white",
       _selected: {
-        bg: mode('palette.darkgrey', 'palette.darkgrey')(props),
+        bg: mode("palette.darkgrey", "palette.darkgrey")(props),
         color: mode(`palette.${c}`, `palette.${c}`)(props),
-        border: '2px solid',
-        borderColor: 'palette.lightgrey',
-        
+        border: "2px solid",
+        borderColor: "palette.lightgrey",
+
         borderTopRadius: "10px",
-        
       },
     },
     tablist: {
-      borderBottom: '2x solid',
-      borderColor: 'palette.lightgrey',
+      borderBottom: "2x solid",
+      borderColor: "palette.lightgrey",
     },
     tabpanel: {
-      border: '2px solid',
-      borderColor: 'palette.lightgrey',
-      borderBottomRadius: 'lg',
-      borderTopRightRadius: 'lg',
+      border: "2px solid",
+      borderColor: "palette.lightgrey",
+      borderBottomRadius: "lg",
+      borderTopRightRadius: "lg",
     },
   };
 });
@@ -77,14 +76,14 @@ const variants = {
   colorful: colorfulVariant,
 };
 
-// define which sizes, variants, and color schemes are applied by default
+// Define which sizes, variants, and color schemes are applied by default.
 const defaultProps = {
-  size: 'xl',
-  variant: 'colorful',
-  colorScheme: 'green',
+  size: "xl",
+  variant: "colorful",
+  colorScheme: "green",
 };
 
-// export the component theme
+// Export the component theme.
 export const tabsTheme = defineMultiStyleConfig({
   baseStyle,
   sizes,

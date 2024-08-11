@@ -1,4 +1,7 @@
+// This component is a reusable filter and sort component that can be used in any page that requires filtering and sorting functionality.
+// Import PropTypes from the prop-types library.
 import PropTypes from "prop-types";
+// Import the necessary Chakra UI components and hooks.
 import {
   Box,
   Select,
@@ -9,10 +12,13 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
+// Import the necessary Chakra UI icons.
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+// Import the useState, useRef, and useEffect hooks from React.
 import { useState, useRef, useEffect } from "react";
-import TagFilter from "./tagFilter"; // Assuming this is an existing component
-
+// Import the TagFilter component.
+import TagFilter from "./tagFilter";
+// Define the FilterAndSort component.
 const FilterAndSort = ({
   tags,
   selectedTags,
@@ -27,7 +33,7 @@ const FilterAndSort = ({
   const [activeMenu, setActiveMenu] = useState(null);
   const ref = useRef();
   const toast = useToast();
-
+  // Define a function to toggle the menu.
   const toggleMenu = (menu) => {
     if (activeMenu === menu) {
       setIsOpen(!isOpen);
@@ -36,14 +42,14 @@ const FilterAndSort = ({
       setIsOpen(true);
     }
   };
-
+  // Define a function to handle clicking outside the menu.
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setIsOpen(false);
       setActiveMenu(null);
     }
   };
-
+  // Define a function to handle changing the sort.
   const handleSortChange = (e) => {
     const value = e.target.value;
 
@@ -59,14 +65,14 @@ const FilterAndSort = ({
       onSortChange(e);
     }
   };
-
+  // Add an event listener to handle clicking outside the menu.
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  // Define the styles for the buttons and select components.
   const buttonStyles = {
     bg: "palette.darkgrey",
     color: "palette.white",
@@ -83,7 +89,7 @@ const FilterAndSort = ({
     },
     transition: "all 0.2s",
   };
-
+  // Define the styles for the select component.
   const selectStyles = {
     bg: "black",
     color: "palette.white",
@@ -101,7 +107,7 @@ const FilterAndSort = ({
       },
     },
   };
-
+  // Return the FilterAndSort component.
   return (
     <Box ref={ref} width="100%">
       <HStack spacing={4} justifyContent="center" mb={4}>
@@ -191,7 +197,7 @@ const FilterAndSort = ({
     </Box>
   );
 };
-
+// Define the prop types for the FilterAndSort component.
 FilterAndSort.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -207,5 +213,5 @@ FilterAndSort.propTypes = {
   ]).isRequired,
   onSortChange: PropTypes.func.isRequired,
 };
-
+// Export the FilterAndSort component.
 export default FilterAndSort;

@@ -1,3 +1,4 @@
+// Desc: Apollo Client instance with custom links for error handling, authentication, and file uploads.
 import { ApolloClient, InMemoryCache, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
@@ -52,5 +53,5 @@ const client = new ApolloClient({
     },
   },
 });
-
+// Export the Apollo Client instance.
 export default client;
