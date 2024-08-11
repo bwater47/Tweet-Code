@@ -102,6 +102,7 @@ const typeDefs = `
     users: [User]
     user(username: String!): User
     usermedals(_id: ID!): [Medal]
+    medals: [Medal]
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment

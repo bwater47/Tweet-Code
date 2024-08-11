@@ -146,3 +146,13 @@ export const GET_PROBLEM_TITLE = gql`
     }
   }
 `;
+export const GET_MEDALS = gql`
+    query GetMedals {
+    medals {
+    _id
+    title
+    description
+    price
+    }
+}
+`;

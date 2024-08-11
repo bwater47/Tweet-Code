@@ -8,9 +8,9 @@ const medalData = [
     price: 20
   },
   {
-    title: "you Suck!",
-    description:"this guy sucks.",
-    price: 20
+    title: "Logo V1",
+    description:"The first iteration of the TweetCode logo",
+    price: 500
   },
   {
     title: "you Suck!",
@@ -40,15 +40,15 @@ const seedMedals = async () => {
         return newMedal;
       })
     )
-    .then(async (medals) => {
+    // .then(async (medals) => {
         
-         user.medals = [ ...user.medals, ...medals];
-         const newUser = await user.save();
+    //      user.medals = [ ...user.medals, ...medals];
+    //      const newUser = await user.save();
 
          
-         return medals;
+    //      return medals;
         
-    });
+    // });
 
     console.log(`${createdmedals.length} medals seeded successfully`);
   } catch (err) {

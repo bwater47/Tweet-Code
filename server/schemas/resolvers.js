@@ -4,6 +4,7 @@ import {
   Donation,
   DonationTransaction,
   Problem,
+  Medal,
 } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "../utils/stripe.js";
@@ -73,6 +74,15 @@ export const resolvers = {
         throw new Error(`User with id ${_id} not found`);
       }
       return user.allMedals;
+    },
+    medals: async () => {
+      
+      const medals = await Medal.find();
+      console.log('Medals:',medals);
+      if (!medals) {
+        throw new Error(`no medals found`);
+      }
+      return medals;
     },
   
     donationtransaction: async (_, { _id }, context) => {

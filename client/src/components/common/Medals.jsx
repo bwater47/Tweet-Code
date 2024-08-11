@@ -1,99 +1,9 @@
-import { HStack , Image, Tooltip, Text} from '@chakra-ui/react'
-import {youSuck, goldCoin,bronzeCoin,silverCoin,SupremeInsight,AdvancedInsight,Participation,SupremeHoarder,TheCollector,HumbleStart,ChampionSeeker,ExpertSeeker,NoviceSeeker} from '../../assets/medals/index'
+import { HStack ,  Text} from '@chakra-ui/react'
 import { GET_USER_MEDALS } from '../../graphQL/queries';
 import { useQuery } from '@apollo/client';
+import Medal from './Medal';
 
 
-const Medal = ({medal}) => {
-
-    let thisMedal;
-
-    // cases to set the image. one will be needed for each medal
-    switch (medal.title) {
-        case 'you Suck!':
-
-        thisMedal = youSuck;
-            
-            break;
-        case 'Bronze coin':
-
-        thisMedal = bronzeCoin;
-            
-            break;
-        case 'Silver coin':
-
-        thisMedal = silverCoin;
-            
-            break;
-        case 'Gold coin':
-
-        thisMedal = goldCoin;
-            
-            break;
-        case 'Supreme Insight Award':
-
-        thisMedal = SupremeInsight;
-            
-            break;
-        case 'Advanced Insight Award':
-
-        thisMedal = AdvancedInsight;
-            
-            break;
-        case 'Participation Medal':
-
-        thisMedal = Participation;
-            
-            break;
-        case 'Supreme Hoarder Medal':
-
-        thisMedal = SupremeHoarder;
-            
-            break;
-        case 'The Collector':
-
-        thisMedal = TheCollector;
-            
-            break;
-        case 'A Humble Start':
-
-        thisMedal = HumbleStart;
-            
-            break;
-        case 'Champion Seeker':
-
-        thisMedal = ChampionSeeker;
-            
-            break;
-        case 'Expert Seeker':
-
-        thisMedal = ExpertSeeker;
-            
-            break;
-        case 'Novice Seeker':
-
-        thisMedal = NoviceSeeker;
-            
-            break;
-    
-        default:
-            break;
-    }
-
-
-return(
-<Tooltip label={`${medal.title}: \n ${medal.description}`} fontSize='md'>
-
-    <Image
-  borderRadius='full'
-  boxSize='30px'
-  src={thisMedal}
-  alt={medal.title}
-/>
-  </Tooltip>
-);
-
-}
 
 
 const Medals = ({userid}) => {
@@ -102,9 +12,9 @@ const Medals = ({userid}) => {
             id: userid,
         }
     });
-    if(loading){console.log(loading); return (<p>loading</p>)}
+    if(loading){ return (<p>loading</p>)}
     if(error){console.log(error); return( <Text>{error}</Text>)}
-    console.log(data);
+    
 
 
     const medals = [...data.usermedals]
