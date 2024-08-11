@@ -1,5 +1,5 @@
 import { GET_MEDALS, GET_USER_MEDALS } from "../../graphQL/queries";
-import { ADD_MEDAL_TO_USER } from "../../graphQL/mutations";
+import { ADD_MEDAL_TO_USER ,UPDATE_COINS} from "../../graphQL/mutations";
 import { useQuery, useMutation } from '@apollo/client';
 import Medal from "./Medal";
 import { SimpleGrid,Box,Text } from "@chakra-ui/react";
@@ -7,17 +7,28 @@ import { SimpleGrid,Box,Text } from "@chakra-ui/react";
 
 const ShopItems = ({medals, userid, usercoins}) => {
     const [addMedalToUser] = useMutation(ADD_MEDAL_TO_USER);
-    
+    const [updateCoins] = useMutation(UPDATE_COINS)
 
     async function handlePurchase( uID, mID, price) {
 
         if(usercoins > price) {
-            const { data } = await addMedalToUser({
+           if(window.confirm(`are you sure you want to buy this medal for ${price} coins?`)){
+            
+            const newmedals = await addMedalToUser({
                 variables: {
                   userId: uID,
                   medalId: mID
                 },
               });
+              const newcoins = await updateCoins ({
+                variables: {
+                    userId: uID,
+                    amount: -price,
+                }
+            });
+
+            window.location.reload();
+        }
         }
 
     } 

@@ -247,6 +247,12 @@ export const resolvers = {
       }, { new: true }).populate('medals');
       return updatedUser;
     },
+    updateCoins: async (parent, { amount, userId }) => {
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $inc: { coins: amount }
+      }, { new: true });
+      return updatedUser;
+    }, 
     // Keeping specific error messages during testing.
     // Will update all to a generic "Authentication Error" message for all afterwards.
     login: async (parent, { email, password }) => {

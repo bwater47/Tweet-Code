@@ -209,8 +209,9 @@ const typeDefs = `
     amount: Int!
   ): Coin
 
-  redeemCoins(
-    amount: Int!
+  updateCoins(
+    amount: Int!,
+    userId: ID!
   ): User
 
   # Donation Transaction

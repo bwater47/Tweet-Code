@@ -162,3 +162,10 @@ export const DELETE_COMMENT = gql`
     deleteComment(id: $id)
   }
 `;
+export const UPDATE_COINS = gql`
+mutation UpdateCoins($userId: ID!, $amount: Int!) {
+    updateCoins(userId: $userId, amount: $amount) {
+    coins
+    }
+}
+`;
