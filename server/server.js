@@ -1,22 +1,12 @@
-// Import express from express.
 import express from "express";
-// Import ApolloServer from @apollo/server.
 import { ApolloServer } from "@apollo/server";
-// Import expressMiddleware from @apollo/server/express4.
 import { expressMiddleware } from "@apollo/server/express4";
-// Import path from path.
 import path from "path";
-// Import fileURLToPath from url.
 import { fileURLToPath } from "url";
-// Import authMiddleware from utils/auth.
 import { authMiddleware } from "./utils/auth.js";
-// Import typeDefs and resolvers from schemas.
 import { typeDefs, resolvers } from "./schemas/index.js";
-// Import db from config/connection.
 import db from "./config/connection.js";
-// Import graphqlUploadExpress from graphql-upload-minimal.
 import { graphqlUploadExpress } from "graphql-upload-minimal";
-// Import cors from cors.
 import cors from "cors";
 import stripeWebhook from "./utils/stripeWebhook.js";
 
