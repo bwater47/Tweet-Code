@@ -1,4 +1,4 @@
-// Imports for ESM.
+// Imports all the models and exports them as a single object.
 import User from "./User.js";
 import Donation from "./Donation.js";
 import DonationTransaction from "./DonationTransaction.js";

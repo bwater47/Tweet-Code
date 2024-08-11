@@ -1,10 +1,16 @@
+// Import useRef, useState, useEffect from react.
 import { useRef, useState, useEffect } from "react";
+// Import Box, HStack, VStack from Chakra UI.
 import { Box, HStack, VStack } from "@chakra-ui/react";
+// Import Editor from @monaco-editor/react.
 import { Editor } from "@monaco-editor/react";
+// Import LanguageSelector from LanguageSelector.jsx.
 import LanguageSelector from "./LanguageSelector.jsx";
+// Import CODE_SNIPPETS from Constants.jsx.
 import { CODE_SNIPPETS } from "./Constants.jsx";
+// Import Output from Output.jsx.
 import Output from "./Output.jsx";
-
+// Create a function that returns the CodeEditor component with the code snippet, language selector, and output.
 const CodeEditor = ({
   onCodeChange,
   onLanguageChange,
@@ -84,5 +90,5 @@ const CodeEditor = ({
     </VStack>
   );
 };
-
+// Export the CodeEditor component.
 export default CodeEditor;

@@ -1,21 +1,32 @@
+// Import React from the react package to use JSX.
 import React from "react";
+// Import ChakraProvider from Chakra UI to provide the theme to the app.
 import { ChakraProvider } from "@chakra-ui/react";
+// Import ReactDOM from react-dom/client to render the app.
 import ReactDOM from "react-dom/client";
+// Import createBrowserRouter, RouterProvider from react-router-dom to create the router.
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+// Import ApolloProvider from @apollo/client to provide the Apollo client to the app.
 import { ApolloProvider } from "@apollo/client";
+// Import App component from App.jsx.
 import App from "./App.jsx";
+// Import CSS file.
 import "./styles/index.css";
-import Home from "./pages/Home.jsx";
+// Import Pages.
 import CreatePost from "./pages/Createpost.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Devs from "./pages/Devs.jsx";
 import FAQ from "./pages/Faq.jsx";
+import Home from "./pages/Home.jsx";
+import ProblemPage from "./pages/ProblemPage.jsx";
 import Registration from "./pages/Registration.jsx";
-import Search from "./pages/Search.jsx";
 import Success from "./pages/Success.jsx";
 import ViewPost from "./pages/Viewpost.jsx";
+// Import ProtectedRoute component to protect routes from unauthenticated users.
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
+// Import custom Theme.
 import theme from "./styles/theme.js";
+// Import client from helpers.js.
 import client from "./utils/helpers.js";
 import Donate from "../src/pages/Donate.jsx";
 import ProblemPage from "./pages/ProblemPage.jsx";
@@ -52,12 +63,12 @@ const router = createBrowserRouter([
         element: <FAQ />,
       },
       {
-        path: "/Registration",
-        element: <Registration />,
+        path: "/problem/:id",
+        element: <ProblemPage />,
       },
       {
-        path: "/Search",
-        element: <Search />,
+        path: "/Registration",
+        element: <Registration />,
       },
       {
         path: "/Success",
@@ -78,7 +89,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
+// Render the app using ReactDOM.createRoot.
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
