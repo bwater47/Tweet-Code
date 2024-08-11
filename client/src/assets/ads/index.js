@@ -1,3 +1,4 @@
+// Exporting the images in the ads folder.
 export {default as Crunchy} from './ad-Crunchy.webp'
 export {default as CupHub} from './ad-CupHub.webp'
 export {default as Dino} from './ad-Dino.webp'

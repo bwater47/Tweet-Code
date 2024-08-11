@@ -1,3 +1,4 @@
+// Description: This file contains the data for the developers that are displayed on the Developers page.
 const devsData = [
   {
     id: 1,
@@ -60,5 +61,5 @@ const devsData = [
     },
   },
 ];
-
+// Export the devsData array.
 export default devsData;

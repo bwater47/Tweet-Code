@@ -1,10 +1,12 @@
-
+// Import the Comment model from models/Comment.
 import Comment from "../models/Comment.js";
+// Import the User model from models/User.
 import User from "../models/User.js";
+// Import the Problem model from models/Problem.
 import Problem from "../models/Problem.js";
-
+// Create an array of comment and solution data.
 const commentAndSolutionData = [
-  // Regular comments
+  // Regular comments.
   {
     content: "Great solution! Very efficient.",
     isSolution: false,
@@ -20,7 +22,7 @@ const commentAndSolutionData = [
     isSolution: false,
     votes: [{ value: 1 }],
   },
-  // Solutions (previously in solutionSeeds.js)
+  // Solutions (previously in solutionSeeds.js).
   {
     content: "Here's a recursive implementation of the Fibonacci sequence:",
     code: `function fibonacci(n) {
@@ -68,30 +70,30 @@ const commentAndSolutionData = [
     votes: [{ value: 1 }, { value: 1 }],
   },
 ];
-
+// Create an async function to seed the comments and solutions.
 const seedCommentsAndSolutions = async () => {
   try {
-    // Clear existing comments
+    // Clear existing comments.
     await Comment.deleteMany({});
     console.log("Existing comments and solutions deleted");
 
-    // Get all users and problems
+    // Get all users and problems.
     const users = await User.find();
     const problems = await Problem.find();
-
+    // Check if users and problems exist.
     if (users.length === 0 || problems.length === 0) {
       throw new Error(
         "Users or Problems not found. Please seed users and problems first."
       );
     }
 
-    // Create comments and solutions
+    // Create comments and solutions.
     const createdItems = await Promise.all(
       commentAndSolutionData.map(async (item) => {
         const randomUser = users[Math.floor(Math.random() * users.length)];
         const randomProblem =
           problems[Math.floor(Math.random() * problems.length)];
-
+        // Create a new comment or solution.
         const newItem = new Comment({
           content: item.content,
           author: randomUser._id,
@@ -117,7 +119,7 @@ const seedCommentsAndSolutions = async () => {
       `${createdItems.length} comments and solutions seeded successfully`
     );
 
-    // Add comments and solutions to their respective problems
+    // Add comments and solutions to their respective problems.
     await Promise.all(
       createdItems.map(async (item) => {
         await Problem.findByIdAndUpdate(item.problem, {
@@ -138,5 +140,5 @@ const seedCommentsAndSolutions = async () => {
     console.error("Error seeding comments and solutions:", err);
   }
 };
-
+// Export the seedCommentsAndSolutions function.
 export default seedCommentsAndSolutions;
