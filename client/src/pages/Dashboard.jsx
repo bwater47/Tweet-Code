@@ -31,6 +31,8 @@ import { QUERY_ME } from "../graphQL/queries.js";
 import { Link as RouterLink } from "react-router-dom";
 import DonationModal from "../components/common/DonationModal";
 import { UpdateProfile } from "../components/common/UpdateProfile";
+import  Medals  from '../components/common/Medals.jsx'
+import MedalShop from "../components/common/MedalShop.jsx";
 
 const Dashboard = () => {
   const { loading, error, data, refetch } = useQuery(QUERY_ME);
@@ -135,7 +137,7 @@ const Dashboard = () => {
   return (
     <Box
       p={5}
-      minHeight="100vh"
+      
       bgGradient="linear(palette.darkgrey, palette.gradpurple, palette.darkgrey)"
       color="white"
     >
@@ -218,6 +220,8 @@ const Dashboard = () => {
               <Tab>Recent Activity</Tab>
               <Tab>My Problems</Tab>
               <Tab>My Comments</Tab>
+              <Tab>Medals</Tab>
+              <Tab>Shop</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -312,6 +316,14 @@ const Dashboard = () => {
                 ) : (
                   <Text>No comments made yet.</Text>
                 )}
+              </TabPanel>
+              <TabPanel>
+                <Heading size="md" mb={2}>Medals</Heading>
+                <Medals userid={user._id}></Medals>
+              </TabPanel>
+              <TabPanel>
+                <Heading size="md" mb={2}>Shop</Heading>
+                <MedalShop userid={user._id} usercoins={user.coins}></MedalShop>
               </TabPanel>
             </TabPanels>
           </Tabs>

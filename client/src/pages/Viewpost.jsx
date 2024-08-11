@@ -9,6 +9,7 @@ import {
   VStack,
   HStack,
 } from '@chakra-ui/react';
+import Medals from '../components/common/Medals.jsx';
 const commentsData = [
   {
     id: 1,
@@ -58,7 +59,10 @@ const ViewPost = () => {
             <HStack alignItems="center" mb={2}>
               <Avatar src={comment.avatar} size="sm" />
               <Box ml={3}>
+                <HStack>
                 <Text fontWeight="bold">{comment.username}</Text>
+                <Medals userid='66b64c6a2c5d6b636e60c493'/>
+                </HStack>
                 <Text fontSize="sm" color="gray.500">
                   {comment.date}
                 </Text>

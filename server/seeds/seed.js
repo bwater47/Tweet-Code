@@ -3,9 +3,11 @@ import dotenv from "dotenv";
 import User from "../models/User.js";
 import Problem from "../models/Problem.js";
 import Comment from "../models/Comment.js";
+import Medal from "../models/Medal.js";
 import seedUsers from "./userSeeds.js";
 import seedProblems from "./problemSeeds.js";
 import seedCommentsAndSolutions from "./commentSeeds.js";
+import seedMedals from "./medalsSeeds.js";
 
 dotenv.config();
 
@@ -26,6 +28,7 @@ const seedDatabase = async () => {
     await User.deleteMany({});
     await Problem.deleteMany({});
     await Comment.deleteMany({});
+    await Medal.deleteMany({});
     console.log("Existing data cleared");
 
     // Seed users
@@ -39,6 +42,12 @@ const seedDatabase = async () => {
     // Seed comments and solutions
     await seedCommentsAndSolutions();
     console.log("Comments and solutions seeded successfully");
+
+    // Seed medals
+
+    await seedMedals();
+    console.log("medals seeded successfully");
+
 
     // Close the connection
     await mongoose.connection.close();

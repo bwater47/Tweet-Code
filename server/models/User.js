@@ -60,7 +60,65 @@ const userSchema = new Schema({
     type: String,
     default: "https://example.com/default-avatar.png", // Set a default avatar URL
   },
+  medals: [ 
+    {
+    type: Schema.Types.ObjectId,
+    ref: 'Medal'
+  }
+  ]
+}, {
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true},
 });
+
+userSchema.virtual("allMedals",{
+  ref: 'Medal', // The model to use for population
+  localField: 'medals', // Find medals where `localField`
+  foreignField: '_id', // is equal to `foreignField`
+} ).get(function () {
+  const assignedMedals = this.medals || [];
+  const dynamicMedals = this.getDynamicMedals();
+  return [...assignedMedals, ...dynamicMedals];
+  
+});
+
+userSchema.methods.getDynamicMedals = function(){
+  const dynamicMedals = [];
+  
+  
+  if(this.problems.length > 20){
+    dynamicMedals.push({title:'Champion Seeker', description: 'has posted over 20 problems'})
+  }
+  else if(this.problems.length > 10){
+    dynamicMedals.push({title:'Expert Seeker', description: 'has posted over 10 problems'})
+  }
+  else if(this.problems.length > 5){
+    dynamicMedals.push({title:'Novice Seeker', description: 'has posted over 5 problems'})
+  }
+
+  if(this.comments.length > 20){
+    dynamicMedals.push({title:'Supreme Insight Award', description: 'has posted over 20 comments'})
+  }
+  else if(this.comments.length > 10){
+    dynamicMedals.push({title:'Advanced Insight Award', description: 'has posted over 10 comments'})
+  }
+  else if(this.comments.length > 1){
+    dynamicMedals.push({title:'Participation Medal', description: 'has posted one comment'})
+  }
+
+  if(this.medals.length + dynamicMedals.length > 5){
+    dynamicMedals.push({title:'Supreme Hoarder Medal', description: 'has collected over 5 Medals'})
+  }
+  else if(this.medals.length + dynamicMedals.length > 3){
+    dynamicMedals.push({title:'The Collector', description: 'has collected over 3 Medals'})
+  }
+  else if(this.medals.length + dynamicMedals.length > 1){
+    dynamicMedals.push({title:'A Humble Start', description: 'has collected over 1 Medals'})
+  }
+  
+
+  return dynamicMedals;
+}
 
 // Set up pre-save middleware to create password.
 userSchema.pre("save", async function (next) {

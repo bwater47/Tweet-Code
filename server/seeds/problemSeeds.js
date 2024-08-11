@@ -50,6 +50,9 @@ const seedProblems = async () => {
           createdAt: new Date(),
         });
 
+        randomUser.problems = [ ...randomUser.problems, newProblem];
+
+        
         await newProblem.save();
         return newProblem;
       })

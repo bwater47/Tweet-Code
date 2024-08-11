@@ -1,3 +1,4 @@
+
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 
@@ -11,6 +12,7 @@ const userData = [
     coins: 1000,
     problems: [],
     donationsMade: [],
+    medals:[]
   },
   {
     firstName: "Cyber",
@@ -21,6 +23,8 @@ const userData = [
     coins: 750,
     problems: [],
     donationsMade: [],
+    medals:[]
+
   },
   {
     firstName: "Script",
@@ -31,6 +35,8 @@ const userData = [
     coins: 500,
     problems: [],
     donationsMade: [],
+    medals:[]
+
   },
   {
     firstName: "C0de",
@@ -41,6 +47,8 @@ const userData = [
     coins: 1200,
     problems: [],
     donationsMade: [],
+    medals:[]
+
   },
   {
     firstName: "Gl1tch",
@@ -51,6 +59,8 @@ const userData = [
     coins: 800,
     problems: [],
     donationsMade: [],
+    medals:[]
+
   },
 ];
 
