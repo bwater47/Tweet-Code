@@ -125,6 +125,13 @@ const seedCommentsAndSolutions = async () => {
         });
       })
     );
+    await Promise.all(
+      createdItems.map(async (item) => {
+        await User.findByIdAndUpdate(item.author, {
+          $push: { comments: item._id },
+        });
+      })
+    );
 
     console.log("Comments and solutions added to problems");
   } catch (err) {

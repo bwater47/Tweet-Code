@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 import client from "./utils/helpers.js";
 import Donate from "../src/pages/Donate.jsx";
+import ProblemPage from "./pages/ProblemPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
         path: "/Donate",
         element: <Donate />,
       },
+      {
+        path: "/problem/:id",
+        element: <ProblemPage />,
+      },
     ],
   },
 ]);
@@ -77,9 +82,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-        <ApolloProvider client={client}>
-          <RouterProvider router={router} />
-        </ApolloProvider>
+      <ApolloProvider client={client}>
+        <RouterProvider router={router} />
+      </ApolloProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

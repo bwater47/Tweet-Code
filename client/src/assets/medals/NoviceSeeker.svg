@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="211.66666mm"
+   height="211.66667mm"
+   viewBox="0 0 211.66666 211.66667"
+   version="1.1"
+   id="svg1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm" />
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient3"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#645410;stop-opacity:0.4125874;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#5c5217;stop-opacity:0.69230771;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient4"
+       x1="115.68069"
+       y1="36.356281"
+       x2="36.979458"
+       y2="107.62181"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(14.108404,-0.36175397)" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#101010;fill-opacity:1;stroke:#000000;stroke-width:4.50199"
+       d="m 112.50548,116.12301 40.87819,51.36907 12.66139,-10.49087 -39.43118,-48.47503 z"
+       id="path2"
+       sodipodi:nodetypes="ccccc" />
+    <ellipse
+       style="fill:url(#linearGradient4);stroke:#000000;stroke-width:4.502;stroke-dasharray:none"
+       id="path1"
+       cx="92.428131"
+       cy="71.808167"
+       rx="48.655998"
+       ry="48.655907" />
+    <ellipse
+       style="fill:#e5e3e3;fill-opacity:0.756436;stroke:#000000;stroke-width:0;stroke-dasharray:none"
+       id="path3"
+       cx="107.44093"
+       cy="48.655907"
+       rx="11.576126"
+       ry="11.395249" />
+  </g>
+</svg>

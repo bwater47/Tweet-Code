@@ -5,10 +5,18 @@ import LanguageSelector from "./LanguageSelector.jsx";
 import { CODE_SNIPPETS } from "./Constants.jsx";
 import Output from "./Output.jsx";
 
-const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
+const CodeEditor = ({
+  onCodeChange,
+  onLanguageChange,
+  initialCode = "",
+  initialLanguage = "javascript",
+  readOnly = false,
+}) => {
   const editorRef = useRef(null);
-  const [value, setValue] = useState("");
-  const [language, setLanguage] = useState("javascript");
+  const [value, setValue] = useState(
+    initialCode || CODE_SNIPPETS[initialLanguage]
+  );
+  const [language, setLanguage] = useState(initialLanguage);
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   const onMount = (editor) => {
@@ -17,11 +25,13 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
     setIsEditorReady(true);
   };
 
-  const onSelect = (language) => {
-    setLanguage(language);
-    setValue(CODE_SNIPPETS[language]);
+  const onSelect = (lang) => {
+    setLanguage(lang);
+    if (!initialCode) {
+      setValue(CODE_SNIPPETS[lang]);
+    }
     if (onLanguageChange) {
-      onLanguageChange(language);
+      onLanguageChange(lang);
     }
   };
 
@@ -33,10 +43,12 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
 
   return (
     <VStack spacing={4} height="100%" width="100%">
-      <LanguageSelector language={language} onSelect={onSelect} />
+      <LanguageSelector
+        language={language}
+        onSelect={onSelect}
+        disabled={readOnly}
+      />
       <HStack spacing={4} width="100%" height="calc(100% - 40px)">
-        {" "}
-        {/* Adjust for LanguageSelector height */}
         <Box
           width="50%"
           height="100%"
@@ -53,14 +65,14 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
               lineNumbers: "on",
               roundedSelection: false,
               automaticLayout: true,
+              readOnly: readOnly,
             }}
             height="100%"
             theme="vs-dark"
             language={language}
-            defaultValue={CODE_SNIPPETS[language]}
-            onMount={onMount}
             value={value}
-            onChange={(value) => setValue(value)}
+            onChange={(newValue) => setValue(newValue)}
+            onMount={onMount}
           />
         </Box>
         {isEditorReady && (

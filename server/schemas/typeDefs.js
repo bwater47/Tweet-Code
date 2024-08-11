@@ -13,6 +13,8 @@ const typeDefs = `
     comments: [Comment]
     donationTransactions: [DonationTransaction]
     avatar: String
+    medals: [Medal]
+    allmedals: [Medal]
   }
 
   type Comment {
@@ -88,10 +90,19 @@ const typeDefs = `
     session: ID
   }
 
+  type Medal {
+    _id: ID
+    title: String!
+    description: String!
+    price: Int
+  }
+
   type Query {
     me: User
     users: [User]
     user(username: String!): User
+    usermedals(_id: ID!): [Medal]
+    medals: [Medal]
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment
@@ -198,8 +209,9 @@ const typeDefs = `
     amount: Int!
   ): Coin
 
-  redeemCoins(
-    amount: Int!
+  updateCoins(
+    amount: Int!,
+    userId: ID!
   ): User
 
   # Donation Transaction
@@ -221,6 +233,10 @@ const typeDefs = `
     commentId: ID!, 
     value: Int!
   ): Comment
+
+    # Medal Management on Users
+    addMedalToUser(userId: ID!, medalId: ID!): User
+
   }
 `;
 

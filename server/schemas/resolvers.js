@@ -4,6 +4,7 @@ import {
   Donation,
   DonationTransaction,
   Problem,
+  Medal,
 } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "../utils/stripe.js";
@@ -65,7 +66,27 @@ export const resolvers = {
       }
       throw new AuthenticationError("User not authenticated");
     },
-
+    usermedals: async (_, { _id }) => {
+      if (!_id) {
+        throw new Error('User ID is required');
+      }
+      const user = await User.findById(_id).populate('medals');
+      console.log('User:',user);
+      if (!user) {
+        throw new Error(`User with id ${_id} not found`);
+      }
+      return user.allMedals;
+    },
+    medals: async () => {
+      
+      const medals = await Medal.find();
+      console.log('Medals:',medals);
+      if (!medals) {
+        throw new Error(`no medals found`);
+      }
+      return medals;
+    },
+  
     donationtransaction: async (_, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
@@ -238,6 +259,18 @@ export const resolvers = {
         throw new Error(`Failed to update user: ${error.message}`);
       }
     },
+    addMedalToUser: async (parent, { userId, medalId }) => {
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $addToSet: { medals: medalId }
+      }, { new: true }).populate('medals');
+      return updatedUser;
+    },
+    updateCoins: async (parent, { amount, userId }) => {
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $inc: { coins: amount }
+      }, { new: true });
+      return updatedUser;
+    }, 
     // Keeping specific error messages during testing.
     // Will update all to a generic "Authentication Error" message for all afterwards.
     login: async (parent, { email, password }) => {

@@ -113,8 +113,8 @@ export const GET_PROBLEMS = gql`
 `;
 
 export const GET_PROBLEM = gql`
-  query GetProblem($id: ID!) {
-    problem(id: $id) {
+  query GetProblem($_id: ID!) {
+    problem(_id: $_id) {
       _id
       title
       description
@@ -128,6 +128,16 @@ export const GET_PROBLEM = gql`
     }
   }
 `;
+export const GET_USER_MEDALS = gql`
+query Usermedals($id: ID!) {
+  usermedals(_id: $id) {
+    _id
+    title
+    description
+    price
+  }
+}
+`;
 
 export const GET_PROBLEM_TITLE = gql`
   query GetProblemTitles {
@@ -136,4 +146,14 @@ export const GET_PROBLEM_TITLE = gql`
       title
     }
   }
+`;
+export const GET_MEDALS = gql`
+    query GetMedals {
+    medals {
+    _id
+    title
+    description
+    price
+    }
+}
 `;
