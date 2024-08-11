@@ -23,9 +23,6 @@ const commentSchema = new Schema({
       return this.isSolution;
     },
   },
-  explanation: {
-    type: String,
-  },
   language: {
     type: String,
   },

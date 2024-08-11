@@ -137,35 +137,112 @@ export const UPDATE_USER = gql`
   }
 `;
 
-
 export const DELETE_PROBLEM = gql`
   mutation DeleteProblem($id: ID!) {
     deleteProblem(id: $id)
   }
 `;
 export const ADD_MEDAL_TO_USER = gql`
-mutation Mutation($userId: ID!, $medalId: ID!) {
-  addMedalToUser(userId: $userId, medalId: $medalId) {
-    _id
-    medals {
+  mutation Mutation($userId: ID!, $medalId: ID!) {
+    addMedalToUser(userId: $userId, medalId: $medalId) {
       _id
-      title
-      description
-      price
+      medals {
+        _id
+        title
+        description
+        price
+      }
     }
   }
-}
+`;
+
+export const UPDATE_COINS = gql`
+  mutation UpdateCoins($userId: ID!, $amount: Int!) {
+    updateCoins(userId: $userId, amount: $amount) {
+      coins
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation AddComment(
+    $problemId: ID!
+    $content: String!
+    $code: String
+    $language: String
+  ) {
+    addComment(
+      problemId: $problemId
+      content: $content
+      code: $code
+      language: $language
+    ) {
+      _id
+      content
+      code
+      language
+      createdAt
+      author {
+        _id
+        username
+      }
+      votes {
+        user {
+          _id
+        }
+        value
+      }
+    }
+  }
+`;
+
+export const UPDATE_COMMENT = gql`
+  mutation UpdateComment(
+    $commentId: ID!
+    $content: String
+    $code: String
+    $language: String
+  ) {
+    updateComment(
+      commentId: $commentId
+      content: $content
+      code: $code
+      language: $language
+    ) {
+      _id
+      content
+      code
+      language
+      updatedAt
+    }
+  }
 `;
 
 export const DELETE_COMMENT = gql`
-  mutation DeleteComment($id: ID!) {
-    deleteComment(id: $id)
+  mutation DeleteComment($commentId: ID!) {
+    deleteComment(commentId: $commentId)
   }
 `;
-export const UPDATE_COINS = gql`
-mutation UpdateCoins($userId: ID!, $amount: Int!) {
-    updateCoins(userId: $userId, amount: $amount) {
-    coins
+
+export const MARK_AS_SOLUTION = gql`
+  mutation MarkCommentAsSolution($commentId: ID!) {
+    markCommentAsSolution(commentId: $commentId) {
+      _id
+      isSolution
     }
-}
+  }
+`;
+
+export const VOTE_COMMENT = gql`
+  mutation VoteComment($commentId: ID!, $value: Int!) {
+    voteComment(commentId: $commentId, value: $value) {
+      _id
+      votes {
+        user {
+          _id
+        }
+        value
+      }
+    }
+  }
 `;

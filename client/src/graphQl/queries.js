@@ -123,20 +123,40 @@ export const GET_PROBLEM = gql`
       tags
       coinReward
       author {
+        _id
         username
+      }
+      comments {
+        _id
+        content
+        code
+        language
+        isSolution
+        createdAt
+        author {
+          _id
+          username
+        }
+        votes {
+          user {
+            _id
+          }
+          value
+        }
       }
     }
   }
 `;
+
 export const GET_USER_MEDALS = gql`
-query Usermedals($id: ID!) {
-  usermedals(_id: $id) {
-    _id
-    title
-    description
-    price
+  query Usermedals($id: ID!) {
+    usermedals(_id: $id) {
+      _id
+      title
+      description
+      price
+    }
   }
-}
 `;
 
 export const GET_PROBLEM_TITLE = gql`
@@ -148,12 +168,12 @@ export const GET_PROBLEM_TITLE = gql`
   }
 `;
 export const GET_MEDALS = gql`
-    query GetMedals {
+  query GetMedals {
     medals {
-    _id
-    title
-    description
-    price
+      _id
+      title
+      description
+      price
     }
-}
+  }
 `;
