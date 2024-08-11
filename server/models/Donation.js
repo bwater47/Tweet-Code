@@ -13,7 +13,6 @@ const donationSchema = new Schema({
     type: Number,
     required: true,
     min: 0.99,
-    default: 10.00,
   },
 });
 const Donation = mongoose.model("Donation", donationSchema);

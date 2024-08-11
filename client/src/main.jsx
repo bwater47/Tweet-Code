@@ -17,6 +17,7 @@ import ViewPost from "./pages/Viewpost.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 import client from "./utils/helpers.js";
+import Donate from "../src/pages/Donate.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: "/Post/:id",
         element: <ViewPost />,
+      },
+      {
+        path: "/Donate",
+        element: <Donate />,
       },
     ],
   },

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { useState, useRef, useEffect } from "react";
-import TagFilter from "./tagFilter"; // Assuming this is an existing component
+import TagFilter from "./tagFilter";
 
 const FilterAndSort = ({
   tags,

@@ -12,6 +12,7 @@ import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 export const resolvers = {
   Upload: GraphQLUpload,
+
   Query: {
     me: async (parent, args, context) => {
       if (!context.user) {
@@ -34,23 +35,24 @@ export const resolvers = {
               select: "_id name description price",
             },
           });
-
         if (!user) {
           throw new Error("User not found");
         }
-
         return user;
       } catch (error) {
         console.error("Error in me query:", error);
         throw new Error(`Failed to fetch user data: ${error.message}`);
       }
     },
+
     donations: async (parent, {}) => {
       return await Donation.find();
     },
+
     donation: async (parent, { _id }) => {
       return await Donation.findById(_id);
     },
+
     user: async (_, __, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
@@ -63,6 +65,7 @@ export const resolvers = {
       }
       throw new AuthenticationError("User not authenticated");
     },
+
     donationtransaction: async (_, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
@@ -72,6 +75,7 @@ export const resolvers = {
       }
       throw new AuthenticationError("User not authenticated");
     },
+
     checkout: async (parent, args, context) => {
       console.log("Checkout Started!");
       const url = new URL(context.headers.referer).origin;
@@ -81,7 +85,6 @@ export const resolvers = {
       // const donationtransaction = new DonationTransaction({ donations: args.donations });
       // await donationtransaction.save();
       const line_items = [];
-
       const { donations } = await donationtransaction.populate("donations");
       console.log(donations);
       donations.map(async (donation) => {
@@ -99,13 +102,11 @@ export const resolvers = {
         // name: donation.name,
         // description: donation.description,
         // });
-
         // const price = await stripe.prices.create({
         // product: product.id,
         // unit_amount: donation.price * 100,
         // currency: "usd",
         // });
-
         // line_items.push({
         // price: price.id,
         // quantity: 1,
@@ -118,9 +119,9 @@ export const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
-
       return { session: session.id };
     },
+
     problems: async () => {
       try {
         return await Problem.find().populate("author");
@@ -129,6 +130,7 @@ export const resolvers = {
         throw new Error("Failed to fetch problems");
       }
     },
+
     problem: async (parent, { _id }) => {
       try {
         return await Problem.findById(_id).populate("author");
@@ -138,18 +140,17 @@ export const resolvers = {
       }
     },
   },
+
+
   Mutation: {
     addUser: async (parent, args) => {
       try {
-        // Check if user already exists
         const existingUser = await User.findOne({ email: args.email });
         if (existingUser) {
           throw new GraphQLError("A user with this email already exists");
         }
-
         // Create new user
         const user = await User.create(args);
-
         // Generate token
         const token = signToken({
           _id: user._id,
@@ -170,18 +171,36 @@ export const resolvers = {
         throw new AuthenticationError("Failed to create new user");
       }
     },
+
     makeDonationTransaction: async (parent, { donationId }, context) => {
       if (context.user) {
-        const donationtransaction = new DonationTransaction({
-          donations: [donationId],
-        });
-        await User.findByIdAndUpdate(context.user._id, {
-          $push: { donationtransactions: donationtransaction },
-        });
-        return donationtransaction;
+        try {
+          // Create a new donation transaction
+          const donationTransaction = new DonationTransaction({
+            donations: [donationId],
+            purchaseDate: new Date(),
+          });
+
+          // Save the transaction
+          await donationTransaction.save();
+
+          // Add the transaction to the user's donations
+          await User.findByIdAndUpdate(context.user._id, {
+            $push: { donationTransactions: donationTransaction._id },
+          });
+
+          // Populate the donations field
+          await donationTransaction.populate('donations');
+
+          return donationTransaction;
+        } catch (error) {
+          console.error('Error in makeDonationTransaction:', error);
+          throw new Error('Failed to process donation');
+        }
       }
-      throw new AuthenticationError("Not logged in");
+      throw new AuthenticationError('Not logged in');
     },
+
     updateUser: async (
       _,
       { username, firstName, lastName, avatar },
@@ -262,6 +281,7 @@ export const resolvers = {
         }
       }
     },
+
     // Problem Management
     createProblem: async (
       parent,
@@ -287,6 +307,7 @@ export const resolvers = {
       }
       throw new AuthenticationError("Not logged in");
     },
+
     updateProblem: async (
       parent,
       { id, title, description, programmingLanguage, code, tags, coinReward },

@@ -12,8 +12,9 @@ export const LOGIN_USER = gql`
   }
 `;
 export const MAKE_DONATIONTRANSACTION = gql`
-  mutation makeDonationTransaction($donations: [ID]!) {
-    makeDonationTransaction(donations: $donations) {
+  mutation makeDonationTransaction($donationId: ID!) {
+    makeDonationTransaction(donationId: $donationId) {
+      _id
       purchaseDate
       donations {
         _id
@@ -24,6 +25,7 @@ export const MAKE_DONATIONTRANSACTION = gql`
     }
   }
 `;
+
 export const ADD_USER = gql`
   mutation addUser(
     $firstName: String!
