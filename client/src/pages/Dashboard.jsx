@@ -24,6 +24,7 @@ import {
   TabPanel,
   Image,
   useToast,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useQuery, useMutation } from "@apollo/client";
 import { DELETE_PROBLEM, DELETE_COMMENT } from "../graphQL/mutations.js";
@@ -38,6 +39,7 @@ const Dashboard = () => {
   const { loading, error, data, refetch } = useQuery(QUERY_ME);
   const [deleteProblem] = useMutation(DELETE_PROBLEM);
   const [deleteComment] = useMutation(DELETE_COMMENT);
+  const [screenSmallerThan660] = useMediaQuery('(max-width: 660px')
   const toast = useToast();
   const {
     isOpen: isDonationModalOpen,
@@ -217,13 +219,13 @@ const Dashboard = () => {
           borderRadius={10}
           borderColor="palette.grey"
         >
-          <Tabs colorScheme="purple">
+          <Tabs colorScheme="purple" size={screenSmallerThan660 ? 'sm' : 'xl'}>
             <TabList>
-              <Tab>Recent Activity</Tab>
-              <Tab>My Problems</Tab>
-              <Tab>My Comments</Tab>
-              <Tab>Medals</Tab>
-              <Tab>Shop</Tab>
+              <Tab  >Recent Activity</Tab>
+              <Tab >My Problems</Tab>
+              <Tab >My Comments</Tab>
+              <Tab >Medals</Tab>
+              <Tab >Shop</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

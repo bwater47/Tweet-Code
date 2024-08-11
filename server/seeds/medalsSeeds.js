@@ -15,20 +15,30 @@ const medalData = [
     price: 500,
   },
   {
-    title: "you Suck!",
-    description: "this guy sucks.",
-    price: 20,
+    title: "Bronze coin",
+    description:"a poor medal for a poor boy.",
+    price: 10
+  },
+  {
+    title: "Silver coin",
+    description:"The middle class but a coin.",
+    price: 200
+  },
+  {
+    title: "Gold coin",
+    description:"He spent HOW MUCH!",
+    price: 20000
   },
 ];
 // Create an async function to seed the medals.
 const seedMedals = async () => {
   try {
-    // Get all users.
-    const user = await User.findOne();
+    // Get all users
+    // const user = await User.findOne();
 
-    if (!user) {
-      throw new Error("User not found. Please seed users first.");
-    }
+    // if (!user) {
+    //   throw new Error("User not found. Please seed users first.");
+    // }
 
     // Create medals.
     const createdmedals = await Promise.all(
