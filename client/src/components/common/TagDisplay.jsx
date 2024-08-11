@@ -1,4 +1,3 @@
-
 import { Wrap, Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
 const TagDisplay = ({ tags, onRemoveTag }) => {
@@ -13,7 +12,7 @@ const TagDisplay = ({ tags, onRemoveTag }) => {
           colorScheme="cyan"
         >
           <TagLabel>{tag}</TagLabel>
-          <TagCloseButton onClick={() => onRemoveTag(index)} />
+          {onRemoveTag && <TagCloseButton onClick={() => onRemoveTag(index)} />}
         </Tag>
       ))}
     </Wrap>

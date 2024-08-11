@@ -17,6 +17,7 @@ import ViewPost from "./pages/Viewpost.jsx";
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 import client from "./utils/helpers.js";
+import ProblemPage from "./pages/ProblemPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
         path: "/Post/:id",
         element: <ViewPost />,
       },
+      {
+        path: "/problem/:id",
+        element: <ProblemPage />,
+      },
     ],
   },
 ]);
@@ -72,9 +77,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-        <ApolloProvider client={client}>
-          <RouterProvider router={router} />
-        </ApolloProvider>
+      <ApolloProvider client={client}>
+        <RouterProvider router={router} />
+      </ApolloProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
