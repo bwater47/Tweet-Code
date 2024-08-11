@@ -1,10 +1,12 @@
-// Imports for ESM.
+// Import the mongoose module.
 import mongoose from "mongoose";
+// Import bcrypt for password hashing.
 import bcrypt from "bcrypt";
+// Import the DonationTransaction model.
 import DonationTransaction from "./DonationTransaction.js";
-
+// Destruction assignment of Schema and model from mongoose.
 const { Schema } = mongoose;
-
+// Create a new Schema for the User model.
 const userSchema = new Schema({
   username: {
     type: String,
@@ -58,7 +60,7 @@ const userSchema = new Schema({
   ],
   avatar: {
     type: String,
-    default: "https://example.com/default-avatar.png", // Set a default avatar URL
+    default: "https://example.com/default-avatar.png", // Set a default avatar URL.
   },
   medals: [ 
     {
@@ -126,15 +128,13 @@ userSchema.pre("save", async function (next) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
-
   next();
 });
-
 // Compare the incoming password with the hashed password.
 userSchema.methods.isCorrectPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
+// Create a variable to store the User model.
 const User = mongoose.model("User", userSchema);
-
+// Export the User model.
 export default User;

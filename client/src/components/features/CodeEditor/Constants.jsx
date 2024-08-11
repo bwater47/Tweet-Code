@@ -1,3 +1,4 @@
+// Export the LANGUAGE_VERSIONS constant.
 export const LANGUAGE_VERSIONS = {
   javascript: "18.15.0",
   typescript: "5.0.3",
@@ -6,7 +7,7 @@ export const LANGUAGE_VERSIONS = {
   csharp: "6.12.0",
   php: "8.2.3",
 };
-
+// Export the CODE_SNIPPETS constant.
 export const CODE_SNIPPETS = {
   javascript: `\nfunction greet(name) {\n\tconsole.log("Hello, " + name + "!");\n}\n\ngreet("Alex");\n`,
   typescript: `\ntype Params = {\n\tname: string;\n}\n\nfunction greet(data: Params) {\n\tconsole.log("Hello, " + data.name + "!");\n}\n\ngreet({ name: "Alex" });\n`,

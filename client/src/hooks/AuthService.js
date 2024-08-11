@@ -1,14 +1,18 @@
+// Import decode from jwt-decode.
 import decode from "jwt-decode";
-
+// Define the AuthService class.
 class AuthService {
+  // Define the getProfile method.
   getProfile() {
     return decode(this.getToken());
   }
+  // Define the isLoggedIn method.
   loggedIn() {
     // Checks if there is a saved token and it's still valid.
     const token = this.getToken();
     return !!token && !this.isTokenExpired(token);
   }
+  // Define the isTokenExpired method.
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
@@ -19,6 +23,7 @@ class AuthService {
       return false;
     }
   }
+  // Define the getToken method.
   getToken() {
     // Retrieves the user token from localStorage.
     return localStorage.getItem("id_token");
@@ -35,5 +40,5 @@ class AuthService {
     window.location.assign("/");
   }
 }
-
+// Export an instance of the AuthService class.
 export default new AuthService();

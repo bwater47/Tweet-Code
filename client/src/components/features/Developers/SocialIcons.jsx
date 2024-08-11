@@ -1,9 +1,11 @@
+// Import Flex, IconButton, and Link from Chakra UI.
 import { Flex, IconButton, Link } from "@chakra-ui/react";
+// Import the necessary icons from React Icons.
 import { SlSocialGithub } from "react-icons/sl";
 import { TiSocialLinkedin, TiSocialYoutube } from "react-icons/ti";
 import { RiTwitterXLine } from "react-icons/ri";
 import theme from "../../../styles/theme.js";
-
+// Define the SocialIcons component.
 const SocialIcons = ({ social }) => {
   return (
     <Flex alignContent="center" justifyContent="center" pt={2}>
@@ -13,7 +15,7 @@ const SocialIcons = ({ social }) => {
           isRound
           variant="outline"
           colorScheme="palette.white"
-          _hover={{color:"palette.white"}}
+          _hover={{ color: "palette.white" }}
           aria-label="X link"
           m={1}
         />
@@ -51,5 +53,5 @@ const SocialIcons = ({ social }) => {
     </Flex>
   );
 };
-
+// Export the SocialIcons component.
 export default SocialIcons;

@@ -18,19 +18,24 @@ const CodeEditor = ({
   initialLanguage = "javascript",
   readOnly = false,
 }) => {
+  // Create a reference to the editor.
   const editorRef = useRef(null);
+  // Create state variables for the value, language, and editor readiness.
   const [value, setValue] = useState(
+    // Use the initialCode or the code snippet for the initial value.
     initialCode || CODE_SNIPPETS[initialLanguage]
   );
+  // Use the initialLanguage for the initial language state.
   const [language, setLanguage] = useState(initialLanguage);
+  // Create a state variable to track if the editor is ready.
   const [isEditorReady, setIsEditorReady] = useState(false);
-
+  // Create a function to handle the editor mount event.
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
     setIsEditorReady(true);
   };
-
+  // Create a function to handle the language selection.
   const onSelect = (lang) => {
     setLanguage(lang);
     if (!initialCode) {
@@ -40,13 +45,13 @@ const CodeEditor = ({
       onLanguageChange(lang);
     }
   };
-
+  // Use the useEffect hook to call the onCodeChange callback when the value changes.
   useEffect(() => {
     if (onCodeChange) {
       onCodeChange(value);
     }
   }, [value, onCodeChange]);
-
+  // Return the CodeEditor component.
   return (
     <VStack spacing={4} height="100%" width="100%">
       <LanguageSelector
