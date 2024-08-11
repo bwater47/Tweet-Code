@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEM } from "../graphQL/queries.js";
@@ -6,7 +6,7 @@ import {
   Box,
   Heading,
   Text,
-  Tag,
+
   HStack,
   VStack,
   Container,

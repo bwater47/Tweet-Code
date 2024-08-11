@@ -221,6 +221,9 @@ const typeDefs = `
 
   createCheckoutSession(amount: Float!): CheckoutSession
 
+  completeCheckoutSession(sessionId: String!): DonationTransaction
+
+
   # Comment Management for Replies
   # These mutations handle replying to existing comments
   addReplyToComment(

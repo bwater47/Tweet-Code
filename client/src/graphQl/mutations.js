@@ -20,6 +20,21 @@ export const CREATE_CHECKOUT_SESSION = gql`
   }
 `;
 
+export const COMPLETE_CHECKOUT_SESSION = gql`
+  mutation CompleteCheckoutSession($sessionId: String!) {
+    completeCheckoutSession(sessionId: $sessionId) {
+      _id
+      purchaseDate
+      donations {
+        _id
+        name
+        description
+        price
+      }
+    }
+  }
+`;
+
 export const MAKE_DONATIONTRANSACTION = gql`
   mutation makeDonationTransaction($donationId: ID!) {
     makeDonationTransaction(donationId: $donationId) {

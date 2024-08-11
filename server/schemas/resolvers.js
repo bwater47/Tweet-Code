@@ -164,7 +164,7 @@ export const resolvers = {
                   product_data: {
                     name: "Donation",
                   },
-                  unit_amount: Math.round(amount * 100),
+                  unit_amount: Math.round(amount * 100), // Stripe expects the amount in cents
                 },
                 quantity: 1,
               },
@@ -172,6 +172,10 @@ export const resolvers = {
             mode: "payment",
             success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.CLIENT_URL}/cancel`,
+            metadata: {
+              userId: context.user._id.toString(),
+              amount: amount.toString(),
+            },
           });
 
           console.log("Stripe session created:", session.id);
@@ -185,6 +189,51 @@ export const resolvers = {
       }
       console.log("User not authenticated");
       throw new AuthenticationError("Not logged in");
+    },
+
+    completeCheckoutSession: async (parent, { sessionId }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("Not logged in");
+      }
+
+      try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+        if (!session) {
+          throw new Error("Session not found");
+        }
+        if (session.payment_status !== "paid") {
+          throw new Error("Payment not completed");
+        }
+
+        const amount = parseInt(session.metadata.amount, 10);
+        const userId = session.metadata.userId;
+
+
+        const donation = await Donation.create({
+          name: "Donation",
+          description: "Donation via Stripe checkout",
+          price: amount,
+        });
+
+        const donationTransaction = await DonationTransaction.create({
+          purchaseDate: new Date(),
+          donations: [donation._id],
+        });
+
+        await User.findByIdAndUpdate(userId, {
+          $push: { donationTransactions: donationTransaction._id },
+        });
+        
+        const populatedTransaction = await DonationTransaction.findById(
+          donationTransaction._id
+        ).populate("donations");
+
+        return populatedTransaction;
+      } catch (error) {
+        console.error("Error completing checkout session:", error);
+        throw new Error("Failed to complete checkout session");
+      }
     },
 
     updateUser: async (

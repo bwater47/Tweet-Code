@@ -1,4 +1,4 @@
-// Import the necessary dependencies from Chakra UI.
+
 import {
   Modal,
   ModalOverlay,
@@ -11,39 +11,49 @@ import {
   Text,
   List,
   ListItem,
+  Box,
 } from "@chakra-ui/react";
-// Import PropTypes from the prop-types library.
 import PropTypes from "prop-types";
-// Define the DonationModal component.
+import { formatDate } from "../../utils/dateUtils";
+
 const DonationModal = ({ isOpen, onClose, donations }) => {
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-  // Return the DonationModal component.
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Your Donations</ModalHeader>
-        <ModalCloseButton />
+      <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+      <ModalContent
+        bg="palette.darkgrey"
+        color="palette.white"
+        borderColor="palette.grey"
+        borderWidth="1px"
+      >
+        <ModalHeader borderBottomWidth="1px" borderColor="palette.grey">
+          Your Donations
+        </ModalHeader>
+        <ModalCloseButton
+          color="palette.white"
+          _hover={{ color: "palette.cyan" }}
+        />
         <ModalBody>
           {donations && donations.length > 0 ? (
             <List spacing={3}>
               {donations.map((transaction, index) => (
-                <ListItem key={index}>
-                  <Text>
-                    Date:{" "}
-                    {new Date(
-                      parseInt(transaction.purchaseDate)
-                    ).toLocaleDateString()}
+                <ListItem
+                  key={index}
+                  bg="palette.grey"
+                  p={3}
+                  borderRadius="md"
+                  transition="all 0.3s"
+                  _hover={{ bg: "palette.lightgrey" }}
+                >
+                  <Text fontWeight="bold">
+                    Date: {formatDate(parseInt(transaction.purchaseDate))}
                   </Text>
                   {transaction.donations.map((donation, donationIndex) => (
                     <Text key={donationIndex}>
-                      Amount: ${donation.price.toFixed(2)}
+                      Amount:{" "}
+                      <Box as="span" color="palette.cyan">
+                        ${donation.price.toFixed(2)}
+                      </Box>
                     </Text>
                   ))}
                 </ListItem>
@@ -53,8 +63,14 @@ const DonationModal = ({ isOpen, onClose, donations }) => {
             <Text>No donations to display.</Text>
           )}
         </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+        <ModalFooter borderTopWidth="1px" borderColor="palette.grey">
+          <Button
+            colorScheme="blue"
+            bg="palette.purple"
+            color="palette.white"
+            _hover={{ bg: "palette.cyan" }}
+            onClick={onClose}
+          >
             Close
           </Button>
         </ModalFooter>
@@ -62,7 +78,7 @@ const DonationModal = ({ isOpen, onClose, donations }) => {
     </Modal>
   );
 };
-// Define the prop types for the DonationModal component.
+
 DonationModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -78,5 +94,5 @@ DonationModal.propTypes = {
     })
   ).isRequired,
 };
-// Export the DonationModal component.
+
 export default DonationModal;
