@@ -30,6 +30,13 @@ const sizes = {
       px: '6',
     },
   }),
+  sm: definePartsStyle({
+    tab: {
+      fontSize: '10px',
+      py: '1',
+      px: '2',
+    },
+  })
 };
 
 // define custom variants
