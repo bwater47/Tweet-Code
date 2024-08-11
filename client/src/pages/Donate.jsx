@@ -5,40 +5,27 @@ import {
   Heading,
   Text,
   Button,
-  useDisclosure,
   Container,
   Input,
   FormControl,
   FormLabel,
   useToast,
 } from "@chakra-ui/react";
-import { useMutation, useQuery } from "@apollo/client";
-import { MAKE_DONATIONTRANSACTION } from "../graphQL/mutations";
-import { QUERY_ME } from "../graphQL/queries";
-import DonationModal from "../components/common/DonationModal";
+import { useMutation } from "@apollo/client";
+import { CREATE_CHECKOUT_SESSION } from "../graphQL/mutations";
 import { useAuth } from "../hooks/useAuth";
+import { loadStripe } from "@stripe/stripe-js";
+
+// Initialize Stripe promise outside of the component
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const Donate = () => {
   const [amount, setAmount] = useState("");
-  const [donations, setDonations] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [makeDonation] = useMutation(MAKE_DONATIONTRANSACTION);
-  const { refetch } = useQuery(QUERY_ME);
+  const [createCheckoutSession] = useMutation(CREATE_CHECKOUT_SESSION);
   const { isLoggedIn } = useAuth();
   const toast = useToast();
 
   const handleDonation = async () => {
-    if (!isLoggedIn) {
-      toast({
-        title: "Authentication required",
-        description: "Please log in to make a donation.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
     if (!amount || isNaN(amount) || amount <= 0) {
       toast({
         title: "Invalid amount",
@@ -51,28 +38,28 @@ const Donate = () => {
     }
 
     try {
-      const { data } = await makeDonation({
-        variables: { donationId: amount }, // Assuming donationId is the amount for now
+      const { data } = await createCheckoutSession({
+        variables: { amount: parseFloat(amount) },
       });
-      console.log("Donation response:", data);
 
-      if (data && data.makeDonationTransaction) {
-        await refetch(); // Refetch user data to update donations
-        setDonations([...donations, data.makeDonationTransaction]);
-        onOpen();
-        toast({
-          title: "Donation successful",
-          description: `Thank you for your donation of $${amount}`,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error("Stripe failed to initialize");
+      }
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.createCheckoutSession.sessionId,
+      });
+
+      if (error) {
+        throw error;
       }
     } catch (error) {
-      console.error("Error making donation:", error);
+      console.error("Error creating checkout session:", error);
       toast({
-        title: "Donation failed",
+        title: "Checkout failed",
         description:
+          error.message ||
           "There was an error processing your donation. Please try again.",
         status: "error",
         duration: 3000,
@@ -83,7 +70,7 @@ const Donate = () => {
 
   return (
     <Box
-      bgGradient="linear(palette.darkgrey, palette.gradred, palette.darkgrey)"
+      bgGradient="linear(palette.darkgrey, palette.gradcyan, palette.darkgrey)"
       minHeight="100vh"
       py={10}
     >
@@ -128,9 +115,12 @@ const Donate = () => {
           </Box>
         </VStack>
       </Container>
-      <DonationModal isOpen={isOpen} onClose={onClose} donations={donations} />
     </Box>
   );
+};
+
+Donate.propTypes = {
+  // Add any props if needed in the future
 };
 
 export default Donate;

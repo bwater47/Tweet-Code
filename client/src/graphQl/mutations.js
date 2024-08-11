@@ -11,6 +11,15 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const CREATE_CHECKOUT_SESSION = gql`
+  mutation createCheckoutSession($amount: Float!) {
+    createCheckoutSession(amount: $amount) {
+      sessionId
+    }
+  }
+`;
+
 export const MAKE_DONATIONTRANSACTION = gql`
   mutation makeDonationTransaction($donationId: ID!) {
     makeDonationTransaction(donationId: $donationId) {

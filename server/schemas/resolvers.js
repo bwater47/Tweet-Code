@@ -68,25 +68,24 @@ export const resolvers = {
     },
     usermedals: async (_, { _id }) => {
       if (!_id) {
-        throw new Error('User ID is required');
+        throw new Error("User ID is required");
       }
-      const user = await User.findById(_id).populate('medals');
-      console.log('User:',user);
+      const user = await User.findById(_id).populate("medals");
+      console.log("User:", user);
       if (!user) {
         throw new Error(`User with id ${_id} not found`);
       }
       return user.allMedals;
     },
     medals: async () => {
-      
       const medals = await Medal.find();
-      console.log('Medals:',medals);
+      console.log("Medals:", medals);
       if (!medals) {
         throw new Error(`no medals found`);
       }
       return medals;
     },
-  
+
     donationtransaction: async (_, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
@@ -95,52 +94,6 @@ export const resolvers = {
         return user.donationtransaction.id(_id);
       }
       throw new AuthenticationError("User not authenticated");
-    },
-
-    checkout: async (parent, args, context) => {
-      console.log("Checkout Started!");
-      const url = new URL(context.headers.referer).origin;
-      const donationtransaction = await DonationTransaction.create({
-        donations: args.donations,
-      });
-      // const donationtransaction = new DonationTransaction({ donations: args.donations });
-      // await donationtransaction.save();
-      const line_items = [];
-      const { donations } = await donationtransaction.populate("donations");
-      console.log(donations);
-      donations.map(async (donation) => {
-        line_items.push({
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: donation.name,
-            },
-            unit_amount: donation.price * 100,
-          },
-          quantity: 1,
-        });
-        // const product = await stripe.products.create({
-        // name: donation.name,
-        // description: donation.description,
-        // });
-        // const price = await stripe.prices.create({
-        // product: product.id,
-        // unit_amount: donation.price * 100,
-        // currency: "usd",
-        // });
-        // line_items.push({
-        // price: price.id,
-        // quantity: 1,
-        // });
-      });
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: line_items,
-        mode: "payment",
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`,
-      });
-      return { session: session.id };
     },
 
     problems: async () => {
@@ -161,7 +114,6 @@ export const resolvers = {
       }
     },
   },
-
 
   Mutation: {
     addUser: async (parent, args) => {
@@ -193,33 +145,46 @@ export const resolvers = {
       }
     },
 
-    makeDonationTransaction: async (parent, { donationId }, context) => {
+    createCheckoutSession: async (parent, { amount }, context) => {
+      console.log("createCheckoutSession called with amount:", amount);
+      console.log(
+        "User context:",
+        context.user ? "User is logged in" : "User is not logged in"
+      );
+
       if (context.user) {
         try {
-          // Create a new donation transaction
-          const donationTransaction = new DonationTransaction({
-            donations: [donationId],
-            purchaseDate: new Date(),
+          console.log("Creating Stripe checkout session...");
+          const session = await stripe.checkout.sessions.create({
+            payment_method_types: ["card"],
+            line_items: [
+              {
+                price_data: {
+                  currency: "usd",
+                  product_data: {
+                    name: "Donation",
+                  },
+                  unit_amount: Math.round(amount * 100),
+                },
+                quantity: 1,
+              },
+            ],
+            mode: "payment",
+            success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.CLIENT_URL}/cancel`,
           });
 
-          // Save the transaction
-          await donationTransaction.save();
-
-          // Add the transaction to the user's donations
-          await User.findByIdAndUpdate(context.user._id, {
-            $push: { donationTransactions: donationTransaction._id },
-          });
-
-          // Populate the donations field
-          await donationTransaction.populate('donations');
-
-          return donationTransaction;
+          console.log("Stripe session created:", session.id);
+          return { sessionId: session.id };
         } catch (error) {
-          console.error('Error in makeDonationTransaction:', error);
-          throw new Error('Failed to process donation');
+          console.error("Error creating Stripe session:", error);
+          throw new Error(
+            "Failed to create checkout session: " + error.message
+          );
         }
       }
-      throw new AuthenticationError('Not logged in');
+      console.log("User not authenticated");
+      throw new AuthenticationError("Not logged in");
     },
 
     updateUser: async (
@@ -260,17 +225,25 @@ export const resolvers = {
       }
     },
     addMedalToUser: async (parent, { userId, medalId }) => {
-      const updatedUser = await User.findByIdAndUpdate(userId, {
-        $addToSet: { medals: medalId }
-      }, { new: true }).populate('medals');
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        {
+          $addToSet: { medals: medalId },
+        },
+        { new: true }
+      ).populate("medals");
       return updatedUser;
     },
     updateCoins: async (parent, { amount, userId }) => {
-      const updatedUser = await User.findByIdAndUpdate(userId, {
-        $inc: { coins: amount }
-      }, { new: true });
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        {
+          $inc: { coins: amount },
+        },
+        { new: true }
+      );
       return updatedUser;
-    }, 
+    },
     // Keeping specific error messages during testing.
     // Will update all to a generic "Authentication Error" message for all afterwards.
     login: async (parent, { email, password }) => {

@@ -9,6 +9,7 @@ import { typeDefs, resolvers } from "./schemas/index.js";
 import db from "./config/connection.js";
 import { graphqlUploadExpress } from "graphql-upload-minimal";
 import cors from "cors";
+import stripeWebhook from "./utils/stripeWebhook.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,6 +34,8 @@ const startApolloServer = async () => {
   };
 
   app.use(cors(corsOptions));
+
+  app.use("/stripe", stripeWebhook);
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());

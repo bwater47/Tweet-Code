@@ -29,7 +29,7 @@ import theme from "./styles/theme.js";
 // Import client from helpers.js.
 import client from "./utils/helpers.js";
 import Donate from "../src/pages/Donate.jsx";
-import ProblemPage from "./pages/ProblemPage.jsx";
+
 
 const router = createBrowserRouter([
   {
