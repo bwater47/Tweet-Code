@@ -9,7 +9,7 @@ const problemData = [
     description:
       "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
     code: "function twoSum(nums, target) {\n  // Your code here\n}",
-    programmingLanguage: "JavaScript", // Changed from 'language' to 'programmingLanguage'.
+    programmingLanguage: "javascript", // Changed from 'language' to 'programmingLanguage'.
     tags: ["Array", "Hash Table"],
     coinReward: 50,
   },
@@ -18,7 +18,7 @@ const problemData = [
     description:
       "Write a function that reverses a string. The input string is given as an array of characters s.",
     code: "def reverseString(s):\n    # Your code here",
-    programmingLanguage: "Python", // Changed from 'language' to 'programmingLanguage'.
+    programmingLanguage: "python", // Changed from 'language' to 'programmingLanguage'.
     tags: ["String", "Two Pointers"],
     coinReward: 30,
   },
@@ -26,7 +26,7 @@ const problemData = [
     title: "Fibonacci Number",
     description: "Calculate the nth Fibonacci number.",
     code: "public class Solution {\n    public int fib(int n) {\n        // Your code here\n    }\n}",
-    programmingLanguage: "Java", // Changed from 'language' to 'programmingLanguage'.
+    programmingLanguage: "java", // Changed from 'language' to 'programmingLanguage'.
     tags: ["Math", "Dynamic Programming"],
     coinReward: 40,
   },
