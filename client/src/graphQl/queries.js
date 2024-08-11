@@ -106,14 +106,15 @@ export const GET_PROBLEMS = gql`
       coinReward
       author {
         username
+        avatar
       }
     }
   }
 `;
 
 export const GET_PROBLEM = gql`
-  query GetProblem($id: ID!) {
-    problem(id: $id) {
+  query GetProblem($_id: ID!) {
+    problem(_id: $_id) {
       _id
       title
       description

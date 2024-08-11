@@ -1,27 +1,37 @@
 import { useRef, useState, useEffect } from "react";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, VStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector.jsx";
 import { CODE_SNIPPETS } from "./Constants.jsx";
 import Output from "./Output.jsx";
 
-const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
+const CodeEditor = ({
+  onCodeChange,
+  onLanguageChange,
+  initialCode = "",
+  initialLanguage = "javascript",
+  readOnly = false,
+}) => {
   const editorRef = useRef(null);
-  const [value, setValue] = useState("");
-  const [language, setLanguage] = useState("javascript");
+  const [value, setValue] = useState(
+    initialCode || CODE_SNIPPETS[initialLanguage]
+  );
+  const [language, setLanguage] = useState(initialLanguage);
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
-    setIsEditorReady(true); // Editor is now ready
+    setIsEditorReady(true);
   };
 
-  const onSelect = (language) => {
-    setLanguage(language);
-    setValue(CODE_SNIPPETS[language]);
+  const onSelect = (lang) => {
+    setLanguage(lang);
+    if (!initialCode) {
+      setValue(CODE_SNIPPETS[lang]);
+    }
     if (onLanguageChange) {
-      onLanguageChange(language);
+      onLanguageChange(lang);
     }
   };
 
@@ -32,28 +42,46 @@ const CodeEditor = ({ onCodeChange, onLanguageChange }) => {
   }, [value, onCodeChange]);
 
   return (
-    <Box>
-      <HStack spacing={4}>
-        <Box w="50%">
-          <LanguageSelector language={language} onSelect={onSelect} />
+    <VStack spacing={4} height="100%" width="100%">
+      <LanguageSelector
+        language={language}
+        onSelect={onSelect}
+        disabled={readOnly}
+      />
+      <HStack spacing={4} width="100%" height="calc(100% - 40px)">
+        <Box
+          width="50%"
+          height="100%"
+          borderRadius="md"
+          overflow="hidden"
+          border="1px solid"
+          borderColor="#333"
+        >
           <Editor
             options={{
-              minimap: {
-                enabled: false,
-              },
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              fontSize: 14,
+              lineNumbers: "on",
+              roundedSelection: false,
+              automaticLayout: true,
+              readOnly: readOnly,
             }}
-            height="75vh"
+            height="100%"
             theme="vs-dark"
             language={language}
-            defaultValue={CODE_SNIPPETS[language]}
-            onMount={onMount}
             value={value}
-            onChange={(value) => setValue(value)}
+            onChange={(newValue) => setValue(newValue)}
+            onMount={onMount}
           />
         </Box>
-        {isEditorReady && <Output editorRef={editorRef} language={language} />}
+        {isEditorReady && (
+          <Box width="50%" height="100%">
+            <Output editorRef={editorRef} language={language} />
+          </Box>
+        )}
       </HStack>
-    </Box>
+    </VStack>
   );
 };
 
