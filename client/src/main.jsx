@@ -28,7 +28,9 @@ import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 // Import client from helpers.js.
 import client from "./utils/helpers.js";
-// Create a router using createBrowserRouter and pass the routes as an argument.
+import Donate from "../src/pages/Donate.jsx";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -75,6 +77,14 @@ const router = createBrowserRouter([
       {
         path: "/Post/:id",
         element: <ViewPost />,
+      },
+      {
+        path: "/Donate",
+        element: <Donate />,
+      },
+      {
+        path: "/problem/:id",
+        element: <ProblemPage />,
       },
     ],
   },

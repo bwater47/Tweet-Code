@@ -1,6 +1,20 @@
-// Import Stripe from stripe.
 import Stripe from "stripe";
-// Create a new instance of Stripe with the STRIPE_KEY environment variable.
-const stripe = Stripe(process.env.STRIPE_KEY);
-// Return the stripe instance.
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: new URL("../.env", import.meta.url).pathname });
+
+console.log(
+  "STRIPE_SECRET_KEY:",
+  process.env.STRIPE_SECRET_KEY ? "Key is set" : "Key is not set"
+);
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+console.log("Stripe instance created");
+
 export default stripe;

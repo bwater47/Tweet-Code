@@ -1,20 +1,34 @@
-// Import Box, Heading, Text, VStack, Icon, Button from Chakra UI.
+import { useEffect, useState } from "react";
 import { Box, Heading, Text, VStack, Icon, Button } from "@chakra-ui/react";
-// Import CheckCircleIcon from Chakra UI icons.
 import { CheckCircleIcon } from "@chakra-ui/icons";
-// Import useLocation from react-router-dom.
 import { useLocation } from "react-router-dom";
-// Import theme from the styles folder.
 import theme from "../styles/theme";
-// Define the Success component.
+import { useMutation } from "@apollo/client";
+import { COMPLETE_CHECKOUT_SESSION } from "../graphQL/mutations"; // Import the mutation
+
 function Success() {
-  // Call the useLocation hook to get the current location.
   const location = useLocation();
-  // Create a new URLSearchParams object from the location search property.
   const queryParams = new URLSearchParams(location.search);
-  // Get the session ID from the query parameters.
   const sessionId = queryParams.get("session_id");
-  // Return the Success component.
+  const [sessionData, setSessionData] = useState(null);
+
+  // Define the mutation using the useMutation hook
+  const [completeCheckoutSession, { loading, error }] = useMutation(
+    COMPLETE_CHECKOUT_SESSION
+  );
+
+  useEffect(() => {
+    if (sessionId) {
+      completeCheckoutSession({ variables: { sessionId } })
+        .then((response) => {
+          setSessionData(response.data.completeCheckoutSession);
+        })
+        .catch((error) => {
+          console.error("Error completing checkout session:", error);
+        });
+    }
+  }, [sessionId, completeCheckoutSession]);
+
   return (
     <Box
       minH="100vh"
@@ -33,7 +47,7 @@ function Success() {
         maxH="lg"
         textAlign="center"
         width="50rem"
-        overflow={"auto"}
+        overflow="auto"
       >
         <Icon
           as={CheckCircleIcon}
@@ -44,9 +58,20 @@ function Success() {
         <Heading color={theme.colors.palette.white} as="h1" size="xl">
           Payment Successful!
         </Heading>
-        {sessionId && (
+        {loading && (
           <Text color={theme.colors.palette.white} fontSize="lg">
-            Your session ID is: <strong>{sessionId}</strong>
+            Processing your donation...
+          </Text>
+        )}
+        {error && (
+          <Text color={theme.colors.palette.white} fontSize="lg">
+            Error processing your donation: {error.message}
+          </Text>
+        )}
+        {sessionData && (
+          <Text color={theme.colors.palette.white} fontSize="lg">
+            Your payment of ${sessionData.donations[0].price / 100} was
+            successful.
           </Text>
         )}
         <Text color={theme.colors.palette.white} fontSize="md">
@@ -67,5 +92,5 @@ function Success() {
     </Box>
   );
 }
-// Export the Success component.
+
 export default Success;

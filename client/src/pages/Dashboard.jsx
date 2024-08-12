@@ -74,6 +74,7 @@ const Dashboard = () => {
     );
 
   const user = data?.me || {};
+  const { me } = data;
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -145,6 +146,7 @@ const Dashboard = () => {
     >
       <VStack spacing={6} align="stretch">
         <Heading>My Dashboard</Heading>
+        <Text>Welcome, {me.username}!</Text>
 
         <Box
           borderWidth="1px"

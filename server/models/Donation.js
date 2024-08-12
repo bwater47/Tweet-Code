@@ -16,7 +16,6 @@ const donationSchema = new Schema({
     type: Number,
     required: true,
     min: 0.99,
-    default: 10.0,
   },
 });
 // Create a model using the schema, and pass the model name and schema as arguments.

@@ -11,9 +11,19 @@ export const LOGIN_USER = gql`
     }
   }
 `;
-export const MAKE_DONATIONTRANSACTION = gql`
-  mutation makeDonationTransaction($donations: [ID]!) {
-    makeDonationTransaction(donations: $donations) {
+
+export const CREATE_CHECKOUT_SESSION = gql`
+  mutation createCheckoutSession($amount: Float!) {
+    createCheckoutSession(amount: $amount) {
+      sessionId
+    }
+  }
+`;
+
+export const COMPLETE_CHECKOUT_SESSION = gql`
+  mutation CompleteCheckoutSession($sessionId: String!) {
+    completeCheckoutSession(sessionId: $sessionId) {
+      _id
       purchaseDate
       donations {
         _id
@@ -24,6 +34,22 @@ export const MAKE_DONATIONTRANSACTION = gql`
     }
   }
 `;
+
+export const MAKE_DONATIONTRANSACTION = gql`
+  mutation makeDonationTransaction($donationId: ID!) {
+    makeDonationTransaction(donationId: $donationId) {
+      _id
+      purchaseDate
+      donations {
+        _id
+        name
+        description
+        price
+      }
+    }
+  }
+`;
+
 export const ADD_USER = gql`
   mutation addUser(
     $firstName: String!
