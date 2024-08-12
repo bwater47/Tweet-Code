@@ -1,5 +1,5 @@
-import { GraphQLUpload } from "graphql-upload";
 
+import { GraphQLUpload } from "graphql-upload";
 export const Upload = GraphQLUpload;
 
 export const processUpload = async (upload) => {
@@ -10,7 +10,6 @@ export const processUpload = async (upload) => {
   for await (const chunk of stream) {
     chunks.push(chunk);
   }
-
   const buffer = Buffer.concat(chunks);
   return buffer.toString("base64");
 };

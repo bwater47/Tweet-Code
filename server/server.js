@@ -1,4 +1,3 @@
-// Imports for ESM.
 import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -9,6 +8,8 @@ import { typeDefs, resolvers } from "./schemas/index.js";
 import db from "./config/connection.js";
 import { graphqlUploadExpress } from "graphql-upload-minimal";
 import cors from "cors";
+import stripeWebhook from "./utils/stripeWebhook.js";
+import stripe from "./utils/stripe.js"; // Import your Stripe instance
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,11 +23,9 @@ const server = new ApolloServer({
   uploads: false,
 });
 
-// Create a new instance of an Apollo server with the GraphQL schema.
 const startApolloServer = async () => {
   await server.start();
 
-  // CORS configuration.
   const corsOptions = {
     origin: "http://localhost:3000",
     credentials: true,
@@ -34,14 +33,26 @@ const startApolloServer = async () => {
 
   app.use(cors(corsOptions));
 
+  app.use("/stripe", stripeWebhook);
+
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
-  // Serve up static assets.
   app.use("/images", express.static(path.join(__dirname, "../client/images")));
 
-  // File upload middleware.
   app.use(graphqlUploadExpress());
+
+  app.post("/api/get-checkout-session", async (req, res) => {
+    const { sessionId } = req.body;
+
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      res.json(session);
+    } catch (error) {
+      console.error("Error retrieving Stripe session:", error);
+      res.status(500).send({ error: "Failed to retrieve session" });
+    }
+  });
 
   app.use(
     "/graphql",
@@ -73,5 +84,4 @@ const startApolloServer = async () => {
   }
 };
 
-// Call the async function to start the server.
 startApolloServer();

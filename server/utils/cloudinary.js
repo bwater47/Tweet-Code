@@ -8,11 +8,10 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
 export const uploadToCloudinary = async (file) => {
-    console.log("File received in uploadToCloudinary:", file);
+  console.log("File received in uploadToCloudinary:", file);
   try {
-    // Call createReadStream on the file object to get the stream
+    
     const stream = file.createReadStream();
 
     const result = await new Promise((resolve, reject) => {
@@ -23,9 +22,9 @@ export const uploadToCloudinary = async (file) => {
           else resolve(result);
         }
       );
-      stream.pipe(uploadStream); // Pipe the file stream to the Cloudinary upload stream
+      stream.pipe(uploadStream); 
     });
-
+    
     return result.secure_url;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);

@@ -1,4 +1,6 @@
+// Import useEffect, useState from React.
 import { useEffect, useState } from "react";
+// Import Box, Input, InputGroup, InputRightElement, and IconButton from Chakra UI.
 import {
   Box,
   Input,
@@ -6,10 +8,15 @@ import {
   InputRightElement,
   IconButton,
 } from "@chakra-ui/react";
+// Import the SearchIcon and CloseIcon from Chakra UI.
 import { SearchIcon, CloseIcon } from "@chakra-ui/icons";
+// Import Link from React Router.
 import { Link } from "react-router-dom";
+// Import useQuery from Apollo Client.
 import { useQuery } from "@apollo/client";
-import { GET_PROBLEM_TITLE } from "../graphQL/queries"; // Adjust the path as needed
+// Import the GET_PROBLEM_TITLE query.
+import { GET_PROBLEM_TITLE } from "../graphQL/queries";
+// Import theme from the styles folder.
 import theme from "../styles/theme.js";
 // Search Bar component for searching problems by title.
 const SearchBar = ({ placeholder, w, p, _focus }) => {
@@ -117,5 +124,5 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
     </Box>
   );
 };
-
+// Export the SearchBar component.
 export default SearchBar;

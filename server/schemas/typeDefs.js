@@ -84,8 +84,8 @@ const typeDefs = `
     donations: [Donation]
   }
 
-  type Checkout {
-    session: ID
+  type CheckoutSession {
+    sessionId: String!
   }
 
   type Medal {
@@ -107,7 +107,6 @@ const typeDefs = `
     donations: [Donation]
     donation(_id: ID!): Donation
     donationtransaction(_id: ID!): DonationTransaction
-    checkout(donations: [ID]!): Checkout  # Add this line if you want to keep the checkout functionality
   }
 
   type Mutation {
@@ -238,9 +237,12 @@ const typeDefs = `
     donationId: ID!
   ): DonationTransaction
 
+  createCheckoutSession(amount: Float!): CheckoutSession
+
+  completeCheckoutSession(sessionId: String!): DonationTransaction
+
     # Medal Management on Users
     addMedalToUser(userId: ID!, medalId: ID!): User
-
   }
 `;
 

@@ -8,49 +8,69 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
+  Text,
   List,
   ListItem,
-  Text,
+  Box,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { formatDate } from "../../utils/dateUtils";
 
 const DonationModal = ({ isOpen, onClose, donations }) => {
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent bg="palette.darkgrey">
-        <ModalHeader color="palette.white">My Donations</ModalHeader>
-        <ModalCloseButton />
+      <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+      <ModalContent
+        bg="palette.darkgrey"
+        color="palette.white"
+        borderColor="palette.grey"
+        borderWidth="1px"
+      >
+        <ModalHeader borderBottomWidth="1px" borderColor="palette.grey">
+          Your Donations
+        </ModalHeader>
+        <ModalCloseButton
+          color="palette.white"
+          _hover={{ color: "palette.cyan" }}
+        />
         <ModalBody>
-          {donations.length > 0 ? (
+          {donations && donations.length > 0 ? (
             <List spacing={3}>
-              {donations.map((donation, index) => (
-                <ListItem key={index} color="palette.white">
+              {donations.map((transaction, index) => (
+                <ListItem
+                  key={index}
+                  bg="palette.grey"
+                  p={3}
+                  borderRadius="md"
+                  transition="all 0.3s"
+                  _hover={{ bg: "palette.lightgrey" }}
+                >
                   <Text fontWeight="bold">
-                    Donation on {formatDate(donation.purchaseDate)}
+                    Date: {formatDate(parseInt(transaction.purchaseDate))}
                   </Text>
-                  {donation.donations.map((item, itemIndex) => (
-                    <Text key={itemIndex} fontSize="sm">
-                      {item.name}: ${item.price}
+                  {transaction.donations.map((donation, donationIndex) => (
+                    <Text key={donationIndex}>
+                      Amount:{" "}
+                      <Box as="span" color="palette.cyan">
+                        ${donation.price.toFixed(2)}
+                      </Box>
                     </Text>
                   ))}
                 </ListItem>
               ))}
             </List>
           ) : (
-            <Text color="palette.white">No donations to display.</Text>
+            <Text>No donations to display.</Text>
           )}
         </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+        <ModalFooter borderTopWidth="1px" borderColor="palette.grey">
+          <Button
+            colorScheme="blue"
+            bg="palette.purple"
+            color="palette.white"
+            _hover={{ bg: "palette.cyan" }}
+            onClick={onClose}
+          >
             Close
           </Button>
         </ModalFooter>
