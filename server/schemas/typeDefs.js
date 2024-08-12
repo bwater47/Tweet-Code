@@ -23,7 +23,6 @@ const typeDefs = `
     author: User!
     problem: Problem!
     code: String
-    explanation: String
     language: String
     isSolution: Boolean
     createdAt: String
@@ -38,7 +37,6 @@ const typeDefs = `
   }
 
     type Vote {
-    _id: ID
     user: User!
     value: Int!
   }
@@ -182,17 +180,37 @@ const typeDefs = `
   # Comment Management for Solutions
   # These mutations handle adding, updating, and deleting comments on solutions
   addComment(
-    solutionId: ID!, 
-    content: String!
+    problemId: ID!, 
+    content: String!, 
+    code: String, 
+    language: String
   ): Comment
 
   updateComment(
-    _id: ID!, 
-    content: String!
+    commentId: ID!, 
+    content: String, 
+    code: String, 
+    language: String
   ): Comment
 
   deleteComment(
-    _id: ID!
+    commentId: ID!
+  ): Boolean
+
+  markCommentAsSolution(
+    commentId: ID!
+  ): Comment
+
+  voteComment(
+    commentId: ID!, 
+    value: Int!
+  ): Comment
+
+  addReplyToComment(
+    parentCommentId: ID!, 
+    content: String!, 
+    code: String, 
+    language: String
   ): Comment
 
   # Coin Management
@@ -223,24 +241,8 @@ const typeDefs = `
 
   completeCheckoutSession(sessionId: String!): DonationTransaction
 
-
-  # Comment Management for Replies
-  # These mutations handle replying to existing comments
-  addReplyToComment(
-    commentId: ID!, 
-    content: String!
-  ): Comment
-
-  # Voting System for Comments
-  # These mutations allow users to vote on comments
-  voteComment(
-    commentId: ID!, 
-    value: Int!
-  ): Comment
-
     # Medal Management on Users
     addMedalToUser(userId: ID!, medalId: ID!): User
-
   }
 `;
 

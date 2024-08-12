@@ -1,10 +1,7 @@
-// Import the Comment model from models/Comment.
 import Comment from "../models/Comment.js";
-// Import the User model from models/User.
 import User from "../models/User.js";
-// Import the Problem model from models/Problem.
 import Problem from "../models/Problem.js";
-// Create an array of comment and solution data.
+
 const commentAndSolutionData = [
   // Regular comments.
   {
@@ -24,18 +21,18 @@ const commentAndSolutionData = [
   },
   // Solutions (previously in solutionSeeds.js).
   {
-    content: "Here's a recursive implementation of the Fibonacci sequence:",
+    content:
+      "Here's a recursive implementation of the Fibonacci sequence. This solution uses recursion to calculate Fibonacci numbers:",
     code: `function fibonacci(n) {
   if (n <= 1) return n;
   return fibonacci(n - 1) + fibonacci(n - 2);
 }`,
-    explanation: "This solution uses recursion to calculate Fibonacci numbers.",
     isSolution: true,
-    language: "JavaScript",
+    language: "javaScript",
     votes: [{ value: 1 }, { value: 1 }],
   },
   {
-    content: "Here's an implementation of the bubble sort algorithm:",
+    content: "Here's an implementation of the bubble sort algorithm in Python:",
     code: `def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
@@ -43,14 +40,12 @@ const commentAndSolutionData = [
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
     return arr`,
-    explanation:
-      "This solution implements the bubble sort algorithm in Python.",
     isSolution: true,
-    language: "Python",
+    language: "python",
     votes: [{ value: 1 }, { value: -1 }, { value: 1 }],
   },
   {
-    content: "Here's an implementation of binary search:",
+    content: "Here's an implementation of binary search in Java:",
     code: `public class BinarySearch {
     public static int binarySearch(int[] arr, int x) {
         int left = 0, right = arr.length - 1;
@@ -63,10 +58,8 @@ const commentAndSolutionData = [
         return -1;
     }
 }`,
-    explanation:
-      "This solution implements the binary search algorithm in Java.",
     isSolution: true,
-    language: "Java",
+    language: "java",
     votes: [{ value: 1 }, { value: 1 }],
   },
 ];
@@ -99,7 +92,6 @@ const seedCommentsAndSolutions = async () => {
           author: randomUser._id,
           problem: randomProblem._id,
           code: item.code,
-          explanation: item.explanation,
           isSolution: item.isSolution,
           language: item.language,
           votes: item.votes.map((vote) => ({
@@ -140,5 +132,5 @@ const seedCommentsAndSolutions = async () => {
     console.error("Error seeding comments and solutions:", err);
   }
 };
-// Export the seedCommentsAndSolutions function.
+
 export default seedCommentsAndSolutions;
