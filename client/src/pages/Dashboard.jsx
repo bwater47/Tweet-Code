@@ -1,4 +1,3 @@
-
 import {
   Box,
   VStack,
@@ -32,7 +31,7 @@ import { QUERY_ME } from "../graphQL/queries.js";
 import { Link as RouterLink } from "react-router-dom";
 import DonationModal from "../components/common/DonationModal";
 import { UpdateProfile } from "../components/common/UpdateProfile";
-import  Medals  from '../components/common/Medals.jsx'
+import Medals from "../components/common/Medals.jsx";
 import MedalShop from "../components/common/MedalShop.jsx";
 import moment from "moment";
 
@@ -40,7 +39,7 @@ const Dashboard = () => {
   const { loading, error, data, refetch } = useQuery(QUERY_ME);
   const [deleteProblem] = useMutation(DELETE_PROBLEM);
   const [deleteComment] = useMutation(DELETE_COMMENT);
-  const [screenSmallerThan660] = useMediaQuery('(max-width: 660px')
+  const [screenSmallerThan660] = useMediaQuery("(max-width: 660px");
   const toast = useToast();
   const {
     isOpen: isDonationModalOpen,
@@ -52,7 +51,6 @@ const Dashboard = () => {
     onOpen: onUpdateProfileOpen,
     onClose: onUpdateProfileClose,
   } = useDisclosure();
-
 
   if (loading)
     return (
@@ -93,7 +91,6 @@ const Dashboard = () => {
 
     return date.format("MMM D, YYYY");
   };
-
 
   const handleDeleteProblem = async (problemId) => {
     try {
@@ -366,8 +363,6 @@ const Dashboard = () => {
       />
     </Box>
   );
-
 };
 
 export default Dashboard;
-

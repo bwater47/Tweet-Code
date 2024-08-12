@@ -1,6 +1,4 @@
-// Import useEffect, useState from React.
 import { useEffect, useState } from "react";
-// Import Box, Input, InputGroup, InputRightElement, and IconButton from Chakra UI.
 import {
   Box,
   Input,
@@ -8,34 +6,25 @@ import {
   InputRightElement,
   IconButton,
 } from "@chakra-ui/react";
-// Import the SearchIcon and CloseIcon from Chakra UI.
 import { SearchIcon, CloseIcon } from "@chakra-ui/icons";
-// Import Link from React Router.
 import { Link } from "react-router-dom";
-// Import useQuery from Apollo Client.
 import { useQuery } from "@apollo/client";
-// Import the GET_PROBLEM_TITLE query.
 import { GET_PROBLEM_TITLE } from "../graphQL/queries";
-// Import theme from the styles folder.
 import theme from "../styles/theme.js";
 // Search Bar component for searching problems by title.
 const SearchBar = ({ placeholder, w, p, _focus }) => {
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(-1);
-  // Query to get all problems for searching by title.
   const { data } = useQuery(GET_PROBLEM_TITLE);
-  // Function to handle changes in the search bar.
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
-  // Function to handle closing the search bar.
   const handleClose = () => {
     setSearch("");
     setSearchData([]);
     setSelectedItem(-1);
   };
-  // Function to handle key down events in the search bar.
   const handleKeyDown = (e) => {
     if (selectedItem < searchData.length) {
       if (e.key === "ArrowUp" && selectedItem > 0) {
@@ -53,7 +42,6 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
       setSelectedItem(-1);
     }
   };
-  // Use effect to filter problems by title.
   useEffect(() => {
     if (data && search !== "") {
       const newFilterData = data.problems.filter((problem) => {
@@ -64,10 +52,8 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
       setSearchData([]);
     }
   }, [search, data]);
-  // Return the search bar component.
   return (
     <Box w={w} p={p} mx="auto" m="2" position="relative">
-      {/* Search bar input */}
       <InputGroup>
         <Input
           type="text"
@@ -124,5 +110,4 @@ const SearchBar = ({ placeholder, w, p, _focus }) => {
     </Box>
   );
 };
-// Export the SearchBar component.
 export default SearchBar;

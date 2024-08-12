@@ -1,6 +1,4 @@
-// Import Link, RouterLink, and useNavigate from React Router.
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-// Import Box, Flex, Link, Menu, MenuButton, MenuList, MenuItem, Show, and IconButton from Chakra UI.
 import {
   Box,
   Flex,
@@ -12,17 +10,12 @@ import {
   Show,
   IconButton,
 } from "@chakra-ui/react";
-// Import the HamburgerIcon from Chakra UI.
 import { HamburgerIcon } from "@chakra-ui/icons";
-// Import the useAuth hook from the hooks folder.
 import { useAuth } from "../../hooks/useAuth.jsx";
-// Import the SearchBar component from the hooks folder.
 import SearchBar from "../../hooks/SearchBar.jsx";
-// Define the NavHeader component.
 const NavHeader = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
-  // Define a function to handle the authentication action.
   const handleAuthAction = () => {
     if (isLoggedIn) {
       logout();
@@ -33,10 +26,8 @@ const NavHeader = () => {
       navigate("/registration");
     }
   };
-  // Return the NavHeader component.
   return (
     <nav>
-      {/* Show the search bar on larger screens. */}
       <Flex alignContent="center" height="100%">
         <Show above="sm">
           <Box height="100%" alignContent="center" mr={1}>
@@ -48,13 +39,11 @@ const NavHeader = () => {
             />
           </Box>
         </Show>
-        {/* Show the search bar on smaller screens. */}
         <Show below="sm">
           <Box height="100%" alignContent="center" mr={1}>
             <SearchBar placeholder="..." w="100px" p={1} />
           </Box>
         </Show>
-        {/* Show the navigation links on larger screens. */}
         <Show above="lg">
           <Flex alignContent="center" height="100%" wrap="wrap" pr={1}>
             <Link
@@ -121,5 +110,4 @@ const NavHeader = () => {
     </nav>
   );
 };
-// Export the NavHeader component.
 export default NavHeader;

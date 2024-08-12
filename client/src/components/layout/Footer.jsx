@@ -1,10 +1,6 @@
-// Import NavFooter from "../common/NavFooter.jsx";
 import NavFooter from "../common/NavFooter.jsx";
-// Import Flex and Spacer from Chakra UI.
 import { Flex, Spacer } from "@chakra-ui/react";
-// Import SocialLinks from "../common/SocialLinks.jsx".
 import SocialLinks from "../common/SocialLinks.jsx";
-// Define the Footer component.
 const Footer = () => {
   return (
     <Flex
@@ -35,5 +31,4 @@ const Footer = () => {
     </Flex>
   );
 };
-// Export the Footer component.
 export default Footer;

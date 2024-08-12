@@ -2,7 +2,6 @@ import { extendTheme } from "@chakra-ui/react";
 import { tabsTheme } from "./TabsTheme";
 import { buttonTheme } from "./ButtonTheme";
 
-// Define a theme that combines the custom components.
 const theme = extendTheme({
   colors: {
     palette: {
@@ -29,11 +28,9 @@ const theme = extendTheme({
       youtubehex: "#FF0000",
     },
   },
-  // Add the custom components to the theme.
   components: {
     Tabs: tabsTheme,
     Button: buttonTheme,
   },
 });
-// Export the theme.
 export default theme;

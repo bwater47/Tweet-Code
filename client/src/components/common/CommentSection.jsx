@@ -26,7 +26,7 @@ import {
 import CodeEditor from "../features/CodeEditor/CodeEditor";
 import Medals from "../common/Medals";
 
-// Comment component to render individual comments
+// Comment component to render individual comments.
 const Comment = ({
   comment,
   onDelete,
@@ -36,7 +36,7 @@ const Comment = ({
   isAuthor,
   currentUserId,
 }) => {
-  // State for editing mode
+  // State for editing mode.
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const [editedCode, setEditedCode] = useState(comment.code || "");
@@ -48,13 +48,13 @@ const Comment = ({
     variables: { id: comment._id },
   });
 
-  // Handler for updating the comment
+  // Handler for updating the comment.
   const handleUpdate = () => {
     onUpdate(comment._id, editedContent, editedCode, editedLanguage);
     setIsEditing(false);
   };
 
-  // Check if the current user is the author of the comment
+  // Check if the current user is the author of the comment.
   const isCommentAuthor = currentUserId === comment.author._id;
 
   return (
@@ -66,7 +66,7 @@ const Comment = ({
       color="palette.white"
     >
       {isEditing ? (
-        // Editing mode UI
+        // Editing mode UI.
         <VStack spacing={4} align="stretch">
           <Textarea
             value={editedContent}
@@ -93,7 +93,7 @@ const Comment = ({
           </HStack>
         </VStack>
       ) : (
-        // Display mode UI
+        // Display mode UI.
         <>
           <HStack spacing={4} alignItems="center" mb={2}>
             <Avatar
@@ -126,7 +126,7 @@ const Comment = ({
             </Box>
           )}
           <HStack mt={2}>
-            {/* Voting buttons */}
+            {/* Voting buttons. */}
             <Button
               size="sm"
               onClick={() => onVote(comment._id, 1, comment.author._id, data)}
@@ -142,7 +142,7 @@ const Comment = ({
               Downvote (
               {comment.votes?.filter((v) => v.value === -1).length || 0})
             </Button>
-            {/* Mark as solution button (only visible to problem author) */}
+            {/* Mark as solution button (only visible to problem author). */}
             {isAuthor && !comment.isSolution && (
               <Button
                 size="sm"
@@ -152,7 +152,7 @@ const Comment = ({
                 Mark as Solution
               </Button>
             )}
-            {/* Edit and Delete buttons (only visible to comment author) */}
+            {/* Edit and Delete buttons (only visible to comment author). */}
             {isCommentAuthor && (
               <>
                 <Button

@@ -11,7 +11,6 @@ cloudinary.config({
 export const uploadToCloudinary = async (file) => {
   console.log("File received in uploadToCloudinary:", file);
   try {
-    
     const stream = file.createReadStream();
 
     const result = await new Promise((resolve, reject) => {
@@ -22,9 +21,9 @@ export const uploadToCloudinary = async (file) => {
           else resolve(result);
         }
       );
-      stream.pipe(uploadStream); 
+      stream.pipe(uploadStream);
     });
-    
+
     return result.secure_url;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);

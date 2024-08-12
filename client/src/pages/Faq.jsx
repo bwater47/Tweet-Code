@@ -1,6 +1,4 @@
-// Import useState from React.
 import { useState } from "react";
-// Import Box, Heading, Text, IconButton, Collapse, UnorderedList, ListItem, and Grid from Chakra UI.
 import {
   Box,
   Heading,
@@ -12,15 +10,10 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-// Import theme from the styles folder.
 import theme from "../styles/theme.js";
-// Import the AddIcon and MinusIcon from Chakra UI.
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
-// Define the FAQItem component.
 const FAQItem = ({ question, answer }) => {
-  // Use the useState hook to create a show state variable and a setShow function to toggle the state.
   const [show, setShow] = useState(false);
-  // Return the FAQItem component.
   return (
     <Box
       borderWidth="1px"
@@ -28,7 +21,7 @@ const FAQItem = ({ question, answer }) => {
       borderColor={theme.colors.palette.grey}
       overflow="hidden"
       mb={4}
-      bg={theme.colors.palette.grey} // Use the purple color from the theme.
+      bg={theme.colors.palette.grey}
       boxShadow="md"
     >
       <Box p={4} d="flex" justifyContent="space-between" alignItems="center">
@@ -57,7 +50,6 @@ const FAQItem = ({ question, answer }) => {
     </Box>
   );
 };
-// Export the FAQItem component.
 const FAQ = () => {
   return (
     <Box
@@ -193,5 +185,4 @@ const FAQ = () => {
     </Box>
   );
 };
-// Export the FAQ component.
 export default FAQ;

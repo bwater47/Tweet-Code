@@ -1,8 +1,5 @@
-// Import the mongoose module.
 import mongoose from "mongoose";
-// Destruction assignment of Schema from mongoose.
 const { Schema } = mongoose;
-// Create a new Schema for the Problem model.
 const problemSchema = new Schema({
   title: {
     type: String,
@@ -55,7 +52,5 @@ problemSchema.index({ title: "text", description: "text", tags: "text" });
 problemSchema.virtual("url").get(function () {
   return `/problem/${this._id}`;
 });
-// Create a Problem model using the problemSchema.
 const Problem = mongoose.model("Problem", problemSchema);
-// Export the Problem model.
 export default Problem;

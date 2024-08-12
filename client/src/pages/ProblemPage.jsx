@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PROBLEM, QUERY_ME } from "../graphQL/queries.js";
