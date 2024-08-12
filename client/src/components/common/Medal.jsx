@@ -14,6 +14,8 @@ import {
   ExpertSeeker,
   NoviceSeeker,
   V1,
+  SuperStar,
+  Socks,
 } from "../../assets/medals/index";
 // Import the Image and Tooltip components from Chakra UI.
 import { Image, Tooltip } from "@chakra-ui/react";
@@ -77,6 +79,14 @@ const Medal = ({ medal }) => {
       break;
     case "Logo V1":
       thisMedal = V1;
+
+      break;
+    case "Super Star":
+      thisMedal = SuperStar;
+
+      break;
+    case "Socks":
+      thisMedal = Socks;
 
       break;
 

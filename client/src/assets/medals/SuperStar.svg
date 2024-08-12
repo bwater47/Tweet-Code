@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="211.66666mm"
+   height="211.66667mm"
+   viewBox="0 0 211.66666 211.66667"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient4">
+      <stop
+         style="stop-color:#f9f525;stop-opacity:1;"
+         offset="0"
+         id="stop4" />
+      <stop
+         style="stop-color:#fffe7d;stop-opacity:1;"
+         offset="1"
+         id="stop5" />
+    </linearGradient>
+    <radialGradient
+       xlink:href="#linearGradient4"
+       id="radialGradient5"
+       cx="56.613773"
+       cy="37.822456"
+       fx="56.613773"
+       fy="37.822456"
+       r="35.756927"
+       gradientTransform="matrix(1,0,0,0.95588654,0,1.6684793)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <path
+       style="fill:url(#radialGradient5);fill-opacity:1;stroke:#000000;stroke-width:1.91525;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path1"
+       d="M 77.973978,69.431542 57.327532,57.864623 36.52812,70.093685 41.14881,46.883373 23.09091,30.880944 46.5931,28.103102 56.232116,5.983995 l 9.904462,21.493511 24.01514,2.332069 -17.380897,16.061563 z"
+       transform="matrix(2.5902604,0,0,2.5902604,-41.576733,3.2080448)" />
+    <ellipse
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4.96099;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path2"
+       cx="92.789879"
+       cy="96.950066"
+       rx="3.7984166"
+       ry="12.299635" />
+    <ellipse
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4.96099;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="ellipse3"
+       cx="116.30389"
+       cy="96.58831"
+       rx="3.7984166"
+       ry="12.299635" />
+    <ellipse
+       style="fill:#f0f0f0;fill-opacity:1;stroke:#000000;stroke-width:4.96099;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path3"
+       cx="91.161995"
+       cy="90.80024"
+       rx="1.4470158"
+       ry="4.7028017" />
+    <ellipse
+       style="fill:#f0f0f0;fill-opacity:1;stroke:#000000;stroke-width:4.96099;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="ellipse4"
+       cx="115.39951"
+       cy="90.076729"
+       rx="1.4470158"
+       ry="4.7028017" />
+  </g>
+</svg>
