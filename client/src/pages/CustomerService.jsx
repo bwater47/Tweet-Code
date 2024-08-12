@@ -35,29 +35,39 @@ const CustomerService = () => {
 
     return (
         <Box
-            maxW="md"
-            mx="auto"
-            mt={8}
-            p={4}
-            borderWidth={1}
-            borderRadius="md"
-            boxShadow="md"
+            width="100vw"
+            minH="100vh"
+            bgGradient="linear(to-r, #333, #00bcd4, #333)" // Use your gradient colors here
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
         >
-            <Text fontSize="2xl" mb={4}>Customer Service</Text>
-            <form onSubmit={handleSubmit}>
-                <Stack spacing={4}>
-                    <FormControl id="email" isRequired>
-                        <FormLabel>Email Address</FormLabel>
-                        <Input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                        />
-                    </FormControl>
-                    <Button colorScheme="teal" type="submit">Submit</Button>
-                </Stack>
-            </form>
+            <Box
+                maxW="md"
+                p={6}
+                borderWidth={1}
+                borderRadius="md"
+                boxShadow="lg"
+                bg="white" // Background for the form container
+            >
+                <Text fontSize="3xl" fontWeight="bold" color="gray.800" mb={6}>Customer Service</Text>
+                <form onSubmit={handleSubmit}>
+                    <Stack spacing={4}>
+                        <FormControl id="email" isRequired>
+                            <FormLabel>Email Address</FormLabel>
+                            <Input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                variant="filled"
+                                bg="gray.100"
+                            />
+                        </FormControl>
+                        <Button colorScheme="orange" type="submit" variant="solid">Submit</Button>
+                    </Stack>
+                </form>
+            </Box>
         </Box>
     );
 };
