@@ -210,7 +210,7 @@ export const resolvers = {
                 product_data: {
                   name: "Donation",
                 },
-                unit_amount: Math.round(amount * 10), // Stripe expects the amount in cents
+                unit_amount: Math.round(amount * 100), // Stripe expects the amount in cents
               },
               quantity: 1,
             },
