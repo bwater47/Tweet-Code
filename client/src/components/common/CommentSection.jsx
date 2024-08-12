@@ -7,6 +7,7 @@ import {
   Textarea,
   HStack,
   useToast,
+  Avatar,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@apollo/client";
 import {
@@ -17,8 +18,13 @@ import {
   VOTE_COMMENT,
   UPDATE_COINS,
 } from "../../graphQL/mutations";
-import { GET_PROBLEM, GET_COMMENT_VOTES } from "../../graphQL/queries";
+import {
+  GET_PROBLEM,
+  GET_COMMENT_VOTES,
+  QUERY_ME,
+} from "../../graphQL/queries";
 import CodeEditor from "../features/CodeEditor/CodeEditor";
+import Medals from "../common/Medals";
 
 // Comment component to render individual comments
 const Comment = ({
@@ -38,7 +44,9 @@ const Comment = ({
     comment.language || "javascript"
   );
 
-  const { data }  = useQuery(GET_COMMENT_VOTES, {variables:{ id: comment._id}})
+  const { data } = useQuery(GET_COMMENT_VOTES, {
+    variables: { id: comment._id },
+  });
 
   // Handler for updating the comment
   const handleUpdate = () => {
@@ -87,9 +95,29 @@ const Comment = ({
       ) : (
         // Display mode UI
         <>
+          <HStack spacing={4} alignItems="center" mb={2}>
+            <Avatar
+              size="md"
+              name={comment.author.username}
+              src={comment.author.avatar || "https://bit.ly/broken-link"}
+              transition="transform 0.3s ease-in-out"
+              _hover={{
+                transform: "scale(1.20)",
+              }}
+            />
+            <VStack align="start" spacing={0}>
+              <Text fontSize="sm" fontWeight="bold" color="palette.cyan">
+                {comment.author.username}
+              </Text>
+              <Medals userid={comment.author._id} />
+            </VStack>
+            <Text fontSize="xs" color="palette.cyan" ml="auto">
+              {new Date(parseInt(comment.createdAt)).toLocaleString()}
+            </Text>
+          </HStack>
           <Text>{comment.content}</Text>
           {comment.code && (
-            <Box height="30vh" width="100%">
+            <Box height="30vh" width="100%" mt={2}>
               <CodeEditor
                 initialCode={comment.code || ""}
                 initialLanguage={comment.language || "javascript"}
@@ -97,22 +125,18 @@ const Comment = ({
               />
             </Box>
           )}
-          <Text fontSize="sm" color="palette.cyan" mt={2}>
-            By {comment.author.username} on{" "}
-            {new Date(parseInt(comment.createdAt)).toLocaleString()}
-          </Text>
           <HStack mt={2}>
             {/* Voting buttons */}
             <Button
               size="sm"
-              onClick={() => onVote(comment._id, 1, comment.author._id , data)}
+              onClick={() => onVote(comment._id, 1, comment.author._id, data)}
               colorScheme="blue"
             >
               Upvote ({comment.votes?.filter((v) => v.value === 1).length || 0})
             </Button>
             <Button
               size="sm"
-              onClick={() => onVote(comment._id, -1, comment.author._id , data)}
+              onClick={() => onVote(comment._id, -1, comment.author._id, data)}
               colorScheme="red"
             >
               Downvote (
@@ -171,12 +195,11 @@ const CommentSection = ({
   const { loading, error, data, refetch } = useQuery(GET_PROBLEM, {
     variables: { _id: problemId },
   });
-  
 
   // Mutation to add a new comment
   const [addComment] = useMutation(ADD_COMMENT, {
-    // Update Apollo cache after adding a comment
     update(cache, { data: { addComment } }) {
+      // Update the problem's comments
       const existingProblem = cache.readQuery({
         query: GET_PROBLEM,
         variables: { _id: problemId },
@@ -190,6 +213,20 @@ const CommentSection = ({
             problem: {
               ...existingProblem.problem,
               comments: [...existingProblem.problem.comments, addComment],
+            },
+          },
+        });
+      }
+
+      // Update the user's comments
+      const existingMe = cache.readQuery({ query: QUERY_ME });
+      if (existingMe && existingMe.me) {
+        cache.writeQuery({
+          query: QUERY_ME,
+          data: {
+            me: {
+              ...existingMe.me,
+              comments: [...existingMe.me.comments, addComment],
             },
           },
         });
@@ -245,7 +282,7 @@ const CommentSection = ({
         duration: 3000,
         isClosable: true,
       });
-      refetch(); // Refetch problem data after adding a new comment
+      // No need to refetch as the cache update should handle UI updates
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -336,9 +373,10 @@ const CommentSection = ({
       return;
     }
     try {
-
       console.log(votes);
-      const hadPreviousVote = votes.getcommentvotes.votes.some(vote => vote.user._id === currentUserId);
+      const hadPreviousVote = votes.getcommentvotes.votes.some(
+        (vote) => vote.user._id === currentUserId
+      );
       console.log(hadPreviousVote);
       const vote = await voteComment({
         variables: { commentId, value },
@@ -346,28 +384,24 @@ const CommentSection = ({
       console.log(vote);
 
       if (vote.data?.voteComment && !hadPreviousVote && value === 1) {
-        
         // If this is a new upvote (not changing from downvote to upvote)
-        
-          try {
-            await updateCoins({
-              variables: {
-                userId: author,
-                amount: 10,
-              },
-            });
-            console.log("Coins updated for author");
-          } catch (error) {
-            console.error("Error updating coins:", error);
-          }
-        
+        try {
+          await updateCoins({
+            variables: {
+              userId: author,
+              amount: 10,
+            },
+          });
+          console.log("Coins updated for author");
+        } catch (error) {
+          console.error("Error updating coins:", error);
+        }
       } else {
         console.error("Vote operation failed");
       }
-    
-      
+
       refetch(); // Refetch to update the vote count
-      
+
       toast({
         title: "Vote recorded.",
         status: "success",
