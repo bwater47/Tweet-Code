@@ -42,7 +42,7 @@ const CustomerService = () => {
     <Box
       width="100vw"
       minH="100vh"
-      bgGradient="linear(to-r, #333, #00bcd4, #333)"
+      bgGradient="linear(palette.darkgrey, palette.gradyellow, palette.darkgrey)"
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -53,22 +53,23 @@ const CustomerService = () => {
         borderWidth={1}
         borderRadius="md"
         boxShadow="lg"
-        bg="white"
+        bg="palette.lightgrey"
       >
-        <Text fontSize="3xl" fontWeight="bold" color="gray.800" mb={6}>
+        <Text fontSize="3xl" fontWeight="bold" color="white" mb={6}>
           Customer Service
         </Text>
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>
             <FormControl id="email" isRequired>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel color="palette.white">Email Address</FormLabel>
               <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                textColor="palette.black"
                 placeholder="Enter your email"
                 variant="filled"
-                bg="gray.100"
+                bg="palette.white"
               />
             </FormControl>
             <Button colorScheme="orange" type="submit" variant="solid">
