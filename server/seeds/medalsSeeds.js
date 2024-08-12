@@ -34,11 +34,11 @@ const medalData = [
 const seedMedals = async () => {
   try {
     // Get all users
-    // const user = await User.findOne();
+    const users = await User.find();
 
-    // if (!user) {
-    //   throw new Error("User not found. Please seed users first.");
-    // }
+    if (!users) {
+      throw new Error("Users not found. Please seed users first.");
+    }
 
     // Create medals.
     const createdmedals = await Promise.all(
@@ -50,15 +50,25 @@ const seedMedals = async () => {
         await newMedal.save();
         return newMedal;
       })
-    );
-    // .then(async (medals) => {
+    )
+    .then(async (medals) => {
 
-    //      user.medals = [ ...user.medals, ...medals];
-    //      const newUser = await user.save();
+        for(let i = 0; i < users.length; i++){
 
-    //      return medals;
+          const addToUser= [];
 
-    // });
+          for(let m = 0; m < medals.length; m++){
+            if(Math.random()>= 0.75){
+              addToUser.push(medals[m]);
+            }
+          }
+
+         users[i].medals = [ ...users[i].medals, ...addToUser];
+         const newUser = await users[i].save();
+        }
+         return medals;
+
+    });
 
     console.log(`${createdmedals.length} medals seeded successfully`);
   } catch (err) {
