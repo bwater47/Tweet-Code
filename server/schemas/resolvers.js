@@ -119,6 +119,18 @@ export const resolvers = {
         throw new Error("Failed to fetch problem");
       }
     },
+    getcommentvotes: async (parent, {_id}) => {
+      if (!_id) {
+        throw new Error("Comment ID is required");
+      }  
+      try {
+          return await Comment.findById(_id).populate('votes');
+  
+        }catch (err){
+          console.error("Error fetching problem:", error);
+          throw new Error("Failed to fetch problem");
+        }
+    },
   },
 
   Mutation: {
@@ -527,7 +539,7 @@ export const resolvers = {
           comment.votes.push({ user: context.user._id, value });
         }
         await comment.save();
-        return comment.populate("author");
+        return (await comment.populate("author")).populate('votes');
       } catch (error) {
         console.error("Error voting on comment:", error);
         throw new Error("Failed to vote on comment");

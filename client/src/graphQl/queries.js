@@ -177,3 +177,16 @@ export const GET_MEDALS = gql`
     }
   }
 `;
+export const GET_COMMENT_VOTES = gql`
+  query GetCommentVotes($id: ID!) {
+  getcommentvotes(_id: $id) {
+    _id
+    votes {
+      user {
+        _id
+      }
+      value
+    }
+  }
+}
+`;

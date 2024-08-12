@@ -104,6 +104,7 @@ const typeDefs = `
     problems: [Problem]
     problem(_id: ID!): Problem
     comment(_id: ID!): Comment
+    getcommentvotes(_id: ID!): Comment
     donations: [Donation]
     donation(_id: ID!): Donation
     donationtransaction(_id: ID!): DonationTransaction

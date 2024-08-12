@@ -15,8 +15,9 @@ import {
   DELETE_COMMENT,
   MARK_AS_SOLUTION,
   VOTE_COMMENT,
+  UPDATE_COINS,
 } from "../../graphQL/mutations";
-import { GET_PROBLEM } from "../../graphQL/queries";
+import { GET_PROBLEM, GET_COMMENT_VOTES } from "../../graphQL/queries";
 import CodeEditor from "../features/CodeEditor/CodeEditor";
 
 // Comment component to render individual comments
@@ -36,6 +37,8 @@ const Comment = ({
   const [editedLanguage, setEditedLanguage] = useState(
     comment.language || "javascript"
   );
+
+  const { data }  = useQuery(GET_COMMENT_VOTES, {variables:{ id: comment._id}})
 
   // Handler for updating the comment
   const handleUpdate = () => {
@@ -102,14 +105,14 @@ const Comment = ({
             {/* Voting buttons */}
             <Button
               size="sm"
-              onClick={() => onVote(comment._id, 1)}
+              onClick={() => onVote(comment._id, 1, comment.author._id , data)}
               colorScheme="blue"
             >
               Upvote ({comment.votes?.filter((v) => v.value === 1).length || 0})
             </Button>
             <Button
               size="sm"
-              onClick={() => onVote(comment._id, -1)}
+              onClick={() => onVote(comment._id, -1, comment.author._id , data)}
               colorScheme="red"
             >
               Downvote (
@@ -168,6 +171,7 @@ const CommentSection = ({
   const { loading, error, data, refetch } = useQuery(GET_PROBLEM, {
     variables: { _id: problemId },
   });
+  
 
   // Mutation to add a new comment
   const [addComment] = useMutation(ADD_COMMENT, {
@@ -208,6 +212,7 @@ const CommentSection = ({
   const [deleteComment] = useMutation(DELETE_COMMENT);
   const [markAsSolution] = useMutation(MARK_AS_SOLUTION);
   const [voteComment] = useMutation(VOTE_COMMENT);
+  const [updateCoins] = useMutation(UPDATE_COINS);
 
   // Handler to add a new comment
   const handleAddComment = async () => {
@@ -319,7 +324,7 @@ const CommentSection = ({
   };
 
   // Handler to vote on a comment
-  const handleVote = async (commentId, value) => {
+  const handleVote = async (commentId, value, author, votes) => {
     if (!currentUserId) {
       toast({
         title: "Error",
@@ -331,10 +336,38 @@ const CommentSection = ({
       return;
     }
     try {
-      await voteComment({
+
+      console.log(votes);
+      const hadPreviousVote = votes.getcommentvotes.votes.some(vote => vote.user._id === currentUserId);
+      console.log(hadPreviousVote);
+      const vote = await voteComment({
         variables: { commentId, value },
       });
+      console.log(vote);
+
+      if (vote.data?.voteComment && !hadPreviousVote && value === 1) {
+        
+        // If this is a new upvote (not changing from downvote to upvote)
+        
+          try {
+            await updateCoins({
+              variables: {
+                userId: author,
+                amount: 10,
+              },
+            });
+            console.log("Coins updated for author");
+          } catch (error) {
+            console.error("Error updating coins:", error);
+          }
+        
+      } else {
+        console.error("Vote operation failed");
+      }
+    
+      
       refetch(); // Refetch to update the vote count
+      
       toast({
         title: "Vote recorded.",
         status: "success",
