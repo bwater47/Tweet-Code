@@ -27,13 +27,12 @@ router.post(
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // Handle the checkout.session.completed event
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
       console.log("Checkout session completed:", session);
 
       try {
-        const userId = session.metadata.userId; // Ensure you pass userId in session metadata during creation
+        const userId = session.metadata.userId;
         console.log("User ID from metadata:", userId);
 
         const donationTransaction = await DonationTransaction.create({
@@ -61,6 +60,5 @@ router.post(
     res.json({ received: true });
   }
 );
-
 
 export default router;

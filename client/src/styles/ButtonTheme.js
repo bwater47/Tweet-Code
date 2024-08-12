@@ -1,18 +1,14 @@
-// Import the necessary modules from Chakra UI.
 import { defineStyle, defineStyleConfig } from "@chakra-ui/styled-system";
-// Define the base style for the button.
 const baseStyle = defineStyle({
-  fontWeight: "normal", // Change the font weight to normal.
-  fontFamily: "mono", // Change the font family to monospaced.
+  fontWeight: "normal",
+  fontFamily: "mono",
 });
-// Define the sizes for the button.
 const sizes = {
   md: defineStyle({
-    fontSize: "sm", // Change font size to sm (14px).
+    fontSize: "sm",
   }),
 };
 
-// Defining a custom variant.
 const colored = defineStyle((props) => {
   const { colorScheme: c } = props;
   return {
@@ -45,7 +41,6 @@ const colored = defineStyle((props) => {
     },
   };
 });
-// Defining a custom variant.
 const currentpage = defineStyle((props) => {
   const { colorScheme: c } = props;
   return {
@@ -78,7 +73,6 @@ const currentpage = defineStyle((props) => {
     },
   };
 });
-// Defining a custom variant.
 const otherpages = defineStyle((props) => {
   const { colorScheme: c } = props;
   return {
@@ -107,7 +101,6 @@ const otherpages = defineStyle((props) => {
     },
   };
 });
-// Export the button theme.
 export const buttonTheme = defineStyleConfig({
   baseStyle,
   sizes,
@@ -117,6 +110,6 @@ export const buttonTheme = defineStyleConfig({
     otherpages: otherpages,
   },
   defaultProps: {
-    colorScheme: "purple", // Set the default color scheme to purple.
+    colorScheme: "purple",
   },
 });

@@ -61,5 +61,4 @@ const devsData = [
     },
   },
 ];
-// Export the devsData array.
 export default devsData;

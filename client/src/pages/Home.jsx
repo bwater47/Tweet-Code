@@ -87,7 +87,7 @@ const Home = () => {
         problem.programmingLanguage === selectedLanguage)
   );
 
-  // Sort problems
+  // Sort problems.
   filteredProblems.sort((a, b) => {
     switch (sortBy) {
       case "dateAsc":

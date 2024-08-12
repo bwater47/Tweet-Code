@@ -1,8 +1,5 @@
-// Import the Problem model from models/Problem.
 import Problem from "../models/Problem.js";
-// Import the User model from models/User.
 import User from "../models/User.js";
-// Create an array of problem data.
 const problemData = [
   {
     title: "Two Sum",
@@ -31,17 +28,13 @@ const problemData = [
     coinReward: 40,
   },
 ];
-// Create an async function to seed the problems.
 const seedProblems = async () => {
   try {
-    // Get all users from the database.
     const users = await User.find();
 
     if (users.length === 0) {
       throw new Error("Users not found. Please seed users first.");
     }
-
-    // Create problems for each user.
     const createdProblems = await Promise.all(
       problemData.map(async (problem) => {
         const randomUser = users[Math.floor(Math.random() * users.length)];
@@ -62,8 +55,7 @@ const seedProblems = async () => {
     console.log(`${createdProblems.length} problems seeded successfully`);
   } catch (err) {
     console.error("Error seeding problems:", err);
-    throw err; // Re-throw the error so it's caught in the main seed function.
+    throw err;
   }
 };
-// Export the seedProblems function.
 export default seedProblems;

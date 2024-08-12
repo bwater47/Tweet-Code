@@ -1,10 +1,6 @@
-// Import useState from React.
 import { useState } from "react";
-// Import the CREATE_PROBLEM mutation.
 import { CREATE_PROBLEM } from "../graphQL/mutations";
-// Import the useMutation hook from Apollo Client.
 import { useAuth } from "../hooks/useAuth.jsx";
-// Import the Box, Heading, Input, Textarea, Button, useToast, VStack, Container, and Divider components from Chakra UI.
 import {
   Box,
   Heading,
@@ -18,12 +14,9 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-// Import the useMutation hook from Apollo Client.
 import { useMutation } from "@apollo/client";
-// Import the CodeEditor and TagDisplay components.
 import CodeEditor from "../components/features/CodeEditor/CodeEditor.jsx";
 import TagDisplay from "../components/common/TagDisplay.jsx";
-// Define the CreatePost component.
 function CreatePost() {
   const [createProblem, { loading }] = useMutation(CREATE_PROBLEM);
   const [title, setTitle] = useState("");
@@ -34,11 +27,9 @@ function CreatePost() {
   const [tags, setTags] = useState([]);
   const toast = useToast();
   const { isLoggedIn } = useAuth();
-  // Define a function to handle changing the programming language.
   const handleLanguageChange = (language) => {
     setProgrammingLanguage(language);
   };
-  // Define a function to handle adding tags.
   const handleTagInput = (e) => {
     const value = e.target.value;
     if (value.endsWith(",")) {
@@ -51,13 +42,10 @@ function CreatePost() {
       setTagInput(value);
     }
   };
-  // Define a function to handle removing tags.
   const handleRemoveTag = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
-  // Define a function to handle submitting the form.
   const handleSubmit = async () => {
-    // Update the submit logic to use the tags array.
     try {
       const { data } = await createProblem({
         variables: {
@@ -69,7 +57,6 @@ function CreatePost() {
           coinReward: 0,
         },
       });
-      // Update the toast message to reflect the new functionality.
       if (data.createProblem) {
         toast({
           title: "Problem created",
@@ -87,7 +74,6 @@ function CreatePost() {
         throw new Error("Failed to create problem");
       }
     } catch (error) {
-      // Update the error message to reflect the new functionality.
       toast({
         title: "Error",
         description:
@@ -98,7 +84,6 @@ function CreatePost() {
       });
     }
   };
-  // Define the input styles.
   const inputStyles = {
     bg: "palette.grey",
     color: "palette.white",
@@ -122,7 +107,6 @@ function CreatePost() {
     },
     transition: "all 0.3s ease-in-out",
   };
-  // Return the CreatePost component.
   return (
     <Flex
       direction="column"
@@ -202,5 +186,4 @@ function CreatePost() {
     </Flex>
   );
 }
-// Export the CreatePost component.
 export default CreatePost;
