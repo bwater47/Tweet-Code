@@ -16,7 +16,7 @@ const devsData = [
     id: 2,
     name: "Aaron Bringhurst",
     description: "The Senior Developer",
-    avatar: "",
+    avatar: "/images/AaronB.jpg",
     social: {
       x: "https://x.com/username",
       github: "https://github.com/AaronBringhurst",

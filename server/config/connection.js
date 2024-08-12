@@ -12,10 +12,10 @@ const connectDB = async () => {
     const conn = await mongoose.connect(
       process.env.MONGODB_URI || "mongodb://localhost/tweetcodedb",
       // Set the options to avoid warnings.
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
+      // {
+      //   useNewUrlParser: true,
+      //   useUnifiedTopology: true,
+      // }
     );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
