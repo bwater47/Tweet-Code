@@ -14,6 +14,7 @@ import App from "./App.jsx";
 import "./styles/index.css";
 // Import Pages.
 import CreatePost from "./pages/Createpost.jsx";
+import CustomerService from "./pages/CustomerService.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Devs from "./pages/Devs.jsx";
 import FAQ from "./pages/Faq.jsx";
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
         ],
+      },
+      {
+        path: "/Support",
+        element: <CustomerService />
       },
       {
         path: "/Developers",

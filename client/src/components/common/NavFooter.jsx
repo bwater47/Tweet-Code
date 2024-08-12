@@ -34,7 +34,9 @@ const NavFooter = () => {
           <Heading as="h3" size="md">
             Support
           </Heading>
-          <DonationButton />
+          <Link to="/Support" className="nav-link text-white">
+            <Text _hover={{ color: "palette.blue" }}>Customer Service</Text>
+          </Link>
         </Box>
       </Flex>
     </Box>
