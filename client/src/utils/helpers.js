@@ -22,7 +22,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const uri =
   window.location.hostname === 'localhost'
     ? 'http://localhost:3001/graphql'
-    : `${window.location.protocol}//${window.location.hostname}/graphql`;
+    : `https://ithinkididit--tweettweetcode.netlify.app/graphql`;
 
 
 // Custom upload link.
