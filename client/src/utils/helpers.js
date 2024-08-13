@@ -20,7 +20,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // Custom upload link.
 const uploadLink = createUploadLink({
-  uri: "http://localhost:3001/graphql",
+  uri: "/graphql",
 });
 
 // Authentication link.
