@@ -22,7 +22,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const uri =
   window.location.hostname === 'localhost'
     ? 'http://localhost:3001/graphql'
-    : `${window.location.protocol}//${window.location.hostname}/graphql`;
+    : `/graphql`;
 
 
 // Custom upload link.
@@ -47,18 +47,6 @@ const client = new ApolloClient({
   uri: uri,
   link: from([errorLink, authLink, uploadLink]),
   cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: "cache-and-network",
-      errorPolicy: "ignore",
-    },
-    query: {
-      fetchPolicy: "network-only",
-      errorPolicy: "all",
-    },
-    mutate: {
-      errorPolicy: "all",
-    },
-  },
+  
 });
 export default client;
