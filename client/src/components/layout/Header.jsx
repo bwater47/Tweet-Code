@@ -1,11 +1,7 @@
-// Import Box, Flex, Image, Link, Spacer, and Stack from Chakra UI.
 import { Box, Flex, Image, Link, Spacer, Stack } from "@chakra-ui/react";
-// Import the logo and brand images.
 import logo from "../../assets/images/logo.svg";
 import brand from "../../assets/images/brand.svg";
-// Import the NavHeader component.
 import NavHeader from "../common/NavHeader";
-// Define the Header component.
 const Header = () => {
   return (
     <>
@@ -38,5 +34,4 @@ const Header = () => {
     </>
   );
 };
-// Export the Header component.
 export default Header;

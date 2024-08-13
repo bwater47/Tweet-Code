@@ -1,4 +1,3 @@
-// Import Box, Text, Avatar, VStack, SimpleGrid, and Heading from Chakra UI.
 import {
   Box,
   Text,
@@ -7,11 +6,8 @@ import {
   SimpleGrid,
   Heading,
 } from "@chakra-ui/react";
-// Import theme from the styles folder.
 import theme from "../styles/theme.js";
-// Import the devsData array from the Developers component.
 import devsData from "../components/features/Developers/DevsData.jsx";
-// Import the SocialIcons component from the Developers folder.
 import SocialIcons from "../components/features/Developers/SocialIcons.jsx";
 // Define the Devs component.
 const Devs = () => {
@@ -47,7 +43,6 @@ const Devs = () => {
             minW="100px"
             mx="auto"
             bg={theme.colors.palette.lightgrey}
-            // bgGradient="linear(palette.darkgrey, palette.white, palette.darkgrey)"
           >
             <VStack spacing={4}>
               <Avatar src={dev.avatar} size="2xl" name={dev.name} />
@@ -65,5 +60,4 @@ const Devs = () => {
     </Box>
   );
 };
-// Export the Devs component.
 export default Devs;

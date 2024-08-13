@@ -4,7 +4,7 @@ import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useLocation } from "react-router-dom";
 import theme from "../styles/theme";
 import { useMutation } from "@apollo/client";
-import { COMPLETE_CHECKOUT_SESSION } from "../graphQL/mutations"; // Import the mutation
+import { COMPLETE_CHECKOUT_SESSION } from "../graphQL/mutations";
 
 function Success() {
   const location = useLocation();
@@ -12,7 +12,6 @@ function Success() {
   const sessionId = queryParams.get("session_id");
   const [sessionData, setSessionData] = useState(null);
 
-  // Define the mutation using the useMutation hook
   const [completeCheckoutSession, { loading, error }] = useMutation(
     COMPLETE_CHECKOUT_SESSION
   );

@@ -11,6 +11,13 @@ import { signToken, AuthenticationError } from "../utils/auth.js";
 import stripe from "../utils/stripe.js";
 import { GraphQLUpload } from "graphql-upload-minimal";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
+import dotenv from "dotenv";
+import { MongoClient, ObjectId } from "mongodb";
+
+dotenv.config();
+
+const uri = process.env.MONGODB_URI;
+const dbName = process.env.DB_NAME;
 
 export const resolvers = {
   Upload: GraphQLUpload,
@@ -119,17 +126,16 @@ export const resolvers = {
         throw new Error("Failed to fetch problem");
       }
     },
-    getcommentvotes: async (parent, {_id}) => {
+    getcommentvotes: async (parent, { _id }) => {
       if (!_id) {
         throw new Error("Comment ID is required");
-      }  
+      }
       try {
-          return await Comment.findById(_id).populate('votes');
-  
-        }catch (err){
-          console.error("Error fetching problem:", error);
-          throw new Error("Failed to fetch problem");
-        }
+        return await Comment.findById(_id).populate("votes");
+      } catch (err) {
+        console.error("Error fetching problem:", error);
+        throw new Error("Failed to fetch problem");
+      }
     },
   },
 
@@ -165,48 +171,93 @@ export const resolvers = {
 
     createCheckoutSession: async (parent, { amount }, context) => {
       console.log("createCheckoutSession called with amount:", amount);
-      console.log(
-        "User context:",
-        context.user ? "User is logged in" : "User is not logged in"
-      );
-
-      if (context.user) {
-        try {
-          console.log("Creating Stripe checkout session...");
-          const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            line_items: [
-              {
-                price_data: {
-                  currency: "usd",
-                  product_data: {
-                    name: "Donation",
-                  },
-                  unit_amount: Math.round(amount * 100), // Stripe expects the amount in cents
-                },
-                quantity: 1,
-              },
-            ],
-            mode: "payment",
-            success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.CLIENT_URL}/cancel`,
-            metadata: {
-              userId: context.user._id.toString(),
-              amount: amount.toString(),
-            },
-          });
-
-          console.log("Stripe session created:", session.id);
-          return { sessionId: session.id };
-        } catch (error) {
-          console.error("Error creating Stripe session:", error);
-          throw new Error(
-            "Failed to create checkout session: " + error.message
-          );
-        }
+      if (!context.user) {
+        console.log("User not authenticated");
+        throw new AuthenticationError("Not logged in");
       }
-      console.log("User not authenticated");
-      throw new AuthenticationError("Not logged in");
+      // 🚨 WARNING: Hacky Patch Job Ahead! 🚨
+      // ----------------------------------------------------------------------------
+      // So here's the deal, Guys. For reasons known only to the ancient gods of code
+      // and the mischievous Mongoose demons, our trusty ORM decided to take a nap
+      // when it came time to update the user's coin balance after a successful Stripe checkout.
+      //
+      // After hours of debugging, praying, and maybe sacrificing a rubber duck or two,
+      // I came to the realization that Mongoose just wasn't playing nice. Despite
+      // all the logs saying "yeah, totally updated that user's coins," the database
+      // was like, "coins? Never heard of 'em."
+      //
+      // Enter the native MongoDB driver! Like a hero riding in on a white horse,
+      // it bypassed all the ORM trickery and said, "Don't worry, I've got this."
+      // With MongoClient, I successfully added 1000 coins to the user's account,
+      // proving once and for all that sometimes, you've just got to go back to basics.
+      //
+      // TL;DR: Mongoose was being weird, so I ditched it for this operation and
+      // used MongoClient instead. It works, and now I can finally get some sleep at 4 in the morning.
+      // ----------------------------------------------------------------------------
+      const client = new MongoClient(uri);
+      try {
+        // Connect to the MongoDB database
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        console.log("Creating Stripe checkout session...");
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          line_items: [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: "Donation",
+                },
+                unit_amount: Math.round(amount * 100), // Stripe expects the amount in cents
+              },
+              quantity: 1,
+            },
+          ],
+          mode: "payment",
+          success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${process.env.CLIENT_URL}/cancel`,
+          metadata: {
+            userId: context.user._id.toString(),
+            amount: amount.toString(),
+          },
+        });
+        console.log("Stripe session created:", session.id);
+
+        // Add 1000 coins to the user's account using native MongoDB driver
+        const database = client.db(dbName);
+        const users = database.collection("users");
+
+        const result = await users.updateOne(
+          { _id: new ObjectId(context.user._id) },
+          { $inc: { coins: 1000 } }
+        );
+
+        console.log(
+          `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
+        );
+
+        // Verify the update by fetching the updated user document
+        const updatedUser = await users.findOne({
+          _id: new ObjectId(context.user._id),
+        });
+
+        console.log("Updated user:", updatedUser);
+
+        // Return the session ID and the updated coin balance
+        return {
+          sessionId: session.id,
+          updatedCoins: updatedUser.coins,
+        };
+      } catch (error) {
+        console.error("Error in createCheckoutSession:", error);
+        throw new Error("Failed to process donation: " + error.message);
+      } finally {
+        // Ensure the client is closed even if an error occurs
+        await client.close();
+        console.log("Disconnected from MongoDB");
+      }
     },
 
     completeCheckoutSession: async (parent, { sessionId }, context) => {
@@ -227,7 +278,6 @@ export const resolvers = {
         const amount = parseInt(session.metadata.amount, 10);
         const userId = session.metadata.userId;
 
-
         const donation = await Donation.create({
           name: "Donation",
           description: "Donation via Stripe checkout",
@@ -242,7 +292,7 @@ export const resolvers = {
         await User.findByIdAndUpdate(userId, {
           $push: { donationTransactions: donationTransaction._id },
         });
-        
+
         const populatedTransaction = await DonationTransaction.findById(
           donationTransaction._id
         ).populate("donations");
@@ -442,6 +492,9 @@ export const resolvers = {
         await Problem.findByIdAndUpdate(problemId, {
           $push: { comments: comment._id },
         });
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { comments: comment._id },
+        });
         return comment.populate("author");
       } catch (error) {
         console.error("Error adding comment:", error);
@@ -491,6 +544,9 @@ export const resolvers = {
             "You can only delete your own comments"
           );
         }
+        await User.findByIdAndUpdate(context.user._id, {
+          $pull: { comments: commentId },
+        });
         await Comment.findByIdAndDelete(commentId);
         await Problem.findByIdAndUpdate(comment.problem, {
           $pull: { comments: commentId },
@@ -539,7 +595,7 @@ export const resolvers = {
           comment.votes.push({ user: context.user._id, value });
         }
         await comment.save();
-        return (await comment.populate("author")).populate('votes');
+        return (await comment.populate("author")).populate("votes");
       } catch (error) {
         console.error("Error voting on comment:", error);
         throw new Error("Failed to vote on comment");

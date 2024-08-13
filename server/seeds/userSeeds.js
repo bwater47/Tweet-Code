@@ -1,8 +1,5 @@
-
 import User from "../models/User.js";
-// Import bcrypt for password hashing.
 import bcrypt from "bcrypt";
-// Create an array of user data.
 const userData = [
   {
     firstName: "L33t",
@@ -64,7 +61,6 @@ const userData = [
 
   },
 ];
-// Create an async function to seed the users.
 const seedUsers = async () => {
   try {
     // First, delete all existing users.
@@ -87,5 +83,4 @@ const seedUsers = async () => {
     console.error("Error seeding users:", err);
   }
 };
-// Export the seedUsers function.
 export default seedUsers;

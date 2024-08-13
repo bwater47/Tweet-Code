@@ -1,14 +1,8 @@
-// Imoprt useState from React.
 import { useState } from "react";
-// Import the useMutation hook from Apollo Client.
 import { useMutation } from "@apollo/client";
-// Import the useNavigate hook from React Router.
 import { useNavigate } from "react-router-dom";
-// Import the ADD_USER and LOGIN_USER mutations.
 import { ADD_USER, LOGIN_USER } from "../graphQL/mutations.js";
-// Import the useAuth hook from the hooks folder.
 import { useAuth } from "../hooks/useAuth.jsx";
-// Import the Box, Tabs, TabList, TabPanels, Tab, TabPanel, Button, FormControl, FormLabel, Input, VStack, Container, and Heading components from Chakra UI.
 import {
   Box,
   Tabs,
@@ -25,7 +19,6 @@ import {
   Heading,
   useToast,
 } from "@chakra-ui/react";
-// Define the Registration component.
 const Registration = () => {
   return (
     <Box bgGradient="linear(palette.darkgrey, palette.gradgreen, palette.darkgrey)">
@@ -59,7 +52,6 @@ const Registration = () => {
     </Box>
   );
 };
-// Define the LoginForm component.
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -92,7 +84,6 @@ const LoginForm = () => {
       });
     }
   };
-  // Define the LoginForm component.
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="login-email">
@@ -119,7 +110,6 @@ const LoginForm = () => {
     </VStack>
   );
 };
-// Define the SignUpForm component.
 const SignUpForm = () => {
   const [formState, setFormState] = useState({
     firstName: "",
@@ -140,7 +130,6 @@ const SignUpForm = () => {
       [name]: value,
     });
   };
-  // Define the handleSubmit function.
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -166,7 +155,6 @@ const SignUpForm = () => {
       });
     }
   };
-  // Define the Registration component.
   return (
     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
       <FormControl id="signup-firstName">
@@ -225,5 +213,4 @@ const SignUpForm = () => {
     </VStack>
   );
 };
-// Export the Registration component.
 export default Registration;

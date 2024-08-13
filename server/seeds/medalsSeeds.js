@@ -1,8 +1,5 @@
-// Import Medal from the models/Medal.js file.
 import Medal from "../models/Medal.js";
-// Import User from the models/User.js file.
 import User from "../models/User.js";
-// Create an array of medal data.
 const medalData = [
   {
     title: "you Suck!",
@@ -40,7 +37,6 @@ const medalData = [
     price: 50
   },
 ];
-// Create an async function to seed the medals.
 const seedMedals = async () => {
   try {
     // Get all users
@@ -50,13 +46,11 @@ const seedMedals = async () => {
       throw new Error("Users not found. Please seed users first.");
     }
 
-    // Create medals.
     const createdmedals = await Promise.all(
       medalData.map(async (medal) => {
         const newMedal = new Medal({
           ...medal,
         });
-        // Await the new medal to save.
         await newMedal.save();
         return newMedal;
       })
@@ -83,8 +77,7 @@ const seedMedals = async () => {
     console.log(`${createdmedals.length} medals seeded successfully`);
   } catch (err) {
     console.error("Error seeding Medals:", err);
-    throw err; // Re-throw the error so it's caught in the main seed function.
+    throw err;
   }
 };
-// Export the seedMedals function.
 export default seedMedals;

@@ -16,12 +16,12 @@ const devsData = [
     id: 2,
     name: "Aaron Bringhurst",
     description: "The Senior Developer",
-    avatar: "",
+    avatar: "/images/AaronB.png",
     social: {
-      x: "https://x.com/username",
+      x: "https://x.com/lord_voldemort7?lang=en",
       github: "https://github.com/AaronBringhurst",
-      linkedin: "https://linkedin.com/in/username",
-      youtube: "https://youtube.com/user/username",
+      linkedin: "https://www.linkedin.com/in/aaron-bringhurst-a330bb323",
+      youtube: "https://www.youtube.com/@TREYtheExplainer",
     },
   },
   {
@@ -61,5 +61,4 @@ const devsData = [
     },
   },
 ];
-// Export the devsData array.
 export default devsData;

@@ -1,4 +1,3 @@
-// Import youSuck, goldCoin, bronzeCoin, silverCoin, SupremeInsight, AdvancedInsight, Participation, SupremeHoarder, TheCollector, HumbleStart, ChampionSeeker, ExpertSeeker, NoviceSeeker, and V1 from the assets/medals folder.
 import {
   youSuck,
   goldCoin,
@@ -17,13 +16,10 @@ import {
   SuperStar,
   Socks,
 } from "../../assets/medals/index";
-// Import the Image and Tooltip components from Chakra UI.
 import { Image, Tooltip } from "@chakra-ui/react";
-// Medal component to display a medal image with a tooltip.
 const Medal = ({ medal }) => {
   let thisMedal;
 
-  // Cases to set the image. one will be needed for each medal.
   switch (medal.title) {
     case "you Suck!":
       thisMedal = youSuck;
@@ -93,7 +89,6 @@ const Medal = ({ medal }) => {
     default:
       break;
   }
-  // Return the medal image with a tooltip.
   return (
     <Tooltip label={`${medal.title}: \n ${medal.description}`} fontSize="md">
       <Image
@@ -105,5 +100,4 @@ const Medal = ({ medal }) => {
     </Tooltip>
   );
 };
-// Export the Medal component.
 export default Medal;

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   VStack,
@@ -6,9 +5,6 @@ import {
   Text,
   Button,
   Container,
-  Input,
-  FormControl,
-  FormLabel,
   useToast,
 } from "@chakra-ui/react";
 import { useMutation } from "@apollo/client";
@@ -20,26 +16,14 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const Donate = () => {
-  const [amount, setAmount] = useState("");
   const [createCheckoutSession] = useMutation(CREATE_CHECKOUT_SESSION);
   const { isLoggedIn } = useAuth();
   const toast = useToast();
 
-  const handleDonation = async () => {
-    if (!amount || isNaN(amount) || amount <= 0) {
-      toast({
-        title: "Invalid amount",
-        description: "Please enter a valid donation amount.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
+  const handleDonation = async (amount) => {
     try {
       const { data } = await createCheckoutSession({
-        variables: { amount: parseFloat(amount) },
+        variables: { amount },
       });
 
       const stripe = await stripePromise;
@@ -90,26 +74,35 @@ const Donate = () => {
             boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
           >
             <VStack spacing={4}>
-              <FormControl>
-                <FormLabel color="palette.white">Donation Amount</FormLabel>
-                <Input
-                  type="number"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  color="palette.white"
-                  bg="palette.grey"
-                  _placeholder={{ color: "palette.lightgrey" }}
-                />
-              </FormControl>
+              <Text color="palette.white" textAlign="center">
+                Choose a donation amount:
+              </Text>
               <Button
                 colorScheme="red"
                 variant="solid"
-                onClick={handleDonation}
-                isDisabled={!isLoggedIn || !amount}
+                onClick={() => handleDonation(1)}
+                isDisabled={!isLoggedIn}
                 w="full"
               >
-                Donate
+                Donate $1
+              </Button>
+              <Button
+                colorScheme="red"
+                variant="solid"
+                onClick={() => handleDonation(5)}
+                isDisabled={!isLoggedIn}
+                w="full"
+              >
+                Donate $5
+              </Button>
+              <Button
+                colorScheme="red"
+                variant="solid"
+                onClick={() => handleDonation(10)}
+                isDisabled={!isLoggedIn}
+                w="full"
+              >
+                Donate $10
               </Button>
             </VStack>
           </Box>
@@ -117,10 +110,6 @@ const Donate = () => {
       </Container>
     </Box>
   );
-};
-
-Donate.propTypes = {
-  // Add any props if needed in the future
 };
 
 export default Donate;

@@ -1,4 +1,3 @@
-
 import {
   Box,
   VStack,
@@ -32,14 +31,15 @@ import { QUERY_ME } from "../graphQL/queries.js";
 import { Link as RouterLink } from "react-router-dom";
 import DonationModal from "../components/common/DonationModal";
 import { UpdateProfile } from "../components/common/UpdateProfile";
-import  Medals  from '../components/common/Medals.jsx'
+import Medals from "../components/common/Medals.jsx";
 import MedalShop from "../components/common/MedalShop.jsx";
+import moment from "moment";
 
 const Dashboard = () => {
   const { loading, error, data, refetch } = useQuery(QUERY_ME);
   const [deleteProblem] = useMutation(DELETE_PROBLEM);
   const [deleteComment] = useMutation(DELETE_COMMENT);
-  const [screenSmallerThan660] = useMediaQuery('(max-width: 660px')
+  const [screenSmallerThan660] = useMediaQuery("(max-width: 660px");
   const toast = useToast();
   const {
     isOpen: isDonationModalOpen,
@@ -51,7 +51,6 @@ const Dashboard = () => {
     onOpen: onUpdateProfileOpen,
     onClose: onUpdateProfileClose,
   } = useDisclosure();
-
 
   if (loading)
     return (
@@ -76,13 +75,23 @@ const Dashboard = () => {
   const user = data?.me || {};
   const { me } = data;
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const formatDate = (timestamp) => {
+    if (!timestamp) return "No date available";
+
+    // Convert the timestamp string to a number
+    const numericTimestamp = Number(timestamp);
+
+    // Parse the numeric timestamp with moment
+    const date = moment(numericTimestamp);
+
+    if (!date.isValid()) {
+      console.error("Invalid date:", numericTimestamp);
+      return "Invalid Date";
+    }
+
+    return date.format("MMM D, YYYY");
   };
+
   const handleDeleteProblem = async (problemId) => {
     try {
       await deleteProblem({ variables: { id: problemId } });
@@ -106,8 +115,8 @@ const Dashboard = () => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await deleteComment({ variables: { id: commentId } });
-      refetch();
+      await deleteComment({ variables: { commentId } });
+      refetch(); // Refetch data to update the UI
       toast({
         title: "Comment deleted",
         status: "success",
@@ -130,17 +139,19 @@ const Dashboard = () => {
     ...(user.comments || []),
     ...(user.donationTransactions || []),
   ]
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt || b.purchaseDate) -
-        new Date(a.createdAt || a.purchaseDate)
-    )
+    .map((item) => {
+      const date = item.createdAt || item.purchaseDate;
+      const momentDate = date ? moment(Number(date)) : null;
+
+      return { ...item, date: momentDate };
+    })
+    .filter((item) => item.date && item.date.isValid())
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
     .slice(0, 5);
 
   return (
     <Box
       p={5}
-      
       bgGradient="linear(palette.darkgrey, palette.gradpurple, palette.darkgrey)"
       color="white"
     >
@@ -187,7 +198,7 @@ const Dashboard = () => {
           </Text>
           <StatGroup>
             <Stat>
-              <StatLabel>Coins</StatLabel>
+              <StatLabel></StatLabel>
               <StatNumber>{user.coins || 0}</StatNumber>
             </Stat>
           </StatGroup>
@@ -219,13 +230,13 @@ const Dashboard = () => {
           borderRadius={10}
           borderColor="palette.grey"
         >
-          <Tabs colorScheme="purple" size={screenSmallerThan660 ? 'sm' : 'xl'}>
+          <Tabs colorScheme="purple" size={screenSmallerThan660 ? "sm" : "xl"}>
             <TabList>
-              <Tab  >Recent Activity</Tab>
-              <Tab >My Problems</Tab>
-              <Tab >My Comments</Tab>
-              <Tab >Medals</Tab>
-              <Tab >Shop</Tab>
+              <Tab>Recent Activity</Tab>
+              <Tab>My Problems</Tab>
+              <Tab>My Comments</Tab>
+              <Tab>Medals</Tab>
+              <Tab>Shop</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -322,11 +333,15 @@ const Dashboard = () => {
                 )}
               </TabPanel>
               <TabPanel>
-                <Heading size="md" mb={2}>Medals</Heading>
+                <Heading size="md" mb={2}>
+                  Medals
+                </Heading>
                 <Medals userid={user._id}></Medals>
               </TabPanel>
               <TabPanel>
-                <Heading size="md" mb={2}>Shop</Heading>
+                <Heading size="md" mb={2}>
+                  Shop
+                </Heading>
                 <MedalShop userid={user._id} usercoins={user.coins}></MedalShop>
               </TabPanel>
             </TabPanels>
@@ -351,4 +366,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

@@ -1,10 +1,6 @@
-// Import Link from React Router for navigation.
 import { Link } from "react-router-dom";
-// Import Box, Flex, Heading, and Text from Chakra UI.
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-// Import the DonationButton component.
 import DonationButton from "../common/DonationButton.jsx";
-// Define the NavFooter component.
 const NavFooter = () => {
   return (
     <Box
@@ -34,11 +30,12 @@ const NavFooter = () => {
           <Heading as="h3" size="md">
             Support
           </Heading>
-          <DonationButton />
+          <Link to="/Support" className="nav-link text-white">
+            <Text _hover={{ color: "palette.blue" }}>Customer Service</Text>
+          </Link>
         </Box>
       </Flex>
     </Box>
   );
 };
-// Export the NavFooter component.
 export default NavFooter;

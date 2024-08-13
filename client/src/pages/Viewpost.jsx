@@ -1,6 +1,4 @@
-// Import useState from React.
 import { useState } from "react";
-// Import the Box, Button, Flex, Textarea, Avatar, Text, VStack, and HStack components from Chakra UI.
 import {
   Box,
   Button,
@@ -11,9 +9,7 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-// Import the Medals component from the common folder.
 import Medals from "../components/common/Medals.jsx";
-// Define the commentsData array.
 const commentsData = [
   {
     id: 1,
@@ -22,7 +18,6 @@ const commentsData = [
     text: "In mauris porttitor tincidunt mauris massa sit lorem sed scelerisque. Fringilla pharetra vel massa enim sollicitudin cras. At pulvinar eget sociis adipiscing eget donec ultrices nibh tristique.",
     avatar: "https://bit.ly/dan-abramov",
   },
-  // Add more comments as needed.
 ];
 const ViewPost = () => {
   const [comments, setComments] = useState(commentsData);
@@ -30,14 +25,14 @@ const ViewPost = () => {
   const handlePostComment = () => {
     const newCommentData = {
       id: comments.length + 1,
-      username: "Your Username", // Replace with actual username.
+      username: "Your Username",
       date: new Date().toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
       }),
       text: newComment,
-      avatar: "https://bit.ly/dan-abramov", // Replace with actual avatar URL.
+      avatar: "https://bit.ly/dan-abramov",
     };
     setComments([...comments, newCommentData]);
     setNewComment("");
@@ -90,5 +85,4 @@ const ViewPost = () => {
     </Box>
   );
 };
-// Export the ViewPost component.
 export default ViewPost;
