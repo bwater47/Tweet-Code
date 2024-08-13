@@ -26,6 +26,16 @@ const medalData = [
     description:"He spent HOW MUCH!",
     price: 20000
   },
+  {
+    title: "Super Star",
+    description:"Dont land on the Bowser Space",
+    price: 200
+  },
+  {
+    title: "Socks",
+    description:"Dont forget your socks",
+    price: 50
+  },
 ];
 const seedMedals = async () => {
   try {
