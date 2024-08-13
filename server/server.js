@@ -28,8 +28,7 @@ const startApolloServer = async () => {
   await server.start();
 
   const corsOptions = {
-    origin: "https://ithinkididit--tweettweetcode.netlify.app/", // change this
-    credentials: true,
+    allow_any_origin: true
   };
 
   app.use(cors(corsOptions));
