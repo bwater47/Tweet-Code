@@ -10,13 +10,12 @@ import seedProblems from "./problemSeeds.js";
 import seedCommentsAndSolutions from "./commentSeeds.js";
 import seedMedals from "./medalsSeeds.js";
 dotenv.config({path: "../../.env"});
+import connectDb from '../config/connection.js'
 const seedDatabase = async () => {
   
   try {
     
-    await mongoose.connect(
-      process.env.MONGODB_URI //|| "mongodb://localhost/tweetcodedb",
-    );
+    await connectDb;
 
     console.log("Connected to MongoDB successfully");
 
@@ -45,7 +44,7 @@ const seedDatabase = async () => {
     
   } catch (err) {
     console.error("Error seeding database:", err);
-    await mongoose.connection.close();
+    await connectDb.close();
     //process.exit(1);
   }
 };
