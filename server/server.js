@@ -11,6 +11,8 @@ import cors from "cors";
 import stripeWebhook from "./utils/stripeWebhook.js";
 import stripe from "./utils/stripe.js"; // Import your Stripe instance
 import seedDataBase from './seeds/seed.js'
+import dotenv from 'dotenv'
+dotenv.config({path: "/../.env"});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
