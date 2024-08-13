@@ -44,6 +44,7 @@ const authLink = setContext((_, { headers }) => {
 
 // Apollo Client instance.
 const client = new ApolloClient({
+  uri: uri,
   link: from([errorLink, authLink, uploadLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
