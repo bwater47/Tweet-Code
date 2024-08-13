@@ -67,10 +67,16 @@ The Tweet-Code is for managing and showcasing books, allowing employers to see m
 
 - <strong>Tweet Code Screenshots</strong>
 
-- ![Screenshot]()
-- ![Screenshot]()
-- ![Screenshot]()
-- ![Screenshot]()
+- ![Screenshot](./client/src/assets/images/Home.png)
+- ![Screenshot](./client/src/assets/images/Register.png)
+- ![Screenshot](./client/src/assets/images/Dashboard.png)
+- ![Screenshot](./client/src/assets/images/Donate.png)
+- ![Screenshot](./client/src/assets/images/OneSearch.png)
+- ![Screenshot](./client/src/assets/images/ViewProblem.png)
+- ![Screenshot](./client/src/assets/images/Comment.png)
+- ![Screenshot](./client/src/assets/images/Search.png)
+- ![Screenshot](./client/src/assets/images/Devs.png)
+- ![Screenshot](./client/src/assets/images/Faq.png)
 
 ## Support
 
