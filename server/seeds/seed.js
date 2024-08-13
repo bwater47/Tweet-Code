@@ -9,8 +9,9 @@ import seedUsers from "./userSeeds.js";
 import seedProblems from "./problemSeeds.js";
 import seedCommentsAndSolutions from "./commentSeeds.js";
 import seedMedals from "./medalsSeeds.js";
-dotenv.config();
+dotenv.config({path: "../../.env"});
 const seedDatabase = async () => {
+  console.log(process.env.MONGODB_URI);
   try {
     await mongoose.connect(
       process.env.MONGODB_URI || "mongodb://localhost/tweetcodedb",
