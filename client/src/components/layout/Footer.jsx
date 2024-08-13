@@ -26,9 +26,7 @@ const Footer = () => {
         flexDirection="column"
         mt={4}
       >
-        {/* <HStack spacing={4}> */}
         <SocialLinks /> 
-        {/* </HStack> */}
         <Text fontSize="sm" mt={4}>
           © 2024 Tweet Code. All rights reserved.
         </Text>

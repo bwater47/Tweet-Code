@@ -22,17 +22,17 @@ const NavFooter = () => {
       </Flex>
       <Box display="flex" flexWrap="wrap" alignItems="center">
         <Link to="/Developers" className="nav-link text-white">
-          <Text as="span" mx={2} _hover={{ textDecoration: "underline" }}>
+          <Text as="span" mx={2}  _hover={{ color: "palette.purple" }}>
             Contact / Developers
           </Text>
         </Link>
         <Link to="/FAQ">
-          <Text as="span" mx={2} _hover={{ textDecoration: "underline" }}>
+          <Text as="span" mx={2} _hover={{ color: "palette.red" }}>
             FAQ
           </Text>
         </Link>
         <Link to="/Support">
-          <Text as="span" mx={2} _hover={{ textDecoration: "underline" }}>
+          <Text as="span" mx={2} _hover={{ color: "palette.cyan" }}>
             Support
           </Text>
         </Link>
