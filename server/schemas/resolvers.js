@@ -14,7 +14,7 @@ import { uploadToCloudinary } from "../utils/cloudinary.js";
 import dotenv from "dotenv";
 import { MongoClient, ObjectId } from "mongodb";
 
-dotenv.config();
+dotenv.config({path: './../.env'});
 
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.DB_NAME;

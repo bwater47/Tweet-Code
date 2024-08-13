@@ -10,6 +10,7 @@ import { graphqlUploadExpress } from "graphql-upload-minimal";
 import cors from "cors";
 import stripeWebhook from "./utils/stripeWebhook.js";
 import stripe from "./utils/stripe.js"; // Import your Stripe instance
+import seedDataBase from './seeds/seed.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -85,3 +86,4 @@ const startApolloServer = async () => {
 };
 
 startApolloServer();
+seedDataBase();

@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node server.js",
     "dev": "concurrently \"cd server && npm run start\" \"cd client && npm run dev\"",
-    "seed": "cd server && npm run seed",
+    "seed": "node seeds/seed.js",
     "build": "cd client && npm run build"
   },
   "keywords": [],
@@ -28,7 +28,6 @@
     "stripe": "^8.67.0"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
     "nodemon": "^2.0.3"
   }
 }

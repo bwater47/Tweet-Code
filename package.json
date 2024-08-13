@@ -7,7 +7,7 @@
     "start": "node server/server.js",
     "dev": "concurrently \"cd server && npm run start\" \"cd client && npm run dev\"",
     "install": "cd server && npm i && cd ../client && npm i",
-    "seed": "cd server && cd seeds && node seed.js",
+    "seed": "cd server && npm run start && npm run seed",
     "build": "cd client && npm run build",
     "deploy": "cd server && npm install && cd ../client && npm install && npm run build && cd ../server/seeds && node seed.js"
   },

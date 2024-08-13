@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
-dotenv.config();
+dotenv.config({path: './../.env'});
 // Set the JWT secret and expiration.
 const secret = process.env.JWT_SECRET;
 const expiration = "2h";
