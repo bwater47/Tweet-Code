@@ -27,7 +27,9 @@ const startApolloServer = async () => {
   await server.start();
 
   const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: process.env.NODE_ENV === 'production' 
+      ? 'https://tweetcode.netlify.app/'
+      : 'http://localhost:3000',
     credentials: true,
   };
 
