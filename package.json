@@ -9,7 +9,7 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run start && npm run seed",
     "build": "cd client && npm run build",
-    "deploy": "cd server && npm install && cd ../client && npm install && npm run build && cd ../server/seeds && node seed.js && cd ../../ && npm run start"
+    "deploy": "cd server && npm install && cd ../client && npm install && npm run build && cd ../server && npm run start"
   },
   "keywords": [],
   "author": "",
