@@ -19,13 +19,14 @@ import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import theme from "./styles/theme.js";
 import client from "./utils/helpers.js";
 import Donate from "../src/pages/Donate.jsx";
+import WrongPage from "./pages/WrongPage.jsx";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <h1 className="display-2">Wrong page!</h1>,
+    errorElement: <WrongPage />,
     children: [
       {
         index: true,

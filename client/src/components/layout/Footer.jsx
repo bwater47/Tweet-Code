@@ -1,34 +1,40 @@
-import NavFooter from "../common/NavFooter.jsx";
-import { Flex, Spacer } from "@chakra-ui/react";
 import SocialLinks from "../common/SocialLinks.jsx";
+import NavFooter from "../common/NavFooter.jsx";
+import { Flex, Box, Text, HStack } from "@chakra-ui/react";
+
 const Footer = () => {
   return (
-    <Flex
+    <Box
       as="footer"
-      bg="palette.darkgrey"
-      color="palette.white"
-      flexWrap="wrap"
-      flexDirection="column"
-      justifyContent="spacebetween"
-      pb={4}
-      position={"relative"}
-      left={0}
-      bottom={0}
-      right={0}
-      borderTop="2px"
-      borderColor="palette.grey"
+      bg="black"
+      color="white"
+      borderTop="1px solid"
+      borderColor="gray.600"
+      py={4}
     >
-      <Flex flexDirection="inline" justifyContent="space-between" mb={2}>
-        <SocialLinks />
-        <Spacer />
+      <Flex
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        mb={4}
+      >
         <NavFooter />
-        <Spacer />
-        <Spacer />
       </Flex>
-      <Flex justifyContent="center">
-        <p>© 2024 Tweet Code. All rights reserved.</p>
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        mt={4}
+      >
+        {/* <HStack spacing={4}> */}
+        <SocialLinks /> 
+        {/* </HStack> */}
+        <Text fontSize="sm" mt={4}>
+          © 2024 Tweet Code. All rights reserved.
+        </Text>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
+
 export default Footer;

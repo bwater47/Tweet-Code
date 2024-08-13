@@ -1,41 +1,46 @@
 import { Link } from "react-router-dom";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import DonationButton from "../common/DonationButton.jsx";
+import { Box, Flex, Text, Icon } from "@chakra-ui/react";
+import { FaGlobe, FaDollarSign } from "react-icons/fa";
+
 const NavFooter = () => {
   return (
-    <Box
-      as="nav"
-      className="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small"
+    <Flex
+      justifyContent="space-between"
+      alignItems="center"
+      flexWrap="wrap"
+      bg="black"   // Set the background color to black
+      color="white" // Set the text color to white
+      p={3}         // Add some padding for better spacing
     >
-      <Flex justifyContent="space-between" flexWrap="wrap">
-        <Box display="flex" flexDirection="column" mr={3} p={3} pt={6}>
-          <Heading as="h3" size="md">
-            Developers
-          </Heading>
-          <Link to="/Developers" className="nav-link text-white">
-            <Text _hover={{ color: "palette.purple" }}>
-              Contact / Developers
-            </Text>
-          </Link>
-        </Box>
-        <Box display="block" mr={3} p={3} pt={6}>
-          <Heading as="h3" size="md">
-            FAQ
-          </Heading>
-          <Link to="/FAQ" className="nav-link text-white">
-            <Text _hover={{ color: "palette.red" }}>Common Questions</Text>
-          </Link>
-        </Box>
-        <Box display="block" mr={3} p={3} pt={6}>
-          <Heading as="h3" size="md">
-            Support
-          </Heading>
-          <Link to="/Support" className="nav-link text-white">
-            <Text _hover={{ color: "palette.blue" }}>Customer Service</Text>
-          </Link>
-        </Box>
+      <Flex alignItems="center" mr={3}>
+        <Icon as={FaGlobe} mr={1} />
+        <Text as="span" mr={4}>
+          English (US)
+        </Text>
+        <Icon as={FaDollarSign} mr={1} />
+        <Text as="span">$ USD</Text>
       </Flex>
-    </Box>
+      <Box display="flex" flexWrap="wrap" alignItems="center">
+        <Link to="/Developers" className="nav-link text-white">
+          <Text as="span" mx={2} _hover={{ textDecoration: "underline" }}>
+            Contact / Developers
+          </Text>
+        </Link>
+        <Link to="/FAQ">
+          <Text as="span" mx={2} _hover={{ textDecoration: "underline" }}>
+            FAQ
+          </Text>
+        </Link>
+        <Link to="/Support">
+          <Text as="span" mx={2} _hover={{ textDecoration: "underline" }}>
+            Support
+          </Text>
+        </Link>
+      </Box>
+    </Flex>
   );
 };
+
 export default NavFooter;
+
+
