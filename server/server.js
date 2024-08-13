@@ -12,12 +12,12 @@ import stripeWebhook from "./utils/stripeWebhook.js";
 import stripe from "./utils/stripe.js"; // Import your Stripe instance
 import seedDataBase from './seeds/seed.js'
 import dotenv from 'dotenv'
-dotenv.config({path: "/../.env"});
+dotenv.config({path: "../.env"});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT //|| 3001;
 const app = express();
 
 const server = new ApolloServer({
