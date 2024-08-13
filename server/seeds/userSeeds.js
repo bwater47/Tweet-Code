@@ -60,6 +60,186 @@ const userData = [
     medals:[]
 
   },
+  {
+    firstName: "asdf",
+    lastName: "asdf",
+    username: "asdfasdf",
+    email: "asdf@asdf.com",
+    password: "asdfasdf",
+    coins: 69696,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6117"]
+  },
+  {
+    firstName: "John",
+    lastName: "Doe",
+    username: "johndoe",
+    email: "john.doe@example.com",
+    password: "password123",
+    coins: 1000,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e6118"]
+  },
+  {
+    firstName: "Jane",
+    lastName: "Smith",
+    username: "janesmith",
+    email: "jane.smith@example.com",
+    password: "password123",
+    coins: 1500,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "Alice",
+    lastName: "Johnson",
+    username: "alicej",
+    email: "alice.j@example.com",
+    password: "password123",
+    coins: 800,
+    medals: ["66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e6118"]
+  },
+  {
+    firstName: "Bob",
+    lastName: "Brown",
+    username: "bobbrown",
+    email: "bob.brown@example.com",
+    password: "password123",
+    coins: 1200,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "Emma",
+    lastName: "Davis",
+    username: "emmad",
+    email: "emma.d@example.com",
+    password: "password123",
+    coins: 950,
+    medals: ["66b2b99c2ec98c32d72e6118", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "Michael",
+    lastName: "Wilson",
+    username: "mikew",
+    email: "mike.w@example.com",
+    password: "password123",
+    coins: 1100,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "Olivia",
+    lastName: "Taylor",
+    username: "oliviat",
+    email: "olivia.t@example.com",
+    password: "password123",
+    coins: 750,
+    medals: ["66b2b99c2ec98c32d72e6119", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "William",
+    lastName: "Anderson",
+    username: "willa",
+    email: "will.a@example.com",
+    password: "password123",
+    coins: 1300,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6118", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "Sophia",
+    lastName: "Thomas",
+    username: "sophiat",
+    email: "sophia.t@example.com",
+    password: "password123",
+    coins: 900,
+    medals: ["66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "James",
+    lastName: "Jackson",
+    username: "jamesj",
+    email: "james.j@example.com",
+    password: "password123",
+    coins: 1050,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6118"]
+  },
+  {
+    firstName: "Emily",
+    lastName: "White",
+    username: "emilywhite",
+    email: "emily.w@example.com",
+    password: "password123",
+    coins: 1150,
+    medals: ["66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "Daniel",
+    lastName: "Harris",
+    username: "danharris",
+    email: "dan.h@example.com",
+    password: "password123",
+    coins: 850,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "Ava",
+    lastName: "Martin",
+    username: "avamartin",
+    email: "ava.m@example.com",
+    password: "password123",
+    coins: 1250,
+    medals: ["66b2b99c2ec98c32d72e6118", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "Joseph",
+    lastName: "Thompson",
+    username: "joet",
+    email: "joe.t@example.com",
+    password: "password123",
+    coins: 700,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "Isabella",
+    lastName: "Garcia",
+    username: "isabellag",
+    email: "isabella.g@example.com",
+    password: "password123",
+    coins: 1400,
+    medals: ["66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e6118", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "David",
+    lastName: "Martinez",
+    username: "davidm",
+    email: "david.m@example.com",
+    password: "password123",
+    coins: 950,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "Mia",
+    lastName: "Robinson",
+    username: "miar",
+    email: "mia.r@example.com",
+    password: "password123",
+    coins: 1100,
+    medals: ["66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e611a"]
+  },
+  {
+    firstName: "Ethan",
+    lastName: "Clark",
+    username: "ethanc",
+    email: "ethan.c@example.com",
+    password: "password123",
+    coins: 800,
+    medals: ["66b2b99c2ec98c32d72e6116", "66b2b99c2ec98c32d72e6118", "66b2b99c2ec98c32d72e6119"]
+  },
+  {
+    firstName: "Charlotte",
+    lastName: "Rodriguez",
+    username: "charlotter",
+    email: "charlotte.r@example.com",
+    password: "password123",
+    coins: 1300,
+    medals: ["66b2b99c2ec98c32d72e6117", "66b2b99c2ec98c32d72e611a"]
+  }
 ];
 const seedUsers = async () => {
   try {
