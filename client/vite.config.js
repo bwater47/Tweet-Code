@@ -8,7 +8,11 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    target: uri,
+    "/graphql": {
+        target: uri,
+        secure: false,
+        changeOrigin: true,
+      },
     // Add the proxy configuration to forward requests to the server running on port 3001.
     proxy: {
       "/graphql": {
