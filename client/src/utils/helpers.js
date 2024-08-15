@@ -4,6 +4,7 @@ import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 
+
 // Error handling link.
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -18,9 +19,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
+const uri =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3001/graphql'
+    : `/graphql`;
+
+
 // Custom upload link.
 const uploadLink = createUploadLink({
-  uri: "http://localhost:3001/graphql",
+  uri: uri,
 });
 
 // Authentication link.
@@ -37,20 +44,9 @@ const authLink = setContext((_, { headers }) => {
 
 // Apollo Client instance.
 const client = new ApolloClient({
+  uri: uri,
   link: from([errorLink, authLink, uploadLink]),
   cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: "cache-and-network",
-      errorPolicy: "ignore",
-    },
-    query: {
-      fetchPolicy: "network-only",
-      errorPolicy: "all",
-    },
-    mutate: {
-      errorPolicy: "all",
-    },
-  },
+  
 });
 export default client;
