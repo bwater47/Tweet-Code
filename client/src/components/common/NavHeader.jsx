@@ -23,7 +23,7 @@ const NavHeader = () => {
       // but you might want to use navigate here instead
       // navigate('/');
     } else {
-      navigate("/registration");
+      navigate("/Registration");
     }
   };
   return (

@@ -25,7 +25,9 @@ export const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (!context.user) {
-        throw new AuthenticationError("You need to be logged in!");
+        throw new AuthenticationError(
+          "You need to be logged in! Redirecting to login page..."
+        );
       }
       try {
         const user = await User.findById(context.user._id)
