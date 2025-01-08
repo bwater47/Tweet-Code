@@ -6,14 +6,15 @@ dotenv.config();
 const secret = process.env.JWT_SECRET;
 const expiration = "2h";
 console.log("JWT_SECRET:", secret ? "Secret is set" : "Secret is not set");
-export const AuthenticationError = new GraphQLError(
-  "Could not authenticate user.",
-  {
-    extensions: {
-      code: "UNAUTHENTICATED",
-    },
+export class AuthenticationError extends GraphQLError {
+  constructor(message = "Not authenticated") {
+    super(message, {
+      extensions: {
+        code: 'UNAUTHENTICATED',
+      },
+    });
   }
-);
+}
 export const authMiddleware = ({ req }) => {
   // Get the token from the request headers, body, or query.
   let token = req.body.token || req.query.token || req.headers.authorization;
