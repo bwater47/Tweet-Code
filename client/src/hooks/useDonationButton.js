@@ -1,60 +1,37 @@
-import { useEffect } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
-import { QUERY_CHECKOUT, QUERY_DONATION } from "../graphQL/queries";
+import { CREATE_CHECKOUT_SESSION } from "../graphQL/mutations";
 import Auth from "./AuthService";
 const stripePromise = loadStripe(
-  "pk_test_51PjPMKL1ZM5VA6yhxuOzoced5WBEgYuBrn8JcXHyr4gMd4S7I754CEz9DJTPIh1WlHeNRCGDaREaIkF5XD2rSKkk00Q1mNm8Pm"
+  "pk_test_TYooMQauvdEDq54NiTphI7jx"
 );
-const useDonationButton = () => {
-  const [getDonation, { data: donationData, error: donationError }] =
-    useLazyQuery(QUERY_DONATION);
-  const [getCheckout, { data: checkoutData, error: checkoutError }] =
-    useLazyQuery(QUERY_CHECKOUT);
-  const handleDonation = () => {
-    if (!Auth.loggedIn()) {
-      console.log("User not logged in");
-      return;
-    }
-    const donationId = "66b2b99c2ec98c32d72e6116";
+const useDonationButton = (amount) => {
+  const [createCheckout] = useMutation(CREATE_CHECKOUT_SESSION);
 
-    console.log("Initiating donation fetch with donation ID:", donationId);
-    getDonation({
-      variables: { _id: donationId },
-    }).catch((err) => {
-      console.error("Error executing GraphQL query for donation:", err);
-    });
-  };
-  useEffect(() => {
-    if (donationData) {
-      console.log("Donation data fetched:", donationData);
+  const handleDonation = async () => {
+    if (!Auth.loggedIn()) return;
 
-      getCheckout({
-        variables: { donations: [donationData.donation._id] },
-      }).catch((err) => {
-        console.error("Error executing GraphQL query for checkout:", err);
+    try {
+      const { data } = await createCheckout({
+        variables: { amount: parseFloat(amount) }
       });
-    } else if (donationError) {
-      console.error("GraphQL Query Error for donation:", donationError);
+
+      const stripe = await stripePromise;
+      console.log('Stripe Session ID:', data.createCheckoutSession.sessionId);
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: data.createCheckoutSession.sessionId
+      });
+
+      if (result.error) {
+        console.error('Stripe checkout error:', result.error);
+      }
+    } catch (err) {
+      console.error('Donation error:', err);
     }
-  }, [donationData, donationError, getCheckout]);
-  useEffect(() => {
-    if (checkoutData) {
-      console.log(checkoutData);
-      stripePromise
-        .then((stripe) => {
-          return stripe.redirectToCheckout({
-            sessionId: checkoutData.checkout.session,
-          });
-        })
-        .catch((err) => {
-          console.error("Stripe redirect error:", err);
-        });
-    } else if (checkoutError) {
-      console.error("GraphQL Query Error for checkout:", checkoutError);
-    }
-  }, [checkoutData, checkoutError]);
+  };
 
   return handleDonation;
 };
+
 export default useDonationButton;

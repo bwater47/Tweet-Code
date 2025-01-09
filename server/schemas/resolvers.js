@@ -56,7 +56,7 @@ export const resolvers = {
       }
     },
 
-    donations: async (parent, {}) => {
+    donations: async (parent, { }) => {
       return await Donation.find();
     },
 
@@ -225,6 +225,7 @@ export const resolvers = {
             amount: amount.toString(),
           },
         });
+
         console.log("Stripe session created:", session.id);
 
         // Add 1000 coins to the user's account using native MongoDB driver
@@ -250,7 +251,7 @@ export const resolvers = {
         // Return the session ID and the updated coin balance
         return {
           sessionId: session.id,
-          updatedCoins: updatedUser.coins,
+          // updatedCoins: updatedUser.coins,
         };
       } catch (error) {
         console.error("Error in createCheckoutSession:", error);

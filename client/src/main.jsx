@@ -66,7 +66,7 @@ const router = createBrowserRouter([
         element: <Registration />,
       },
       {
-        path: "/Success",
+        path: "/success",
         element: <Success />,
       },
       {
