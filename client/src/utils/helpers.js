@@ -45,6 +45,7 @@ const client = new ApolloClient({
   uri: uri,
   link: from([errorLink, authLink, uploadLink]),
   cache: new InMemoryCache(),
+  credentials: 'include',
   // defaultOptions: {
   //   watchQuery: {
   //     fetchPolicy: "cache-and-network",

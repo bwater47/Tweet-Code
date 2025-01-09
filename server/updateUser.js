@@ -17,7 +17,7 @@ async function updateUser() {
     const database = client.db(dbName);
     const users = database.collection("users");
 
-    const userId = "66b9bac0d0529c5498b7bd0b"; // Replace with the user ID you want to update
+    const userId = "677ff6c4928cc9cd2c45745c"; // Replace with the user ID you want to update
     const filter = { _id: new ObjectId(userId) };
     const updateDoc = {
       $set: {
