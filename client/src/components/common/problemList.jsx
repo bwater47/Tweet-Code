@@ -12,7 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FaJs, FaPython, FaJava } from "react-icons/fa";
-import { SiCsharpVersion, SiPhp, SiTypescript } from "react-icons/si";
+import { SiPhp, SiTypescript } from "react-icons/si";
+import { TbBrandCSharp } from "react-icons/tb";
 
 const getLanguageIcon = (language) => {
   switch (language.toLowerCase()) {
@@ -23,7 +24,7 @@ const getLanguageIcon = (language) => {
     case "java":
       return FaJava;
     case "csharp":
-      return SiCsharpVersion;
+      return TbBrandCSharp;
     case "php":
       return SiPhp;
     case "typescript":
